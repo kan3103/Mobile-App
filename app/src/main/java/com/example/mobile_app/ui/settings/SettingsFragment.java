@@ -31,8 +31,6 @@ public class SettingsFragment extends Fragment {
         array_com.add(new SettingsComp(R.drawable.ex,"pic1"));
         array_com.add(new SettingsComp(R.drawable.ex,"pic2"));
         array_com.add(new SettingsComp(R.drawable.ex,"pic3"));
-        array_com.add(new SettingsComp(R.drawable.ex,"pic4"));
-        array_com.add(new SettingsComp(R.drawable.ex,"pic5"));
 
         Settings_Fragment adapter = new Settings_Fragment(getActivity(),array_com);
 
