@@ -1,4 +1,4 @@
-package com.example.mobile_app.data;
+package com.example.mobile_app.Data;
 
 /**
  * A generic class that holds a result success w/ data or an error exception.
