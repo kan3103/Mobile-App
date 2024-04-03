@@ -1,4 +1,4 @@
-package com.example.mobile_app.data;
+package com.example.mobile_app.Data;
 
 import com.example.mobile_app.data.model.LoggedInUser;
 
