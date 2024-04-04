@@ -7,7 +7,7 @@ public class Doctor extends Person {
 
     Doctor(){}
 
-    public Doctor(String id,String firstname,String lastName,String emailAddress,String password,String mobile,String Address,String doctorFees,String degree,String specialization){
+    public Doctor(String id,String firstname,String lastName,String emailAddress,String password,String mobile,String doctorFees,String degree,String specialization){
         this.setId(id);
         this.setUsertype(Macros.DOCTOR);
         this.firstName=firstname;

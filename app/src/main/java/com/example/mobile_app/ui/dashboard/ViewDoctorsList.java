@@ -30,9 +30,9 @@ public class ViewDoctorsList extends AppCompatActivity {
 
         recyclerView=(RecyclerView) findViewById(R.id.recyclerView);
 
-        Doctor doctor1 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha");
-        Doctor doctor2 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha");
-        Doctor doctor3 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha");
+        Doctor doctor1 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "1", "Master", "Japan");
+        Doctor doctor2 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "2", "Professional", "Japan");
+        Doctor doctor3 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "3", "Doctor", "Japan");
 
         doctorList.add(doctor1);
         doctorList.add(doctor2);

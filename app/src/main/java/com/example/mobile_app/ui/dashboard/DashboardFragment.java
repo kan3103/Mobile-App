@@ -55,14 +55,29 @@ public class DashboardFragment extends Fragment {
         DashboardViewModel dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+//        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+//        View root = binding.getRoot();
 
+        view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        view_doctors = (Button) view.findViewById(R.id.buttonViewDoctors);
+        System.out.println(view_doctors);
+
+        view_doctors.setOnClickListener(v -> {
+            System.out.println("1");
+//            progressBar.setVisibility(View.VISIBLE);
+            Intent intent = new Intent(view.getContext(), ViewDoctorsList.class);
+            startActivity(intent);
+//            progressBar.setVisibility(View.GONE);
+            System.out.println("1");
+        });
+
+//        Intent intent = new Intent(DashboardFragment.this, loginPatient.class);
+//        startActivity(intent);
 //        System.out.println(binding.buttonViewDoctors);
 //        final Button button = binding.buttonViewDoctors;
 //        final TextView textView = binding.textDashboard;
 //        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
+        return view;
     }
 
     @Override
@@ -88,32 +103,32 @@ public class DashboardFragment extends Fragment {
     ArrayList<Doctor> doctors = new ArrayList<>();
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        System.out.println(2311);
-        ((MainActivity) getActivity()).setContentView(R.layout.fragment_dashboard);
-//        progressBar=findViewById(R.id.loginActivityIndeterminateProgressbar);
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        System.out.println(2311);
+//        ((MainActivity) getActivity()).setContentView(R.layout.fragment_dashboard);
+////        progressBar=findViewById(R.id.loginActivityIndeterminateProgressbar);
+//
+//        view_doctors=(Button) view.findViewById(R.id.buttonViewDoctors);
+//        view_doctors.setOnClickListener(DashboardFragment.this);
+//
+//
+//
+//        progressBar.setVisibility(View.VISIBLE);
+//        System.out.println(1);
+//
+//    }
 
-        view_doctors=(Button) view.findViewById(R.id.buttonViewDoctors);
-        view_doctors.setOnClickListener(DashboardFragment.this);
 
-
-
-        progressBar.setVisibility(View.VISIBLE);
-        System.out.println(1);
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        System.out.println("1");
-        progressBar.setVisibility(View.VISIBLE);
-        Intent intent = new Intent(DashboardFragment.this, ViewDoctorsList.class);
-        startActivity(intent);
-        progressBar.setVisibility(View.GONE);
-        System.out.println("1");
-    }
+//    public void onClick(View view) {
+//        System.out.println("1");
+//        progressBar.setVisibility(View.VISIBLE);
+//        Intent intent = new Intent(DashboardFragment.this, ViewDoctorsList.class);
+//        startActivity(intent);
+//        progressBar.setVisibility(View.GONE);
+//        System.out.println("1");
+//    }
 
 
 }
