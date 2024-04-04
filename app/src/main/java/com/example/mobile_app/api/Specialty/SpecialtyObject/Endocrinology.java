@@ -1,4 +1,4 @@
-package specialty;
+package Specialty.SpecialtyObject;
 
 public class Endocrinology implements SpecialtyInter{
     private String name;

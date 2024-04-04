@@ -1,12 +1,13 @@
-package factoryDoc;
+package Doctor.factoryDoc;
 
-import doctor.DoctorInter;
-import doctor.CardioDoctor;
-import doctor.EndocDoctor;
-import doctor.OGDoctor;
-import doctor.PediaDoctor;
-import doctor.ENTDoctor;
-import doctor.NeuroDoctor;
+import Doctor.DoctorObject.DoctorInter;
+import Doctor.DoctorObject.CardioDoctor;
+import Doctor.DoctorObject.EndocDoctor;
+import Doctor.DoctorObject.ENTDoctor;
+import Doctor.DoctorObject.NeuroDoctor;
+import Doctor.DoctorObject.OGDoctor;
+import Doctor.DoctorObject.PediaDoctor;
+
 import java.util.Vector;
 
 public class FactoryDoctor {

@@ -1,5 +1,7 @@
-package factoryDoc;
-import doctor.DoctorInter;
+package Doctor.factoryDoc;
+
+import Doctor.DoctorObject.DoctorInter;
+
 import java.util.Vector;
 
 public abstract class Doctor {

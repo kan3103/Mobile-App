@@ -1,6 +1,6 @@
-package factorySpecialty;
+package Specialty.factorySpecialty;
 
-import specialty.SpecialtyInter;
+import Specialty.SpecialtyObject.SpecialtyInter;
 
 
 public abstract class Specialty {

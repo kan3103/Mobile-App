@@ -1,4 +1,4 @@
-package doctor;
+package Doctor.DoctorObject;
 
 import java.util.Vector;
 

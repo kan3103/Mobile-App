@@ -1,7 +1,7 @@
-package factorySpecialty;
+package Specialty.factorySpecialty;
 
-import specialty.SpecialtyInter;
-import specialty.Endocrinology;
+import Specialty.SpecialtyObject.Endocrinology;
+import Specialty.SpecialtyObject.SpecialtyInter;
 
 public class EndocSpecialty extends Specialty {
     @Override
