@@ -1,7 +1,7 @@
-package Doctor.factoryDoc;
+package com.example.mobile_app.api.Doctor.factoryDoc;
 
-import Doctor.DoctorObject.DoctorInter;
-import Doctor.DoctorObject.EndocDoctor;
+import com.example.mobile_app.api.Doctor.DoctorObject.DoctorInter;
+import com.example.mobile_app.api.Doctor.DoctorObject.EndocDoctor;
 
 import java.util.Vector;
 
