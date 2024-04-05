@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class SettingsFragment extends Fragment {
     private Settings_Fragment adapter;
     private GridView gridView;
     private TextView hello;
+    private Button btnSend;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -56,6 +58,14 @@ public class SettingsFragment extends Fragment {
         hello =mview.findViewById(R.id.textView);
         String hi = "Chào mừng, " +user +"!";
         hello.setText(hi);
+        btnSend = mview.findViewById(R.id.button_logout);
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.sendDataToSettingsFragment();
+            }
+        });
+
         return mview;
     }
 
