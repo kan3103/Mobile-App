@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.something.R;
+import com.example.mobile_app.R;
 
 import java.util.ArrayList;
 
