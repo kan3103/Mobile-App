@@ -1,4 +1,4 @@
-package specialty;
+package Specialty.SpecialtyObject;
 
 public interface SpecialtyInter {
     void setName(String name);

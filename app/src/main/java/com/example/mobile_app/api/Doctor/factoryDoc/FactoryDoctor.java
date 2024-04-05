@@ -1,15 +1,20 @@
-package factoryDoc;
+package com.example.mobile_app.api.Doctor.factoryDoc;
 
-import doctor.DoctorInter;
-import doctor.CardioDoctor;
-import doctor.EndocDoctor;
-import doctor.OGDoctor;
-import doctor.PediaDoctor;
-import doctor.ENTDoctor;
-import doctor.NeuroDoctor;
 import java.util.Vector;
 
-public class FactoryDoctor {
+import com.example.mobile_app.api.Doctor.DoctorObject.CardioDoctor;
+import com.example.mobile_app.api.Doctor.DoctorObject.DoctorInter;
+import com.example.mobile_app.api.Doctor.DoctorObject.ENTDoctor;
+import com.example.mobile_app.api.Doctor.DoctorObject.EndocDoctor;
+import com.example.mobile_app.api.Doctor.DoctorObject.NeuroDoctor;
+import com.example.mobile_app.api.Doctor.DoctorObject.OGDoctor;
+import com.example.mobile_app.api.Doctor.DoctorObject.PediaDoctor;
+
+public class FactoryDoctor extends EndocDoctor {
+    public FactoryDoctor(String id, String name, String specialty, String address, String phoneNum, String citizenId, int experience, int patientNum, Vector<String> patientList) {
+        super(id, name, specialty, address, phoneNum, citizenId, experience, patientNum, patientList);
+    }
+
     public DoctorInter createDoctor(String id, String name, String specialty, String address, String phoneNum, String citizenId, int experience, int patientNum, Vector<String> patientList) {
         {
             if (specialty.equals("Endocrinology")) {

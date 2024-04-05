@@ -1,4 +1,4 @@
-package doctor;
+package com.example.mobile_app.api.Doctor.DoctorObject;
 
 import java.util.Vector;
 
