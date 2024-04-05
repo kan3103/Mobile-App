@@ -40,6 +40,7 @@ public class SettingsFragment extends Fragment {
         array_com_doc.add(new SettingsComp(R.drawable.list,"Danh sách bệnh nhân"));
         array_com.add(new SettingsComp(R.drawable.icon_person,"Thông tin cá nhân"));
         array_com.add(new SettingsComp(R.drawable.medical_record, "Hồ sơ bệnh án"));
+        array_com.add(new SettingsComp(R.drawable.medical_record, "Hóa đơn thuốc"));
         if(user.equals("Patient")) {
             adapter = new Settings_Fragment(getActivity(), array_com);
             gridView = mview.findViewById(R.id.setting_com);

@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:background="@drawable/background_pro5"
+
             android:orientation="vertical">
 
             <ImageView
@@ -23,7 +23,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="180dp"
                 android:layout_height="180dp"
-                android:src="@drawable/human_icon" />
+                 />
 
             <TextView
                 android:id="@+id/pro5name"
@@ -47,8 +47,7 @@
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
                 <TextView
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="50dp"
@@ -65,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/pro5list"
                     />
-
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 </LinearLayout>
