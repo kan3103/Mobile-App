@@ -1,6 +1,8 @@
 package com.example.mobile_app;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.mobile_app.ui.settings.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,13 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private String user = "Patient";
-
+    private Button btnSend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         System.out.println("Success");
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -49,10 +49,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
-    private void sendDataToSettingsFragment() {
+    public void sendDataToSettingsFragment() {
         SettingsFragment settingsFragment = new SettingsFragment();
         Bundle bundle = new Bundle();
+        if(user.equals("Patient")) user = "Doctor";
+        else user = "Patient";
         bundle.putString("user", user);
         settingsFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
