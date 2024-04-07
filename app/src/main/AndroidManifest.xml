@@ -29,6 +29,14 @@
             android:label="Doctors"
             android:parentActivityName=".ui.dashboard.loginPatient"
             android:exported="false" />
+        <activity
+            android:name=".ui.profile_frag.profile_activity"
+            android:label="Profile"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.media_record.RecordActivity"
+            android:label="Record"
+            android:exported="true"/>
     </application>
 
 </manifest>
