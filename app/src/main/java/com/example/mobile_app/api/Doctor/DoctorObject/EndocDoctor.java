@@ -3,6 +3,8 @@ package com.example.mobile_app.api.Doctor.DoctorObject;
 import java.util.Vector;
 
 public class EndocDoctor implements DoctorInter {
+    protected String Username;
+    protected String Password;
     protected String ID;
     protected String Name;
     protected String Specialty;
@@ -13,7 +15,9 @@ public class EndocDoctor implements DoctorInter {
     protected int PatientNum;
     protected Vector<String> PatientList;
 
-    public EndocDoctor(String id, String name, String specialty, String address, String phoneNum, String citizenId, int experience, int patientNum, Vector<String> patientList) {
+    public EndocDoctor(String username, String password  ,String id, String name, String specialty, String address, String phoneNum, String citizenId, int experience, int patientNum, Vector<String> patientList) {
+        this.Username = username;
+        this.Password = password;
         this.ID = id;
         this.Name = name;
         this.Specialty = specialty;
@@ -27,11 +31,13 @@ public class EndocDoctor implements DoctorInter {
 
     @Override
     public void setID(String id) {
+        ID = id;
     }
     public String getID() {
         return ID;
     }
     public void setName(String name) {
+        Name = name;
     }
     public String getName() {
         return Name;
@@ -77,5 +83,21 @@ public class EndocDoctor implements DoctorInter {
     }
     public Vector<String> getPatientList() {
         return PatientList;
+    }
+
+    @Override
+    public void setUsername(String username) {
+        Username = username;
+    }
+
+    @Override
+    public String getUsername() {
+        return Username;
+    }
+    public void setUserPassword(String password) {
+        this.Password = password;
+    }
+    public String getPassword() {
+        return Password;
     }
 }

@@ -1,8 +1,9 @@
 //import modules
+package com.example.mobile_app.api.MedicalRecord;
 
 import java.util.ArrayList;
 
-public class Medical_Record {
+public class MedRecord {
     // inner class - record class
     class Record {
         // attributes

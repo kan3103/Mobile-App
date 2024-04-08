@@ -3,6 +3,8 @@ package com.example.mobile_app.api.Doctor.DoctorObject;
 import java.util.Vector;
 
 public class PediaDoctor implements DoctorInter {
+    protected String Username;
+    protected String Password;
     protected String ID;
     protected String Name;
     protected String Specialty;
@@ -12,7 +14,10 @@ public class PediaDoctor implements DoctorInter {
     protected int Experience;
     protected int PatientNum;
     protected Vector<String> PatientList;
-    public PediaDoctor(String id, String name, String specialty, String address, String phoneNum, String citizenId, int experience, int patientNum, Vector<String> patientList) {
+
+    public PediaDoctor(String username, String password  ,String id, String name, String specialty, String address, String phoneNum, String citizenId, int experience, int patientNum, Vector<String> patientList) {
+        this.Username = username;
+        this.Password = password;
         this.ID = id;
         this.Name = name;
         this.Specialty = specialty;
@@ -23,13 +28,16 @@ public class PediaDoctor implements DoctorInter {
         this.PatientNum = patientNum;
         this.PatientList = patientList;
     }
+
     @Override
     public void setID(String id) {
+        ID = id;
     }
     public String getID() {
         return ID;
     }
     public void setName(String name) {
+        Name = name;
     }
     public String getName() {
         return Name;
@@ -75,5 +83,21 @@ public class PediaDoctor implements DoctorInter {
     }
     public Vector<String> getPatientList() {
         return PatientList;
+    }
+
+    @Override
+    public void setUsername(String username) {
+        Username = username;
+    }
+
+    @Override
+    public String getUsername() {
+        return Username;
+    }
+    public void setUserPassword(String password) {
+        this.Password = password;
+    }
+    public String getPassword() {
+        return Password;
     }
 }
