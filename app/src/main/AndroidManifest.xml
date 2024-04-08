@@ -6,14 +6,17 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileApp"
-        tools:targetApi="31"
-        android:enableOnBackInvokedCallback="true">
+        tools:targetApi="31">
+        <activity
+            android:name=".Patient"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -26,17 +29,17 @@
         </activity>
         <activity
             android:name=".ui.dashboard.ViewDoctorsList"
+            android:exported="false"
             android:label="Doctors"
-            android:parentActivityName=".ui.dashboard.loginPatient"
-            android:exported="false" />
+            android:parentActivityName=".ui.dashboard.loginPatient" />
         <activity
             android:name=".ui.profile_frag.profile_activity"
-            android:label="Profile"
-            android:exported="true"/>
+            android:exported="true"
+            android:label="Profile" />
         <activity
             android:name=".ui.media_record.RecordActivity"
-            android:label="Record"
-            android:exported="true"/>
+            android:exported="true"
+            android:label="Record" />
     </application>
 
 </manifest>
