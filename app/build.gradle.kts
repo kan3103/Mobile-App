@@ -36,9 +36,9 @@ android {
     }
 }
 
-//realm {
-//    syncEnabled = true
-//}
+realm {
+    isSyncEnabled = true
+}
 
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")

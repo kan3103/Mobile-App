@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
     String Appid = "mobileapp-fyjbw";
     MongoDatabase mongoDatabase;
     MongoClient mongoClient;
-    EditText editText;
+//    EditText editText;
     Button button,button1,button2;
     TextView textView;
-    String data;
-    User user;
+//    String data;
+//     User user;
     MongoCollection<Document> mongoCollection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,104 +88,105 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // Initialize the Realm app
-//        Realm.init(this);
-//        App app = new App(new AppConfiguration.Builder(Appid).build());
-//        Credentials credentials = Credentials.emailPassword("gn27082004@gmail.com","27082004");
-//        // Authenticate the user
-//        app.loginAsync(credentials, new App.Callback<User>() {
-//            @Override
-//            public void onResult(App.Result<User> result) {
-//                if (result.isSuccess()) {
-//                    Log.v("User", "Successfully logged in to MongoDB Realm");
-//                } else {
-//                    Log.v("User", "Failed to log in to MongoDB Realm");
-//                }
-//            }
-//        });
-
-        // Register a new user (test)
-//        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
-//            if(it.isSuccess()){
-//                Log.v("User", "Successfully registered user");
-//            }else{
-//                Log.v("User", "Failed to register user");
-//            }
-//        });
-
-        //test InsertData
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                User user = app.currentUser();
-//                MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
-//                mongoDatabase = mongoClient.getDatabase("sample_mflix");
-//                MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("Test");
-//                mongoCollection.insertOne(new Document("Doctor", user.getId()).append("data", dataEditText.getText().toString())).getAsync(task -> {
-//                    if (task.isSuccess()) {
-//                        Log.v("Data", "Successfully inserted data");
-//                    } else {
-//                        Log.v("Data","Error:" + result.getError().toString());
-//                    }
-//                });
-//            }
-//        });
-
-        //test QueryData
-        editText = findViewById(R.id.data);
-        button = findViewById(R.id.addData);
-        button1 = findViewById(R.id.findDataButton);
-        textView = findViewById(R.id.findData);
-        button2 = findViewById(R.id.signin);
-        app = new app(new AppConfiguration.Builder(Appid).build());
-        app.loginAsync(Credentials.anonymous(), new App.Callback<User>() {
+        Realm.init(this);
+        App app = new App(new AppConfiguration.Builder(Appid).build());
+        Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com","123456");
+        // Authenticate the user
+        app.loginAsync(credentials, new App.Callback<User>() {
             @Override
             public void onResult(App.Result<User> result) {
                 if (result.isSuccess()) {
-                    Log.v("User", "Logged In Successfully");
-                    user = app.currentUser();
-                    MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
-                    mongoDatabase = mongoClient.getDatabase("sample_mflix");
-                    mongoCollection = mongoDatabase.getCollection("Test");
-                    Toast.makeText(getApplicationContext(), "Logged In Successfully", Toast.LENGTH_LONG).show();
+                    Log.v("User", "Successfully logged in to MongoDB Realm");
                 } else {
-                    Log.v("User", "Failed to login");
+                    Log.v("User", "Failed to log in to MongoDB Realm");
                 }
             }
         });
+
+         //Register a new user (test)
+        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
+            if(it.isSuccess()){
+                Log.v("User", "Successfully registered user");
+            }else{
+                Log.v("User", "Failed to register user");
+            }
+        });
+
+        //test InsertData
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                document queryFilter = new Document().append(uniqueId, "19");
-                RealmResultTask<MongoCursor<Document>> findTask = mongoCollection.find(queryFilter).iterator();
-
-                findTask.getAsync(task -> {
+                User user = app.currentUser();
+                MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
+                mongoDatabase = mongoClient.getDatabase("sample_mflix");
+                MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("Test");
+                mongoCollection.insertOne(new Document("Doctor", user.getId()).append("data", dataEditText.getText().toString())).getAsync(task -> {
                     if (task.isSuccess()) {
-                        MongoCursor<Document>results = task.get();
-                        if(results.hasNext()){
-                            Log.v("FindFunction","FindSomething");
-                            Document result = results.next();
-                            strings = (ArrayList<String>) result.get("strings");
-                            if(strings == null){
-                                strings = new ArrayList<>();
-                            }
-                            String data = editText.getText().toString();
-                            strings.add(data);
-                            results.append("strings",strings);
-                            mongoCollection.updateOne(queryFilter,results).getAsync(task1 -> {
-                                if(task1.isSuccess()){
-                                    Log.v("Data","Successfully updated the document.");
-                                }else{
-                                    Log.e("Data","failed to update the document with: ",task1.getError().toString());
-                                }
-                            });
+                        Log.v("Data", "Successfully inserted data");
                     } else {
-                        Log.e("Data", "failed to find documents with: ", task.getError());
+                        Log.v("Data","Error:" + result.getError().toString());
                     }
                 });
             }
         });
-        }
+
+        //test QueryData
+//        editText = findViewById(R.id.data);
+//        button = findViewById(R.id.addData);
+//        button1 = findViewById(R.id.findDataButton);
+//        textView = findViewById(R.id.findData);
+//        button2 = findViewById(R.id.signin);
+//        app = new app(new AppConfiguration.Builder(Appid).build());
+//        app.loginAsync(Credentials.anonymous(), new App.Callback<User>() {
+//            @Override
+//            public void onResult(App.Result<User> result) {
+//                if (result.isSuccess()) {
+//                    Log.v("User", "Logged In Successfully");
+//                    user = app.currentUser();
+//                    MongoClient mongoClient = user.getMongoClient("mongodb-atlas");
+//                    mongoDatabase = mongoClient.getDatabase("sample_mflix");
+//                    mongoCollection = mongoDatabase.getCollection("Test");
+//                    Toast.makeText(getApplicationContext(), "Logged In Successfully", Toast.LENGTH_LONG).show();
+//                } else {
+//                    Log.v("User", "Failed to login");
+//                }
+//            }
+//        });
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                document queryFilter = new Document().append(uniqueId, "19");
+//                RealmResultTask<MongoCursor<Document>> findTask = mongoCollection.find(queryFilter).iterator();
+//
+//                findTask.getAsync(task -> {
+//                    if (task.isSuccess()) {
+//                        MongoCursor<Document>results = task.get();
+//                        if(results.hasNext()){
+//                            Log.v("FindFunction","FindSomething");
+//                            Document result = results.next();
+//                            strings = (ArrayList<String>) result.get("strings");
+//                            if(strings == null){
+//                                strings = new ArrayList<>();
+//                            }
+//                            String data = editText.getText().toString();
+//                            strings.add(data);
+//                            results.append("strings",strings);
+//                            mongoCollection.updateOne(queryFilter,results).getAsync(task1 -> {
+//                                if(task1.isSuccess()){
+//                                    Log.v("Data","Successfully updated the document.");
+//                                }else{
+//                                    Log.e("Data","failed to update the document with: ",task1.getError().toString());
+//                                }
+//                            });
+//                    } else {
+//                        Log.e("Data", "failed to find documents with: ", task.getError());
+//                    }
+//                });
+//            }
+//        });
+//        }
     }
+
     public void sendDataToSettingsFragment() {
         SettingsFragment settingsFragment = new SettingsFragment();
         Bundle bundle = new Bundle();

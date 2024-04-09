@@ -2,6 +2,7 @@
 package com.example.mobile_app.api.MedicalRecord;
 
 import java.util.ArrayList;
+import com.example.mobile_app.api.MedicalRecord.Pair;
 
 public class MedRecord {
     // inner class - record class
@@ -126,7 +127,7 @@ public class MedRecord {
 
     // methods
     // constructor
-    public Medical_Record(String name, String dob, boolean Gender, String address, String phoneNumber, String ethnicity,
+    public MedRecord(String name, String dob, boolean Gender, String address, String phoneNumber, String ethnicity,
             String bloodType, String citizenId, String insuranceId) {
         this.name = name;
         this.dob = dob;

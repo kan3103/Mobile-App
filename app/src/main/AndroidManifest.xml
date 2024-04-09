@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mobile_app">
 
-    <uses-permisson android:name = "android.permission.ACCESS_FILE_LOCATION"/>
+<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"-->
+<!--        tools:ignore="CoarseFineLocation" />-->
 
     <application
         android:allowBackup="true"
