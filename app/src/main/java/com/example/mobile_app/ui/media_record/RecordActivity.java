@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobile_app.R;
 
+import java.util.ArrayList;
+
 public class RecordActivity extends AppCompatActivity {
     private Button btn_next;
     private Button btn_prev;
@@ -25,7 +27,6 @@ public class RecordActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_medicalrecord);
         vs1 = findViewById(R.id.record);
-
         btn_prev = findViewById(R.id.button_prev);
         btn_next = findViewById(R.id.button_next);
         btn_next.setOnClickListener(new View.OnClickListener() {
