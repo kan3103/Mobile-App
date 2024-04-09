@@ -25,11 +25,9 @@ public class capthuoc_adap extends ArrayAdapter<String> {
         this.list_thuoc = list_thuoc;
         this.context = context;
     }
-
     private static class viewHolder{
         TextView text ;
     }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
