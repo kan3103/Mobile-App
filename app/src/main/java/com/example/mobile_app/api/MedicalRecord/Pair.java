@@ -1,4 +1,4 @@
-
+package com.example.mobile_app.api.MedicalRecord;
 public class Pair<K, V> {
     private K key;
     private V value;

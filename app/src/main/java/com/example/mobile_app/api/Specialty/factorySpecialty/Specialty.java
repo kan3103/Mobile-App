@@ -1,6 +1,6 @@
-package Specialty.factorySpecialty;
+package com.example.mobile_app.api.Specialty.factorySpecialty;
 
-import Specialty.SpecialtyObject.SpecialtyInter;
+import com.example.mobile_app.api.Specialty.SpecialtyObject.SpecialtyInter;
 
 
 public abstract class Specialty {

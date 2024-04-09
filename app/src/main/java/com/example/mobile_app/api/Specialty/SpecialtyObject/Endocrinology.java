@@ -1,6 +1,6 @@
-package Specialty.SpecialtyObject;
+package com.example.mobile_app.api.Specialty.SpecialtyObject;
 
-public class Endocrinology implements SpecialtyInter{
+public class Endocrinology implements SpecialtyInter {
     private String name;
     private String id;
     private int doctorNum;

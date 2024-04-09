@@ -1,7 +1,7 @@
 package com.example.mobile_app.api.Doctor.DoctorObject;
 
 import java.util.Vector;
-import user.userObject.userInterface;
+import com.example.mobile_app.api.user.userObject.userInterface;
 
 public interface DoctorInter extends userInterface {
     void setID(String id);
