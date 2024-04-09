@@ -1,6 +1,8 @@
 //import modules
 package com.example.mobile_app.api.MedicalRecord;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 
 public class MedRecord {
