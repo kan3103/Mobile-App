@@ -1,11 +1,13 @@
 //import modules
 package com.example.mobile_app.api.MedicalRecord;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 
 public class MedRecord {
     // inner class - record class
-    class Record {
+    public class Record {
         // attributes
         ArrayList<Pair<String, Boolean>> testResults;
         ArrayList<String> prescriptions;
@@ -126,8 +128,8 @@ public class MedRecord {
 
     // methods
     // constructor
-    public Medical_Record(String name, String dob, boolean Gender, String address, String phoneNumber, String ethnicity,
-            String bloodType, String citizenId, String insuranceId) {
+    MedRecord(String name, String dob, boolean Gender, String address, String phoneNumber, String ethnicity,
+                        String bloodType, String citizenId, String insuranceId) {
         this.name = name;
         this.dob = dob;
         this.Gender = Gender;

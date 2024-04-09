@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Settings_Fragment extends ArrayAdapter<SettingsComp> {
-
     private ArrayList<SettingsComp> setcom;
     Context context;
 
