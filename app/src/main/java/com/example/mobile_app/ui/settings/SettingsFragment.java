@@ -1,17 +1,28 @@
 package com.example.mobile_app.ui.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.mobile_app.Data.Doctor;
 import com.example.mobile_app.R;
+import com.example.mobile_app.databinding.FragmentDashboardBinding;
 import com.example.mobile_app.databinding.FragmentSettingsBinding;
+import com.example.mobile_app.ui.dashboard.DashboardViewModel;
+import com.example.mobile_app.ui.dashboard.ViewDoctorsList;
 import com.example.mobile_app.ui.notifications.NotificationsViewModel;
 
 
@@ -21,22 +32,32 @@ import java.util.ArrayList;
 public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;
 
+    private View view;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        DashboardViewModel dashboardViewModel =
+                new ViewModelProvider(this).get(DashboardViewModel.class);
 
-        binding = FragmentSettingsBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+//        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+//        View root = binding.getRoot();
 
-        ArrayList<SettingsComp> array_com=new ArrayList<>();
-        array_com.add(new SettingsComp(R.drawable.ex,"pic1"));
-        array_com.add(new SettingsComp(R.drawable.ex,"pic2"));
-        array_com.add(new SettingsComp(R.drawable.ex,"pic3"));
+        view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        view_doctors = (Button) view.findViewById(R.id.buttonViewDoctors);
+        System.out.println(view_doctors);
 
-        Settings_Fragment adapter = new Settings_Fragment(getActivity(),array_com);
+        view_doctors.setOnClickListener(v -> {
+            Intent intent = new Intent(view.getContext(), ViewDoctorsList.class);
+            startActivity(intent);
+        });
 
-        GridView gridView = root.findViewById(R.id.setting_com); // Thay thế id gridView bằng id của GridView trong layout của bạn
-        gridView.setAdapter(adapter);
-        return root;
+//        Intent intent = new Intent(DashboardFragment.this, loginPatient.class);
+//        startActivity(intent);
+//        System.out.println(binding.buttonViewDoctors);
+//        final Button button = binding.buttonViewDoctors;
+//        final TextView textView = binding.textDashboard;
+//        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        return view;
     }
 
     @Override
@@ -44,4 +65,50 @@ public class SettingsFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
+    Button my_profile, view_doctors, book_appointment, view_appointment_history, submit_appointment_form, load_fees, reset_form, sign_out;
+    TextView welcome_text, textview_name, textview_email, textview_address, textview_contact, textview_usertype, textview_allergies;
+    AutoCompleteTextView textview_doctorname, textview_fees;
+    RelativeLayout layout_myprofile, layout_bookappointment;
+    ProgressBar progressBar;
+    EditText edittext_date, edittext_time, edittext_allergies;
+
+    //    DatabaseReference reference;
+//    FirebaseUser user;
+    String uid,doctorId;
+
+    //Doctor's List
+    ArrayList<String> doctor_name = new ArrayList<>();
+    ArrayList<Doctor> doctors = new ArrayList<>();
+
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        System.out.println(2311);
+//        ((MainActivity) getActivity()).setContentView(R.layout.fragment_dashboard);
+////        progressBar=findViewById(R.id.loginActivityIndeterminateProgressbar);
+//
+//        view_doctors=(Button) view.findViewById(R.id.buttonViewDoctors);
+//        view_doctors.setOnClickListener(DashboardFragment.this);
+//
+//
+//
+//        progressBar.setVisibility(View.VISIBLE);
+//        System.out.println(1);
+//
+//    }
+
+
+//    public void onClick(View view) {
+//        System.out.println("1");
+//        progressBar.setVisibility(View.VISIBLE);
+//        Intent intent = new Intent(DashboardFragment.this, ViewDoctorsList.class);
+//        startActivity(intent);
+//        progressBar.setVisibility(View.GONE);
+//        System.out.println("1");
+//    }
+
+
 }

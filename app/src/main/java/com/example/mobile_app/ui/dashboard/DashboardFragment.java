@@ -63,12 +63,8 @@ public class DashboardFragment extends Fragment {
         System.out.println(view_doctors);
 
         view_doctors.setOnClickListener(v -> {
-            System.out.println("1");
-//            progressBar.setVisibility(View.VISIBLE);
             Intent intent = new Intent(view.getContext(), ViewDoctorsList.class);
             startActivity(intent);
-//            progressBar.setVisibility(View.GONE);
-            System.out.println("1");
         });
 
 //        Intent intent = new Intent(DashboardFragment.this, loginPatient.class);

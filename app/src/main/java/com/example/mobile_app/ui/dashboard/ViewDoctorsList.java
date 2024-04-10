@@ -33,11 +33,13 @@ public class ViewDoctorsList extends AppCompatActivity {
         Doctor doctor1 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "1", "Master", "Japan");
         Doctor doctor2 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "2", "Professional", "Japan");
         Doctor doctor3 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "3", "Doctor", "Japan");
+        Doctor doctor4 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "3", "Doctor", "Japan");
+
 
         doctorList.add(doctor1);
         doctorList.add(doctor2);
         doctorList.add(doctor3);
-
+        doctorList.add(doctor4);
 
         adapter = new CustomAdapter(doctorList, ViewDoctorsList.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(ViewDoctorsList.this));

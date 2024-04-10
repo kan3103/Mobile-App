@@ -25,6 +25,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.home.HomeScreen"
+            android:label="Doctors"
+            android:parentActivityName=".ui.dashboard.loginPatient"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.dashboard.ViewDoctorsList"
             android:label="Doctors"
             android:parentActivityName=".ui.dashboard.loginPatient"
