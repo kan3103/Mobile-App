@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
 import com.example.mobile_app.databinding.FragmentSettingsBinding;
+import com.example.mobile_app.ui.add_user.AddUserActivity;
 import com.example.mobile_app.ui.media_record.RecordActivity;
 import com.example.mobile_app.ui.profile_frag.profile_activity;
 
@@ -29,6 +30,7 @@ public class SettingsFragment extends Fragment {
     private View mview;
     private ArrayList<SettingsComp> array_com_doc=new ArrayList<>();
     private ArrayList<SettingsComp> array_com=new ArrayList<>();
+    private ArrayList<SettingsComp> array_com_admin=new ArrayList<>();
     private Settings_Fragment adapter;
     private GridView gridView;
     private TextView hello;
@@ -46,14 +48,23 @@ public class SettingsFragment extends Fragment {
         array_com.add(new SettingsComp(R.drawable.icon_person,"Thông tin cá nhân"));
         array_com.add(new SettingsComp(R.drawable.medical_record, "Hồ sơ bệnh án"));
         array_com.add(new SettingsComp(R.drawable.drug_icon, "Hóa đơn thuốc"));
+        array_com_admin.add(new SettingsComp(R.drawable.icon_person,"Thông tin cá nhân"));
+        array_com_admin.add(new SettingsComp(R.drawable.add_doctor, "Thêm bác sĩ"));
+//        array_com_admin.add(new SettingsComp(R.drawable.drug_icon, "Hóa đơn thuốc"));
         if(user.equals("Patient")) {
             adapter = new Settings_Fragment(getActivity(), array_com);
             gridView = mview.findViewById(R.id.setting_com);
             gridView.setNumColumns(2);
             gridView.setAdapter(adapter);
         }
-        else{
+        else if(user.equals("Doctor")){
             adapter = new Settings_Fragment(getActivity(), array_com_doc);
+            gridView = mview.findViewById(R.id.setting_com);
+            gridView.setNumColumns(2);
+            gridView.setAdapter(adapter);
+        }
+        else{
+            adapter = new Settings_Fragment(getActivity(), array_com_admin);
             gridView = mview.findViewById(R.id.setting_com);
             gridView.setNumColumns(2);
             gridView.setAdapter(adapter);
@@ -70,13 +81,15 @@ public class SettingsFragment extends Fragment {
                     startActivity(new Intent(getActivity(), profile_activity.class));
                 } else if(position==1 && user.equals("Patient")) {
                     startActivity(new Intent(getActivity(), RecordActivity.class));
+                } else if (position==1 && user.equals("Admin")){
+                    startActivity(new Intent(getActivity(), AddUserActivity.class));
                 }
             }
         });
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.sendDataToSettingsFragment();
+                mainActivity.sendDataToSettingsFragment(true);
             }
         });
 
