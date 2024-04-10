@@ -41,7 +41,7 @@ import org.bson.Document;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private String user = "Patient";
+    private String user = "Admin";
     private Button btnSend;
     String Appid = "mobileapp-fyjbw";
     private App realmApp;
@@ -58,22 +58,8 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_settings)
+                R.id.navigation_home, R.id.navigation_settings)
                 .build();
-//        realmApp = new App(new AppConfiguration.Builder("<Your-App-ID>")
-//                .build());
-//
-//        // Kết nối đến MongoDB
-//        mongoClient = realmApp.currentUser().getMongoClient("he");
-//
-//        // Lấy tham chiếu đến cơ sở dữ liệu
-//        database = mongoClient.getDatabase("QuanLySanPham");
-//
-//        // Thực hiện truy vấn
-//        MongoCollection collection = database.getCollection("yourCollectionName");
-//        FindIterable<Document> results = collection.find();
-
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
@@ -81,17 +67,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 if (destination.getId() == R.id.navigation_settings) {
-                    sendDataToSettingsFragment();
+                    sendDataToSettingsFragment(false);
                 }
             }
         });
 
     }
-    public void sendDataToSettingsFragment() {
+    public void sendDataToSettingsFragment(boolean check) {
+        if(!check) return;
         SettingsFragment settingsFragment = new SettingsFragment();
         Bundle bundle = new Bundle();
         if(user.equals("Patient")) user = "Doctor";
-        else user = "Patient";
+        else if(user.equals("Admin")) user = "Patient";
+        else user = "Admin";
         bundle.putString("user", user);
         settingsFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
