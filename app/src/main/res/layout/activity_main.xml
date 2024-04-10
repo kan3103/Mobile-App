@@ -3,49 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-<!--    <EditText-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Enter your data"-->
-<!--        android:textSize="40dp"-->
-<!--        android:id="@+id/data"-->
-<!--        android:layout_margin="40dp"-->
-<!--        android:layout_gravity="center"-->
-<!--    />-->
-<!--    <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/addData"-->
-<!--            android:text="Add Data"-->
-<!--            android:textSize="20dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_margin="20dp"-->
-<!--    />-->
-
-<!--    <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/findDataButton"-->
-<!--            android:text="Find Data"-->
-<!--            android:textSize="20dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_margin="20dp"-->
-<!--    />-->
-
-<!--    <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/findData"-->
-<!--            android:textSize="30dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_margin="40dp"-->
-<!--            android:text="Your data will be displayed here "/>-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        android:layout_gravity="center"
+        android:id="@+id/signin"/>
 
 
+    <EditText
+        android:id="@+id/data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="40dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="40dp"
+        android:hint="Enter your data"
+        android:textSize="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/adddata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:text="Add Data"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/findDataButton"
+        app:layout_constraintTop_toBottomOf="@+id/data" />
+
+
+    <Button
+        android:id="@+id/findDataButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:layout_marginTop="68dp"
+        android:text="Find Data"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/data" />
+
+    <TextView
+        android:id="@+id/findData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="40dp"
+        android:text="Your data will be displayed here "
+        android:textSize="30dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adddata" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
