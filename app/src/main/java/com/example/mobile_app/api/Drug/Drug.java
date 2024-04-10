@@ -1,5 +1,5 @@
 
-package com.example.drug;
+package com.example.mobile_app.api.Drug;
 import java.util.List;
 
 public class Drug {
