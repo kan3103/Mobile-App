@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#FF8080"
+    android:background="#21D375"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         >
         <androidx.cardview.widget.CardView
             android:id="@+id/thongtinchung"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
@@ -365,6 +365,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/record">
@@ -373,6 +374,8 @@
                 android:layout_width="124dp"
                 android:layout_height="55dp"
                 android:text="prev"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="@color/black"
                 android:layout_marginRight="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.71"
@@ -383,6 +386,8 @@
                 android:layout_width="124dp"
                 android:layout_height="55dp"
                 android:text="next"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.71"
                 app:layout_constraintStart_toStartOf="parent"

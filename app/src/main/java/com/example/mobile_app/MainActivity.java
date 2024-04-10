@@ -1,10 +1,13 @@
 package com.example.mobile_app;
 
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.view.View;
 import android.widget.Button;
 
 
+import com.example.mobile_app.api.user.userObject.doctorUser;
+import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.ui.settings.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -20,11 +23,30 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.mobile_app.databinding.ActivityMainBinding;
 
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.mongo.MongoClient;
+import io.realm.mongodb.mongo.MongoCollection;
+import io.realm.mongodb.mongo.MongoDatabase;
+
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.User;
+import io.realm.mongodb.mongo.MongoClient;
+import io.realm.mongodb.mongo.MongoCollection;
+import io.realm.mongodb.mongo.MongoDatabase;
+import io.realm.mongodb.mongo.iterable.FindIterable;
+import org.bson.Document;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private String user = "Patient";
     private Button btnSend;
+    String Appid = "mobileapp-fyjbw";
+    private App realmApp;
+    private MongoClient mongoClient;
+    private MongoDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +54,25 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Success");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_settings)
                 .build();
+//        realmApp = new App(new AppConfiguration.Builder("<Your-App-ID>")
+//                .build());
+//
+//        // Kết nối đến MongoDB
+//        mongoClient = realmApp.currentUser().getMongoClient("he");
+//
+//        // Lấy tham chiếu đến cơ sở dữ liệu
+//        database = mongoClient.getDatabase("QuanLySanPham");
+//
+//        // Thực hiện truy vấn
+//        MongoCollection collection = database.getCollection("yourCollectionName");
+//        FindIterable<Document> results = collection.find();
+
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -66,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
     }
-
     public String getUser() {
         return user;
     }
