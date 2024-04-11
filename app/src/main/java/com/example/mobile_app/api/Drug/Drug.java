@@ -52,8 +52,6 @@ public class Drug {
         private int quantity;
         private String expirationDate;
         private String entryDate;
-
-
         public Prescription(int quantity, String expirationDate, String entryDate) {
             this.quantity = quantity;
             this.expirationDate = expirationDate;
