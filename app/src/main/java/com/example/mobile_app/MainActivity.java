@@ -21,9 +21,13 @@ import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 import io.realm.mongodb.mongo.iterable.MongoCursor;
 import io.realm.mongodb.RealmResultTask;
+import io.realm.mongodb.mongo.options.UpdateOptions;
+import io.realm.mongodb.mongo.result.InsertOneResult;
+
 
 import org.bson.Document;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.example.mobile_app.ui.settings.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -53,12 +57,16 @@ public class MainActivity extends AppCompatActivity {
     String Appid = "mobileapp-fyjbw";
     MongoDatabase mongoDatabase;
     MongoClient mongoClient;
-//    EditText editText;
+    EditText editText;
     Button button,button1,button2;
     TextView textView;
-//    String data;
-//     User user;
+    String data;
     MongoCollection<Document> mongoCollection;
+    ArrayList<String> strings = new ArrayList<>();
+    String key;
+    String value;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +75,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Set up the button and EditText (test)
+        editText = findViewById(R.id.data);
+        button = findViewById(R.id.adddata);
+        button1 = findViewById(R.id.findDataButton);
+        textView = findViewById(R.id.findData);
+        button2 = findViewById(R.id.signin);
+        button = findViewById(R.id.adddata);
         dataEditText = (EditText) findViewById(R.id.data);
+
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -88,22 +103,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // Initialize the Realm app
-        Realm.init(this);
+        Realm.init(getApplicationContext());
+//        Realm.init(this);
         App app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com","123456");
-        // Authenticate the user
-        app.loginAsync(credentials, new App.Callback<User>() {
-            @Override
-            public void onResult(App.Result<User> result) {
-                if (result.isSuccess()) {
-                    Log.v("User", "Successfully logged in to MongoDB Realm");
-                } else {
-                    Log.v("User", "Failed to log in to MongoDB Realm");
-                }
-            }
-        });
 
-         //Register a new user (test)
+        //Register a new user (test)
         app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
             if(it.isSuccess()){
                 Log.v("User", "Successfully registered user");
@@ -112,7 +117,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //test InsertData
+        // Authenticate the user
+//        app.loginAsync(Credentials.anonymous(), new App.Callback<User>() {
+//            @Override
+//            public void onResult(App.Result<User> result) {
+//                if (result.isSuccess()) {
+//                    Log.v("User", "Successfully logged in");
+//                } else {
+//                    Log.v("User", "Failed to log in");
+//                }
+//            }
+//        });
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
 
         //test InsertData
         //test QueryData
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,20 +191,87 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+
+        // Find a key-value
+
+//        button1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Document queryFilter =  new Document().append("myid","1000");
+//                mongoCollection.findOne(queryFilter).getAsync(result -> {
+//                    if(result.isSuccess())
+//                    {
+//                        Document resultData = result.get();
+//                        if (resultData != null) {
+//                            Toast.makeText(getApplicationContext(),"Found",Toast.LENGTH_LONG).show();
+//                            Log.v("Data Success", resultData.toString());
+//                            if (resultData.containsKey("data")) {
+//                                textView.setText(resultData.getString("data"));
+//                            } else {
+//                                Log.v("Data Success", "Document does not contain a 'data' field");
+//                            }
+//                        } else {
+//                            Toast.makeText(getApplicationContext(),"Not Found",Toast.LENGTH_LONG).show();
+//                            Log.v("Data Error","Document not found");
+//                        }
+//                    }
+//                    else
+//                    {
+//                        Toast.makeText(getApplicationContext(),"Not Found",Toast.LENGTH_LONG).show();
+//                        Log.v("Data Error",result.getError().toString());
+//                    }
+//                });
+//            }
+//        });
+
+        // Find all data in array
+//        button1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Document queryFilter = new Document().append("arr", new Document("$exists", true));
+//                mongoCollection.findOne(queryFilter).getAsync(result -> {
+//                    if(result.isSuccess())
+//                    {
+//                        Toast.makeText(getApplicationContext(),"Found",Toast.LENGTH_LONG).show();
+//                        Document resultData = result.get();
+//                        Log.v("Data Success", resultData.toString());
+//                        if (resultData.containsKey("arr")) {
+//                            ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("arr");
+//                            textView.setText(arrList.toString());
+//                        } else {
+//                            Log.v("Data Success", "Document does not contain an 'arr' field");
+//                        }
+//                    }
+//                    else
+//                    {
+//                        Toast.makeText(getApplicationContext(),"Not Found",Toast.LENGTH_LONG).show();
+//                        Log.v("Data Error",result.getError().toString());
+//                    }
+//                });
+//            }
+//        });
+
+        // Find an element in array
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Document queryFilter =  new Document().append("myid","22");
+                Document queryFilter = new Document().append("arr.0", new Document("$exists", true));
                 mongoCollection.findOne(queryFilter).getAsync(result -> {
                     if(result.isSuccess())
                     {
                         Toast.makeText(getApplicationContext(),"Found",Toast.LENGTH_LONG).show();
                         Document resultData = result.get();
                         Log.v("Data Success", resultData.toString());
-                        if (resultData.containsKey("data")) {
-                            textView.setText(resultData.getString("data"));
+                        if (resultData.containsKey("arr")) {
+                            ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("arr");
+                            if (arrList.size() > 1) {
+                                Document secondElement = arrList.get(0);
+                                textView.setText(secondElement.toJson());
+                            } else {
+                                Log.v("Data Success", "Array does not contain a second element");
+                            }
                         } else {
-                            Log.v("Data Success", "Document does not contain a 'data' field");
+                            Log.v("Data Success", "Document does not contain an 'arr' field");
                         }
                     }
                     else
@@ -220,6 +301,3 @@ public class MainActivity extends AppCompatActivity {
         return user;
     }
 }
-
-
-
