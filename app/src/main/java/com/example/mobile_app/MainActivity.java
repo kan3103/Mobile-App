@@ -63,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
     String data;
     MongoCollection<Document> mongoCollection;
     ArrayList<String> strings = new ArrayList<>();
-    private Object stitchAppClient;
+    String key;
+    String value;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,25 +191,87 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+
+        // Find a key-value
+
+//        button1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Document queryFilter =  new Document().append("myid","1000");
+//                mongoCollection.findOne(queryFilter).getAsync(result -> {
+//                    if(result.isSuccess())
+//                    {
+//                        Document resultData = result.get();
+//                        if (resultData != null) {
+//                            Toast.makeText(getApplicationContext(),"Found",Toast.LENGTH_LONG).show();
+//                            Log.v("Data Success", resultData.toString());
+//                            if (resultData.containsKey("data")) {
+//                                textView.setText(resultData.getString("data"));
+//                            } else {
+//                                Log.v("Data Success", "Document does not contain a 'data' field");
+//                            }
+//                        } else {
+//                            Toast.makeText(getApplicationContext(),"Not Found",Toast.LENGTH_LONG).show();
+//                            Log.v("Data Error","Document not found");
+//                        }
+//                    }
+//                    else
+//                    {
+//                        Toast.makeText(getApplicationContext(),"Not Found",Toast.LENGTH_LONG).show();
+//                        Log.v("Data Error",result.getError().toString());
+//                    }
+//                });
+//            }
+//        });
+
+        // Find all data in array
+//        button1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Document queryFilter = new Document().append("arr", new Document("$exists", true));
+//                mongoCollection.findOne(queryFilter).getAsync(result -> {
+//                    if(result.isSuccess())
+//                    {
+//                        Toast.makeText(getApplicationContext(),"Found",Toast.LENGTH_LONG).show();
+//                        Document resultData = result.get();
+//                        Log.v("Data Success", resultData.toString());
+//                        if (resultData.containsKey("arr")) {
+//                            ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("arr");
+//                            textView.setText(arrList.toString());
+//                        } else {
+//                            Log.v("Data Success", "Document does not contain an 'arr' field");
+//                        }
+//                    }
+//                    else
+//                    {
+//                        Toast.makeText(getApplicationContext(),"Not Found",Toast.LENGTH_LONG).show();
+//                        Log.v("Data Error",result.getError().toString());
+//                    }
+//                });
+//            }
+//        });
+
+        // Find an element in array
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Document queryFilter =  new Document().append("myid","1000");
+                Document queryFilter = new Document().append("arr.0", new Document("$exists", true));
                 mongoCollection.findOne(queryFilter).getAsync(result -> {
                     if(result.isSuccess())
                     {
+                        Toast.makeText(getApplicationContext(),"Found",Toast.LENGTH_LONG).show();
                         Document resultData = result.get();
-                        if (resultData != null) {
-                            Toast.makeText(getApplicationContext(),"Found",Toast.LENGTH_LONG).show();
-                            Log.v("Data Success", resultData.toString());
-                            if (resultData.containsKey("data")) {
-                                textView.setText(resultData.getString("data"));
+                        Log.v("Data Success", resultData.toString());
+                        if (resultData.containsKey("arr")) {
+                            ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("arr");
+                            if (arrList.size() > 1) {
+                                Document secondElement = arrList.get(0);
+                                textView.setText(secondElement.toJson());
                             } else {
-                                Log.v("Data Success", "Document does not contain a 'data' field");
+                                Log.v("Data Success", "Array does not contain a second element");
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(),"Not Found",Toast.LENGTH_LONG).show();
-                            Log.v("Data Error","Document not found");
+                            Log.v("Data Success", "Document does not contain an 'arr' field");
                         }
                     }
                     else
