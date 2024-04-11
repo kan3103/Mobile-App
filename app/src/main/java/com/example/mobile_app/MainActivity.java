@@ -21,6 +21,7 @@ import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 import io.realm.mongodb.mongo.iterable.MongoCursor;
 import io.realm.mongodb.RealmResultTask;
+import io.realm.mongodb.mongo.options.UpdateOptions;
 import io.realm.mongodb.mongo.result.InsertOneResult;
 
 
@@ -78,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.findData);
         button2 = findViewById(R.id.signin);
         button = findViewById(R.id.adddata);
-        Realm.init(getApplicationContext());
         dataEditText = (EditText) findViewById(R.id.data);
+
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // Initialize the Realm app
+        Realm.init(getApplicationContext());
 //        Realm.init(this);
         App app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com","123456");
@@ -163,23 +165,26 @@ public class MainActivity extends AppCompatActivity {
 
         //test InsertData
         //test QueryData
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("addding","addding");
-                Document document = new Document().append("data","Finding is working").append("myid","2345");
-                RealmResultTask<InsertOneResult> insertResult = mongoCollection.insertOne(document);
-                mongoCollection.insertOne(document).getAsync(result -> {
-                    if(result.isSuccess())
-                    {
-                        Log.v("addding","result");
-                        Toast.makeText(getApplicationContext(),"Inserted",Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        Log.v("addding","result failed" + result.getError().toString());
+                Log.v("updating","updating");
+                Document filter = new Document().append("myid", "2345");
+                Document update = new Document().append("$set", new Document().append("data", "Finding is working after stopping"));
+
+                mongoCollection.updateOne(filter, update, new UpdateOptions().upsert(true)).getAsync(result -> {
+                    if(result.isSuccess()) {
+                        long numModified = result.get().getModifiedCount();
+                        if (numModified == 1) {
+                            Toast.makeText(getApplicationContext(),"Updated",Toast.LENGTH_LONG).show();
+                            Log.v("Update", "Successfully updated document");
+                        } else {
+                            Toast.makeText(getApplicationContext(),"Inserted",Toast.LENGTH_LONG).show();
+                            Log.v("Update", "Inserted new document");
+                        }
+                    } else {
                         Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+                        Log.v("Update", "Failed to update document: " + result.getError().toString());
                     }
                 });
             }
@@ -187,17 +192,22 @@ public class MainActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Document queryFilter =  new Document().append("myid","22");
+                Document queryFilter =  new Document().append("myid","1000");
                 mongoCollection.findOne(queryFilter).getAsync(result -> {
                     if(result.isSuccess())
                     {
-                        Toast.makeText(getApplicationContext(),"Found",Toast.LENGTH_LONG).show();
                         Document resultData = result.get();
-                        Log.v("Data Success", resultData.toString());
-                        if (resultData.containsKey("data")) {
-                            textView.setText(resultData.getString("data"));
+                        if (resultData != null) {
+                            Toast.makeText(getApplicationContext(),"Found",Toast.LENGTH_LONG).show();
+                            Log.v("Data Success", resultData.toString());
+                            if (resultData.containsKey("data")) {
+                                textView.setText(resultData.getString("data"));
+                            } else {
+                                Log.v("Data Success", "Document does not contain a 'data' field");
+                            }
                         } else {
-                            Log.v("Data Success", "Document does not contain a 'data' field");
+                            Toast.makeText(getApplicationContext(),"Not Found",Toast.LENGTH_LONG).show();
+                            Log.v("Data Error","Document not found");
                         }
                     }
                     else
