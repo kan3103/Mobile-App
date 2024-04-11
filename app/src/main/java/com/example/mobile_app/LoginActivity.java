@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
                 return returnDoc[0];
             }
-
+//            Document resultDoc = findData("name",text);
         });
 
         System.out.println(loginButton);
