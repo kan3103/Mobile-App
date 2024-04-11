@@ -56,13 +56,20 @@ public class LoginActivity extends AppCompatActivity {
 //        Realm.init(this);
         App app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
+        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
+            if(it.isSuccess()){
+                Log.v("User", "Successfully registered user");
+            }else{
+                Log.v("User", "Failed to register user");
+            }
+        });
         app.loginAsync(credentials, new App.Callback<User>() {
             @Override
             public void onResult(App.Result<User> result) {
                 user = app.currentUser();
                 mongoClient = user.getMongoClient("mongodb-atlas");
-                mongoDatabase = mongoClient.getDatabase("sample_mflix");
-                mongoCollection = mongoDatabase.getCollection("Test");
+                mongoDatabase = mongoClient.getDatabase("Hospital");
+                mongoCollection = mongoDatabase.getCollection("Admin");
                 Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
             }
         });
@@ -75,7 +82,8 @@ public class LoginActivity extends AppCompatActivity {
                     if(result.isSuccess()){
                         Log.v("hee","ok rooif");
                         Document dataa = result.get();
-                        true_data = dataa.getString("pass");
+                        true_data = dataa.getString("id");
+
                         if(true_data.equals(password.getText().toString()))
                             startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     }else {
@@ -84,5 +92,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+
     }
 }
