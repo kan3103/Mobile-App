@@ -6,10 +6,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import org.bson.Document;
 
+import com.example.mobile_app.api.user.factoryUser.Login;
+import com.example.mobile_app.api.user.userObject.adminUser;
+import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ActivityLoginBinding;
+import com.google.gson.Gson;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,14 +31,11 @@ import io.realm.mongodb.mongo.MongoDatabase;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
-
     private View view;
-
     Button loginButton;
     EditText username;
     EditText password;
     private App app;
-
     String Appid = "mobileapp-fyjbw";
     MongoDatabase mongoDatabase;
     MongoClient mongoClient;
@@ -40,20 +43,19 @@ public class LoginActivity extends AppCompatActivity {
     String id;
     User user;
     String true_data;
+    String selectedText;
+    RadioGroup radioButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         System.out.println("Success");
-
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         username = findViewById(R.id.loginPageEmailEditText);
         password = findViewById(R.id.loginPagePasswordEditText);
-//        view = ActivityMainBinding.inflate(getLayoutInflater());
         loginButton = findViewById(R.id.login_button);
         Realm.init(getApplicationContext());
-//        Realm.init(this);
         App app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
         app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
@@ -72,25 +74,41 @@ public class LoginActivity extends AppCompatActivity {
                 mongoCollection = mongoDatabase.getCollection("Admin");
             }
         });
+        // Tạo một đối tượng Login
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = username.getText().toString();
-                Document document = new Document().append("username",name);
-                mongoCollection.findOne(document).getAsync( result -> {
-                    if(result.isSuccess()){
-                        Log.v("hee","ok rooif");
-                        Document dataa = result.get();
-                        true_data = dataa.getString("password");
+                RadioGroup radioGroup = findViewById(R.id.radiogroup);
+                int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+                if (selectedRadioButtonId != -1) {
+                    RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+                    selectedText = selectedRadioButton.getText().toString();
+                }
+                if(selectedText.equals("Admin")){
+                    mongoCollection = mongoDatabase.getCollection(selectedText);
+                    Document document = new Document().append("username",name);
+                    mongoCollection.findOne(document).getAsync( result -> {
+                        if(result.isSuccess()){
+                            Log.v("hee","ok rooif");
+                            Document dataa = result.get();
+                            true_data = dataa.getString("password");
 
-                        if(true_data.equals(password.getText().toString())){
-                            Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                            if(true_data.equals(password.getText().toString())){
+                                Login login = new Login();
+
+                                // Thực hiện đăng nhập
+                                userInterface user = login.createUser("Admin", name, true_data);
+                                Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.putExtra("userobject", (adminUser) user);
+                                startActivity(intent);
+                            }
+                        }else {
+                            Toast.makeText(getApplicationContext(),"FAIL",Toast.LENGTH_LONG).show();
                         }
-                    }else {
-                        Log.v("hi","not oke");
-                    }
-                });
+                    });
+                }
             }
         });
 

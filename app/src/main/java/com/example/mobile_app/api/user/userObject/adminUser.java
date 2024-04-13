@@ -1,11 +1,24 @@
 package com.example.mobile_app.api.user.userObject;
 
-public class adminUser implements userInterface{
+import java.io.Serializable;
+
+public class adminUser implements userInterface, Serializable {
     private String username;
     private String password;
+    private String typeuser;
+
+    public String getTypeuser() {
+        return typeuser;
+    }
+
+    public void setTypeuser(String typeuser) {
+        this.typeuser = typeuser;
+    }
+
     public adminUser(String username, String password) {
         this.username = username;
         this.password = password;
+        this.typeuser = "Admin";
     }
     public void setUsername(String username) {
         this.username = username;
