@@ -14,8 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobile_app.LoginActivity;
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
+import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.FragmentSettingsBinding;
 import com.example.mobile_app.ui.add_user.AddUserActivity;
 import com.example.mobile_app.ui.capthuoc_frag.capthuoc_acti;
@@ -26,8 +28,7 @@ import java.util.ArrayList;
 
 
 public class SettingsFragment extends Fragment {
-    private String user;
-//    private FragmentSettingsBinding binding;
+    private userInterface user;
     private View mview;
     private ArrayList<SettingsComp> array_com_doc=new ArrayList<>();
     private ArrayList<SettingsComp> array_com=new ArrayList<>();
@@ -52,13 +53,13 @@ public class SettingsFragment extends Fragment {
         array_com_admin.add(new SettingsComp(R.drawable.icon_person,"Thông tin cá nhân"));
         array_com_admin.add(new SettingsComp(R.drawable.add_doctor, "Thêm bác sĩ"));
 //        array_com_admin.add(new SettingsComp(R.drawable.drug_icon, "Hóa đơn thuốc"));
-        if(user.equals("Patient")) {
+        if(user.getTypeuser().equals("Patient")) {
             adapter = new Settings_Fragment(getActivity(), array_com);
             gridView = mview.findViewById(R.id.setting_com);
             gridView.setNumColumns(2);
             gridView.setAdapter(adapter);
         }
-        else if(user.equals("Doctor")){
+        else if(user.getTypeuser().equals("Doctor")){
             adapter = new Settings_Fragment(getActivity(), array_com_doc);
             gridView = mview.findViewById(R.id.setting_com);
             gridView.setNumColumns(2);
@@ -71,7 +72,7 @@ public class SettingsFragment extends Fragment {
             gridView.setAdapter(adapter);
         }
         hello =mview.findViewById(R.id.textView);
-        String hi = "Chào mừng, " +user +"!";
+        String hi = "Chào mừng, " +user.getUsername() +"!";
         hello.setText(hi);
         btnSend = mview.findViewById(R.id.button_logout);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,11 +81,11 @@ public class SettingsFragment extends Fragment {
                 // Xử lý khi phần tử được nhấp
                 if (position==0) {
                     startActivity(new Intent(getActivity(), profile_activity.class));
-                } else if(position==1 && user.equals("Patient")) {
+                } else if(position==1 && user.getTypeuser().equals("Patient")) {
                     startActivity(new Intent(getActivity(), RecordActivity.class));
-                } else if(position==1 && user.equals("Admin")){
+                } else if(position==1 && user.getTypeuser().equals("Admin")){
                     startActivity(new Intent(getActivity(), AddUserActivity.class));
-                } else if(position==2 && user.equals("Patient")){
+                } else if(position==2 && user.getTypeuser().equals("Patient")){
                     startActivity(new Intent(getActivity(), capthuoc_acti.class));
                 }
             }
@@ -92,7 +93,7 @@ public class SettingsFragment extends Fragment {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.sendDataToSettingsFragment(true);
+                startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
 

@@ -2,9 +2,12 @@ package com.example.mobile_app.api.user.userObject;
 
 import com.example.mobile_app.api.MedicalRecord.MedRecord;
 
-public class patientUser implements userInterface{
+import java.io.Serializable;
+
+public class patientUser implements userInterface, Serializable {
     private String username;
     private String password;
+    private String typeuser;
     private MedRecord medicalRecord;
     public patientUser(String username, String password) {
         this.username = username;
@@ -28,4 +31,5 @@ public class patientUser implements userInterface{
     public MedRecord getMedicalRecord() {
         return medicalRecord;
     }
+    public String getTypeuser(){return typeuser; };
 }
