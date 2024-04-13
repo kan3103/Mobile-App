@@ -70,22 +70,23 @@ public class LoginActivity extends AppCompatActivity {
                 mongoClient = user.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
                 mongoCollection = mongoDatabase.getCollection("Admin");
-                Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
             }
         });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = username.getText().toString();
-                Document document = new Document().append("name",name);
+                Document document = new Document().append("username",name);
                 mongoCollection.findOne(document).getAsync( result -> {
                     if(result.isSuccess()){
                         Log.v("hee","ok rooif");
                         Document dataa = result.get();
-                        true_data = dataa.getString("id");
+                        true_data = dataa.getString("password");
 
-                        if(true_data.equals(password.getText().toString()))
+                        if(true_data.equals(password.getText().toString())){
+                            Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
                             startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                        }
                     }else {
                         Log.v("hi","not oke");
                     }

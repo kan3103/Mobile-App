@@ -34,7 +34,11 @@
             android:exported="true"/>
         <activity
             android:name=".ui.add_user.AddUserActivity"
-            android:label="Record"
+            android:label="Add Doctor"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.capthuoc_frag.capthuoc_acti"
+            android:label="@string/title_activity_capthuoc"
             android:exported="true"/>
         <activity
             android:name=".LoginActivity"
