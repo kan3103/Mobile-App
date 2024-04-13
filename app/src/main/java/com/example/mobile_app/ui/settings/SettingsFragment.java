@@ -18,6 +18,7 @@ import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
 import com.example.mobile_app.databinding.FragmentSettingsBinding;
 import com.example.mobile_app.ui.add_user.AddUserActivity;
+import com.example.mobile_app.ui.capthuoc_frag.capthuoc_acti;
 import com.example.mobile_app.ui.media_record.RecordActivity;
 import com.example.mobile_app.ui.profile_frag.profile_activity;
 
@@ -81,8 +82,10 @@ public class SettingsFragment extends Fragment {
                     startActivity(new Intent(getActivity(), profile_activity.class));
                 } else if(position==1 && user.equals("Patient")) {
                     startActivity(new Intent(getActivity(), RecordActivity.class));
-                } else if (position==1 && user.equals("Admin")){
+                } else if(position==1 && user.equals("Admin")){
                     startActivity(new Intent(getActivity(), AddUserActivity.class));
+                } else if(position==2 && user.equals("Patient")){
+                    startActivity(new Intent(getActivity(), capthuoc_acti.class));
                 }
             }
         });
