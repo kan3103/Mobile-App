@@ -28,6 +28,7 @@
             </androidx.cardview.widget.CardView>
 
             <Button
+                android:id="@+id/button_capthuoc"
                 android:layout_width="100dp"
                 android:layout_height="60dp"
                 android:layout_margin="20dp"

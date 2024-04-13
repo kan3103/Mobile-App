@@ -1,6 +1,8 @@
 //import modules
 package com.example.mobile_app.api.MedicalRecord;
 
+import com.example.mobile_app.api.Doctor.DoctorObject.DoctorInter;
+
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -19,17 +21,18 @@ public class MedRecord {
         int temperature;
         double weight;
         double height;
-        String doctor; // refer to doctor class
-        String nurse; // refer to nurse class
-        String dateIn;
-        String dateOut;
+        DoctorInter doctor;
+        DoctorInter nurse;
+        String date;
         String room;
         String RevisionDate;
+        String dateIn;
+        String dateOut;
 
         // methods
         // constructor
-        public Record(int bloodPressure, int heartRate, int temperature, double weight, double height, String doctor,
-                String nurse, String dateIn, String dateOut, String room, String RevisionDate) {
+        public Record(int bloodPressure, int heartRate, int temperature, double weight, double height, DoctorInter doctor,
+                DoctorInter nurse, String dateIn, String dateOut, String room, String RevisionDate) {
             this.bloodPressure = bloodPressure;
             this.heartRate = heartRate;
             this.temperature = temperature;
@@ -89,11 +92,11 @@ public class MedRecord {
             this.height = height;
         }
 
-        public void setDoctor(String doctor) {
+        public void setDoctor(DoctorInter doctor) {
             this.doctor = doctor;
         }
 
-        public void setNurse(String nurse) {
+        public void setNurse(DoctorInter nurse) {
             this.nurse = nurse;
         }
 
@@ -144,7 +147,7 @@ public class MedRecord {
 
     // setters
     public void addRecord(int bloodPressure, int heartRate, int temperature, double weight, double height,
-            String doctor, String nurse, String dateIn, String dateOut, String room, String RevisionDate) {
+            DoctorInter doctor, DoctorInter nurse, String dateIn, String dateOut, String room, String RevisionDate) {
         records.add(new Record(bloodPressure, heartRate, temperature, weight, height, doctor, nurse, dateIn, dateOut,
                 room, RevisionDate));
     }

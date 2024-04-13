@@ -8,6 +8,7 @@ public class EndocDoctor implements DoctorInter {
     protected String ID;
     protected String Name;
     protected String Specialty;
+    protected String typeuser;
     protected String Address;
     protected String PhoneNum;
     protected String citizenID;
@@ -100,4 +101,5 @@ public class EndocDoctor implements DoctorInter {
     public String getPassword() {
         return Password;
     }
+    public String getTypeuser(){return typeuser; };
 }

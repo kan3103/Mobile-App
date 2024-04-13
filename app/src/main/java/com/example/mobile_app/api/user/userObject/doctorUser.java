@@ -1,11 +1,15 @@
 package com.example.mobile_app.api.user.userObject;
 
-public class doctorUser implements userInterface{
+import java.io.Serializable;
+
+public class doctorUser implements userInterface, Serializable {
     private String username;
     private String password;
+    private String typeuser;
     public doctorUser(String username, String password) {
         this.username = username;
         this.password = password;
+        this.typeuser = "Doctor";
     }
     public void setUsername(String username) {
         this.username = username;
@@ -19,4 +23,5 @@ public class doctorUser implements userInterface{
     public String getPassword() {
         return password;
     }
+    public String getTypeuser(){return typeuser; };
 }
