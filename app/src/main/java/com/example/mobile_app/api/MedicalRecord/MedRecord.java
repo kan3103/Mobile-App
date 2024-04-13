@@ -1,6 +1,8 @@
 //import modules
 package com.example.mobile_app.api.MedicalRecord;
 
+import com.example.mobile_app.api.Doctor.DoctorObject.Doctor;
+
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -19,10 +21,9 @@ public class MedRecord {
         int temperature;
         double weight;
         double height;
-        String doctor; // refer to doctor class
-        String nurse; // refer to nurse class
-        String dateIn;
-        String dateOut;
+        Doctor doctor;
+        Doctor nurse;
+        String date;
         String room;
         String RevisionDate;
 
