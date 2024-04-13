@@ -60,9 +60,10 @@ public class Drug {
         return prescriptions.removeIf(p -> p.getId().equals(id));
     }
 
-    public void setPrescriptions(List<Prescription> prescriptions) {
-        this.prescriptions = new LinkedList<>(prescriptions);
+    public void setPrescriptions(Deque<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
     }
+
 
     public int countPrescriptions() {
         return prescriptions.size();
