@@ -12,6 +12,7 @@ public class patientUser implements userInterface, Serializable {
     public patientUser(String username, String password) {
         this.username = username;
         this.password = password;
+        this.typeuser = "Patient";
     }
     public void setUsername(String username) {
         this.username = username;

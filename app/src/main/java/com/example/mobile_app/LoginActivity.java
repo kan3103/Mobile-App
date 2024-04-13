@@ -13,6 +13,8 @@ import org.bson.Document;
 
 import com.example.mobile_app.api.user.factoryUser.Login;
 import com.example.mobile_app.api.user.userObject.adminUser;
+import com.example.mobile_app.api.user.userObject.doctorUser;
+import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ActivityLoginBinding;
 import com.google.gson.Gson;
@@ -108,6 +110,22 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"FAIL",Toast.LENGTH_LONG).show();
                         }
                     });
+                }
+                else if(selectedText.equals("Doctor")){
+                    Login login = new Login();
+                    userInterface user =login.createUser("Doctor","Doctor","1");
+                    Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("userobject", (doctorUser) user);
+                    startActivity(intent);
+                }
+                else{
+                    Login login = new Login();
+                    userInterface user =login.createUser("Patient","Patient","1");
+                    Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("userobject", (patientUser) user);
+                    startActivity(intent);
                 }
             }
         });

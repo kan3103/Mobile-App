@@ -78,8 +78,11 @@ public class MainActivity extends AppCompatActivity {
         if (user instanceof adminUser) {
              ((adminUser) user).getTypeuser();
             sendDataToSettingsFragment(false);
-        } else {
-            System.out.println("User is not an instance of adminUser");
+        } else if(user instanceof doctorUser) {
+            sendDataToSettingsFragment(false);
+        }
+        else{
+            sendDataToSettingsFragment(false);
         }
     }
     public void sendDataToSettingsFragment(boolean check) {
