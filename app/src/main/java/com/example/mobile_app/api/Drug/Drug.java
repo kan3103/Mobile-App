@@ -44,14 +44,6 @@ public class Drug {
         this.info = info;
     }
 
-    // public int getQuantity() {
-    //     return quantity;
-    // }
-
-    // public void setQuantity(int quantity) {
-    //     this.quantity = quantity;
-    // }
-
     public Deque<Prescription> getPrescriptions() {
         return prescriptions;
     }
@@ -63,7 +55,6 @@ public class Drug {
     public void setPrescriptions(Deque<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
     }
-
 
     public int countPrescriptions() {
         return prescriptions.size();
@@ -127,19 +118,17 @@ public class Drug {
         return false; // Trả về false nếu không tìm thấy thuốc
     }
 
-    static class Prescription {
+      static class Prescription {
         private String id;
         private int quantity;
         private String entryDate;
         private String expirationDate;
 
-
-        public Prescription(String id, int quantity,String entryDate, String expirationDate) {
+        public Prescription(String id, int quantity, String entryDate, String expirationDate) {
             this.id = id;
             this.quantity = quantity;
             this.entryDate = entryDate;
             this.expirationDate = expirationDate;
-
         }
 
         public String getId() {
