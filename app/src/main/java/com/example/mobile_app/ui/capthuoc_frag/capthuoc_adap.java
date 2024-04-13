@@ -50,6 +50,6 @@ public class capthuoc_adap extends ArrayAdapter<String> {
         return convertView ;
     }
 
-    public String get_sl(int pos, View )
+
 
 }
