@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.loginPagePasswordEditText);
         loginButton = findViewById(R.id.login_button);
         Realm.init(getApplicationContext());
-        App app = new App(new AppConfiguration.Builder(Appid).build());
+        app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
         app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
             if(it.isSuccess()){
@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                 user = app.currentUser();
                 mongoClient = user.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
-                mongoCollection = mongoDatabase.getCollection("Admin");
+                mongoCollection = mongoDatabase.getCollection("Doctor");
             }
         });
         // Tạo một đối tượng Login
@@ -98,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
 
                             if(true_data.equals(password.getText().toString())){
                                 Login login = new Login();
-
                                 // Thực hiện đăng nhập
                                 userInterface user = login.createUser("Admin", name, true_data);
                                 Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
@@ -112,12 +111,27 @@ public class LoginActivity extends AppCompatActivity {
                     });
                 }
                 else if(selectedText.equals("Doctor")){
-                    Login login = new Login();
-                    userInterface user =login.createUser("Doctor","Doctor","1");
-                    Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("userobject", (doctorUser) user);
-                    startActivity(intent);
+                    mongoCollection = mongoDatabase.getCollection(selectedText);
+                    Document document = new Document().append("username",name);
+                    mongoCollection.findOne(document).getAsync( result -> {
+                        if(result.isSuccess()){
+                            Log.v("hee","ok rooif");
+                            Document dataa = result.get();
+                            true_data = dataa.getString("password");
+
+                            if(true_data.equals(password.getText().toString())){
+                                Login login = new Login();
+                                // Thực hiện đăng nhập
+                                userInterface user = login.createUser("Doctor", name, true_data);
+                                Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.putExtra("userobject", (doctorUser) user);
+                                startActivity(intent);
+                            }
+                        }else {
+                            Toast.makeText(getApplicationContext(),"FAIL",Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 else{
                     Login login = new Login();
