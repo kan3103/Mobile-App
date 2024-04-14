@@ -18,8 +18,6 @@ import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ActivityLoginBinding;
-
-
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -34,6 +32,7 @@ import io.realm.mongodb.User;
 import io.realm.mongodb.mongo.MongoClient;
 import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
+import io.realm.mongodb.mongo.options.UpdateOptions;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
