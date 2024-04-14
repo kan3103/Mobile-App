@@ -6,64 +6,68 @@ import com.example.mobile_app.api.user.userObject.doctorUser;
 
 import android.util.Pair;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MedRecord {
+public class MedRecord implements Serializable {
+
     // inner class - record class
-    public class Record {
+    public class Record implements Serializable {
         // attributes
-        ArrayList<Pair<String, Boolean>> testResults;
+        String testResults;
         ArrayList<String> prescriptions;
-        ArrayList<String> notes;
-        ArrayList<String> diagnosis;
+        String notes;
+        String diagnosis;
+        String specialty;
         ArrayList<String> medicalHistory;
         int bloodPressure;
         int heartRate;
         int temperature;
-        double weight;
-        double height;
-        doctorUser doctor;
-        doctorUser nurse;
+        String weight;
+        String height;
+        String doctor;
+        String nurse;
         String date;
-        String room;
         String RevisionDate;
 
         // methods
         // constructor
-        public Record(int bloodPressure, int heartRate, int temperature, double weight, double height, doctorUser doctor,
-                doctorUser nurse, String date, String room, String RevisionDate) {
-            this.bloodPressure = bloodPressure;
-            this.heartRate = heartRate;
-            this.temperature = temperature;
+        public Record(String weight, String height, String doctor,
+                String nurse, String date, String RevisionDate,String specialty) {
             this.weight = weight;
             this.height = height;
             this.doctor = doctor;
             this.nurse = nurse;
             this.date = date;
-            this.room = room;
             this.RevisionDate = RevisionDate;
-            testResults = new ArrayList<Pair<String, Boolean>>();
+            testResults = "";
             prescriptions = new ArrayList<String>();
-            notes = new ArrayList<String>();
-            diagnosis = new ArrayList<String>();
+            notes = "";
+            diagnosis = "";
+            this.specialty = specialty;
             medicalHistory = new ArrayList<String>();
         }
 
         // setters
         public void addTestResult(String testName, boolean result) {
-            testResults.add(new Pair<String, Boolean>(testName, result));
+            testResults = testName;
         }
-
+        public void setSpecialty(String specialty){
+            this.specialty = specialty;
+        }
         public void addPrescription(String prescription) {
             prescriptions.add(prescription);
         }
 
         public void addNote(String note) {
-            notes.add(note);
+            notes = note;
         }
 
-        public void addDiagnosis(String diagnosis) {
-            this.diagnosis.add(diagnosis);
+        public void setDiagnosis(String diagnosis) {
+            this.diagnosis = diagnosis;
         }
 
         public void addMedicalHistory(String medicalHistory) {
@@ -82,19 +86,19 @@ public class MedRecord {
             this.temperature = temperature;
         }
 
-        public void setWeight(double weight) {
+        public void setWeight(String weight) {
             this.weight = weight;
         }
 
-        public void setHeight(double height) {
+        public void setHeight(String height) {
             this.height = height;
         }
 
-        public void setDoctor(doctorUser doctor) {
+        public void setDoctor(String doctor) {
             this.doctor = doctor;
         }
 
-        public void setNurse(doctorUser nurse) {
+        public void setNurse(String nurse) {
             this.nurse = nurse;
         }
 
@@ -102,28 +106,28 @@ public class MedRecord {
             this.date = date;
         }
 
-        public void setRoom(String room) {
-            this.room = room;
-        }
-
         public void setRevisionDate(String RevisionDate) {
             this.RevisionDate = RevisionDate;
         }
 
         //getters
-        public ArrayList<Pair<String, Boolean>> getTestResults() {
+        public String getTestResults() {
             return testResults;
+        }
+
+        public String getSpecialty() {
+            return specialty;
         }
 
         public ArrayList<String> getPrescriptions() {
             return prescriptions;
         }
 
-        public ArrayList<String> getNotes() {
+        public String  getNotes() {
             return notes;
         }
 
-        public ArrayList<String> getDiagnosis() {
+        public String getDiagnosis() {
             return diagnosis;
         }
 
@@ -143,30 +147,25 @@ public class MedRecord {
             return temperature;
         }
 
-        public double getWeight() {
+        public String  getWeight() {
             return weight;
         }
 
-        public double getHeight() {
+        public String getHeight() {
             return height;
         }
 
-        public doctorUser getDoctor() {
+        public String getDoctor() {
             return doctor;
         }
 
-        public doctorUser getNurse() {
+        public String getNurse() {
             return nurse;
         }
 
         public String getDate() {
             return date;
         }
-
-        public String getRoom() {
-            return room;
-        }
-
         public String getRevisionDate() {
             return RevisionDate;
         }
@@ -183,11 +182,11 @@ public class MedRecord {
     String bloodType;
     String citizenId;
     String insuranceId;
-    ArrayList<Record> records;
+    ArrayList<MedRecord.Record> records;
 
     // methods
     // constructor
-    MedRecord(String name, String dob, boolean Gender, String address, String phoneNumber, String ethnicity, String bloodType, String citizenId, String insuranceId) {
+    public MedRecord(String name, String dob, String address, String phoneNumber, String ethnicity, String bloodType, String citizenId, String insuranceId) {
         this.name = name;
         this.dob = dob;
         this.Gender = Gender;
@@ -201,9 +200,9 @@ public class MedRecord {
     }
 
     // setters
-    public void addRecord(int bloodPressure, int heartRate, int temperature, double weight, double height,
-            doctorUser doctor, doctorUser nurse, String date, String room, String RevisionDate) {
-        records.add(new Record(bloodPressure, heartRate, temperature, weight, height, doctor, nurse, date, room, RevisionDate));
+    public void addRecord(String weight, String height,
+            String doctor, String nurse, String date, String RevisionDate,String specialty) {
+        records.add(new Record(weight, height, doctor, nurse, date, RevisionDate,specialty));
     }
 
     public void setName(String name) {
@@ -234,12 +233,20 @@ public class MedRecord {
         this.bloodType = bloodType;
     }
 
+    public String getBloodType() {
+        return bloodType;
+    }
+
     public void setCitizenId(String citizenId) {
         this.citizenId = citizenId;
     }
 
     public void setInsuranceId(String insuranceId) {
         this.insuranceId = insuranceId;
+    }
+
+    public ArrayList<MedRecord.Record> getRecords() {
+        return records;
     }
 
 }

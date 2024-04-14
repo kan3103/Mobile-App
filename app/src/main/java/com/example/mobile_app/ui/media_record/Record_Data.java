@@ -1,6 +1,9 @@
 package com.example.mobile_app.ui.media_record;
 
+import com.example.mobile_app.api.user.userObject.userInterface;
+
 public class Record_Data {
+    private userInterface user;
     private String date;
     private String Doctor;
     private String Nurse;
@@ -14,6 +17,25 @@ public class Record_Data {
     private String Relatives;
     private String Department;
     private String Health_record;
+    private String date_in;
+    private String date_out;
+
+
+    public String getDate_in() {
+        return date_in;
+    }
+
+    public String getDate_out() {
+        return date_out;
+    }
+
+    public void setUser(userInterface user) {
+        this.user = user;
+    }
+
+    public userInterface getUser() {
+        return user;
+    }
 
     public String getDate() {
         return date;
