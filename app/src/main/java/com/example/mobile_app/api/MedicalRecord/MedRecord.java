@@ -170,8 +170,6 @@ public class MedRecord {
             return RevisionDate;
         }
 
-
-
     }
 
     // attributes
@@ -203,10 +201,9 @@ public class MedRecord {
     }
 
     // setters
-    public void addRecord(int bloodPressure, int heartRate, int temperature, double weight, double height,
-            String doctor, String nurse, String dateIn, String dateOut, String room, String RevisionDate) {
-        records.add(new Record(bloodPressure, heartRate, temperature, weight, height, doctor, nurse, dateIn, dateOut,
-                room, RevisionDate));
+    public void addRecord(int BloodPressure, int HeartRate, int Temperature, double Weight, double Height, String Doctor,
+            String Nurse, String Date, String Room, String RevisionDate) {
+        records.add(new Record(BloodPressure, HeartRate, Temperature, Weight, Height, Doctor, Nurse, Date, Room, RevisionDate));
     }
 
     public void setName(String name) {
