@@ -122,6 +122,7 @@ public class Drug {
         private String id;
         private int quantity;
         private String entryDate;
+
         private String expirationDate;
 
         public Prescription(String id, int quantity, String entryDate, String expirationDate) {

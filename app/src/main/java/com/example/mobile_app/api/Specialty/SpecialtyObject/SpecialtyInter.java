@@ -1,4 +1,4 @@
-package specialty;
+package com.example.mobile_app.api.Specialty.SpecialtyObject;
 
 public interface SpecialtyInter {
     void setName(String name);
