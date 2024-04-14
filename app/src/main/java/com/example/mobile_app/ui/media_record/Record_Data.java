@@ -1,8 +1,7 @@
 package com.example.mobile_app.ui.media_record;
 
 public class Record_Data {
-    private String date_in;
-    private String date_out;
+    private String date;
     private String Doctor;
     private String Nurse;
     private String Dia;
@@ -16,20 +15,12 @@ public class Record_Data {
     private String Department;
     private String Health_record;
 
-    public String getDate_in() {
-        return date_in;
+    public String getDate() {
+        return date;
     }
 
-    public void setDate_in(String date_in) {
-        this.date_in = date_in;
-    }
-
-    public String getDate_out() {
-        return date_out;
-    }
-
-    public void setDate_out(String date_out) {
-        this.date_out = date_out;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getDoctor() {
