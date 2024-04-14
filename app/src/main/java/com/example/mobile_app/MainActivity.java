@@ -27,7 +27,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.mobile_app.databinding.ActivityMainBinding;
-import com.google.gson.Gson;
 
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;

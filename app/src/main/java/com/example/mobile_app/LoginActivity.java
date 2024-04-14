@@ -17,8 +17,6 @@ import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ActivityLoginBinding;
-import com.google.gson.Gson;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 
