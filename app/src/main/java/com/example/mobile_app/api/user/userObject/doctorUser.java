@@ -1,16 +1,114 @@
 package com.example.mobile_app.api.user.userObject;
 
 import java.io.Serializable;
+import java.util.Vector;
 
 public class doctorUser implements userInterface, Serializable {
     private String username;
     private String password;
     private String typeuser;
+    protected String ID;
+    protected String Name;
+    protected String Specialty;
+    protected String Address;
+    protected String PhoneNum;
+    protected String citizenID;
+    protected int Experience;
+    protected int PatientNum;
+    protected Vector<String> PatientList;
     public doctorUser(String username, String password) {
         this.username = username;
         this.password = password;
         this.typeuser = "Doctor";
     }
+
+    public doctorUser(String username, String password, String ID, String name, String specialty, String address, String phoneNum, String citizenID, int experience, int patientNum, Vector<String> patientList) {
+        this.username = username;
+        this.password = password;
+        this.typeuser = "Doctor";
+        this.ID = ID;
+        Name = name;
+        Specialty = specialty;
+        Address = address;
+        PhoneNum = phoneNum;
+        this.citizenID = citizenID;
+        Experience = experience;
+        PatientNum = patientNum;
+        PatientList = patientList;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getSpecialty() {
+        return Specialty;
+    }
+
+    public void setSpecialty(String specialty) {
+        Specialty = specialty;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
+    public String getPhoneNum() {
+        return PhoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        PhoneNum = phoneNum;
+    }
+
+    public String getCitizenID() {
+        return citizenID;
+    }
+
+    public void setCitizenID(String citizenID) {
+        this.citizenID = citizenID;
+    }
+
+    public int getExperience() {
+        return Experience;
+    }
+
+    public void setExperience(int experience) {
+        Experience = experience;
+    }
+
+    public int getPatientNum() {
+        return PatientNum;
+    }
+
+    public void setPatientNum(int patientNum) {
+        PatientNum = patientNum;
+    }
+
+    public Vector<String> getPatientList() {
+        return PatientList;
+    }
+
+    public void setPatientList(Vector<String> patientList) {
+        PatientList = patientList;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }

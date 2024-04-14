@@ -72,6 +72,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/add_username"
                     android:hint="Enter Text" />
             </LinearLayout>
 
@@ -91,6 +92,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/add_password"
                     android:hint="Enter Text" />
             </LinearLayout>
 
@@ -110,6 +112,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/add_name"
                     android:hint="Enter Text" />
             </LinearLayout>
 
@@ -129,6 +132,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/add_birthday"
                     android:hint="Enter Text" />
             </LinearLayout>
 
@@ -148,6 +152,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/add_specialty"
                     android:hint="Enter Text" />
             </LinearLayout>
 
