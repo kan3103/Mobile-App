@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobile_app.LoginActivity;
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
+import com.example.mobile_app.api.user.userObject.adminUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.FragmentSettingsBinding;
 import com.example.mobile_app.ui.add_user.AddUserActivity;
@@ -49,7 +50,7 @@ public class SettingsFragment extends Fragment {
         array_com_doc.add(new SettingsComp(R.drawable.list,"Danh sách bệnh nhân"));
         array_com.add(new SettingsComp(R.drawable.icon_person,"Thông tin cá nhân"));
         array_com.add(new SettingsComp(R.drawable.medical_record, "Hồ sơ bệnh án"));
-        array_com.add(new SettingsComp(R.drawable.drug_icon, "Hóa đơn thuốc"));
+        array_com_doc.add(new SettingsComp(R.drawable.drug_icon, "Cấp thuốc"));
         array_com_admin.add(new SettingsComp(R.drawable.icon_person,"Thông tin cá nhân"));
         array_com_admin.add(new SettingsComp(R.drawable.add_doctor, "Thêm bác sĩ"));
 //        array_com_admin.add(new SettingsComp(R.drawable.drug_icon, "Hóa đơn thuốc"));
@@ -82,10 +83,12 @@ public class SettingsFragment extends Fragment {
                 if (position==0) {
                     startActivity(new Intent(getActivity(), profile_activity.class));
                 } else if(position==1 && user.getTypeuser().equals("Patient")) {
+                    Intent intent = new Intent(getActivity(),RecordActivity.class);
+                    intent.putExtra("userobject", (adminUser) user);
                     startActivity(new Intent(getActivity(), RecordActivity.class));
                 } else if(position==1 && user.getTypeuser().equals("Admin")){
                     startActivity(new Intent(getActivity(), AddUserActivity.class));
-                } else if(position==2 && user.getTypeuser().equals("Patient")){
+                } else if(position==2 && user.getTypeuser().equals("Doctor")){
                     startActivity(new Intent(getActivity(), capthuoc_acti.class));
                 }
             }

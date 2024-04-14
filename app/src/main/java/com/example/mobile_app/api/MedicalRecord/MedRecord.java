@@ -2,6 +2,7 @@
 package com.example.mobile_app.api.MedicalRecord;
 
 import com.example.mobile_app.api.Doctor.DoctorObject.DoctorInter;
+import com.example.mobile_app.api.user.userObject.doctorUser;
 
 import android.util.Pair;
 
@@ -21,17 +22,16 @@ public class MedRecord {
         int temperature;
         double weight;
         double height;
-        DoctorInter doctor;
-        DoctorInter nurse;
+        doctorUser doctor;
+        doctorUser nurse;
         String date;
         String room;
         String RevisionDate;
-        String date;
 
         // methods
         // constructor
-        public Record(int bloodPressure, int heartRate, int temperature, double weight, double height, DoctorInter doctor,
-                DoctorInter nurse, String date, String room, String RevisionDate) {
+        public Record(int bloodPressure, int heartRate, int temperature, double weight, double height, doctorUser doctor,
+                doctorUser nurse, String date, String room, String RevisionDate) {
             this.bloodPressure = bloodPressure;
             this.heartRate = heartRate;
             this.temperature = temperature;
@@ -90,11 +90,11 @@ public class MedRecord {
             this.height = height;
         }
 
-        public void setDoctor(DoctorInter doctor) {
+        public void setDoctor(doctorUser doctor) {
             this.doctor = doctor;
         }
 
-        public void setNurse(DoctorInter nurse) {
+        public void setNurse(doctorUser nurse) {
             this.nurse = nurse;
         }
 
@@ -151,11 +151,11 @@ public class MedRecord {
             return height;
         }
 
-        public Doctor getDoctor() {
+        public doctorUser getDoctor() {
             return doctor;
         }
 
-        public Doctor getNurse() {
+        public doctorUser getNurse() {
             return nurse;
         }
 
@@ -202,7 +202,7 @@ public class MedRecord {
 
     // setters
     public void addRecord(int bloodPressure, int heartRate, int temperature, double weight, double height,
-            DoctorInter doctor, DoctorInter nurse, String date, String room, String RevisionDate) {
+            doctorUser doctor, doctorUser nurse, String date, String room, String RevisionDate) {
         records.add(new Record(bloodPressure, heartRate, temperature, weight, height, doctor, nurse, date, room, RevisionDate));
     }
 
