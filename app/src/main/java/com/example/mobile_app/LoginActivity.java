@@ -11,16 +11,20 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import org.bson.Document;
 
+import com.example.mobile_app.api.MedicalRecord.MedRecord;
 import com.example.mobile_app.api.user.factoryUser.Login;
 import com.example.mobile_app.api.user.userObject.adminUser;
 import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ActivityLoginBinding;
-import com.google.gson.Gson;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.mongodb.App;
@@ -80,12 +84,20 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = username.getText().toString();
+                String name = username.getText().toString().trim();
+                if(name=="") {
+                    Toast.makeText(getApplicationContext(),"Enter the username and password",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 RadioGroup radioGroup = findViewById(R.id.radiogroup);
                 int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
                 if (selectedRadioButtonId != -1) {
                     RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
                     selectedText = selectedRadioButton.getText().toString();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Select role",Toast.LENGTH_LONG).show();
+                    return;
                 }
                 if(selectedText.equals("Admin")){
                     mongoCollection = mongoDatabase.getCollection(selectedText);
@@ -93,17 +105,25 @@ public class LoginActivity extends AppCompatActivity {
                     mongoCollection.findOne(document).getAsync( result -> {
                         if(result.isSuccess()){
                             Log.v("hee","ok rooif");
-                            Document dataa = result.get();
-                            true_data = dataa.getString("password");
+                            if(result.get()!=null){
+                                Document dataa = result.get();
+                                true_data = dataa.getString("password");
 
-                            if(true_data.equals(password.getText().toString())){
-                                Login login = new Login();
-                                // Thực hiện đăng nhập
-                                userInterface user = login.createUser("Admin", name, true_data);
-                                Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("userobject", (adminUser) user);
-                                startActivity(intent);
+                                if(true_data.equals(password.getText().toString())) {
+                                    Login login = new Login();
+                                    // Thực hiện đăng nhập
+                                    userInterface user = login.createUser("Admin", name, true_data);
+                                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.putExtra("userobject", (adminUser) user);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
                             }
                         }else {
                             Toast.makeText(getApplicationContext(),"FAIL",Toast.LENGTH_LONG).show();
@@ -116,17 +136,25 @@ public class LoginActivity extends AppCompatActivity {
                     mongoCollection.findOne(document).getAsync( result -> {
                         if(result.isSuccess()){
                             Log.v("hee","ok rooif");
-                            Document dataa = result.get();
+                            if(result.get()!=null){
+                                Document dataa = result.get();
                             true_data = dataa.getString("password");
-
-                            if(true_data.equals(password.getText().toString())){
-                                Login login = new Login();
-                                // Thực hiện đăng nhập
-                                userInterface user = login.createUser("Doctor", name, true_data);
-                                Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("userobject", (doctorUser) user);
-                                startActivity(intent);
+                                if(true_data.equals(password.getText().toString())){
+                                    Login login = new Login();
+                                    // Thực hiện đăng nhập
+                                    userInterface user = login.createUser("Doctor", name, true_data);
+                                    Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.putExtra("userobject", (doctorUser) user);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
+                                }
+                                getMediarecord(dataa);
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
                             }
                         }else {
                             Toast.makeText(getApplicationContext(),"FAIL",Toast.LENGTH_LONG).show();
@@ -134,15 +162,92 @@ public class LoginActivity extends AppCompatActivity {
                     });
                 }
                 else{
-                    Login login = new Login();
-                    userInterface user =login.createUser("Patient","Patient","1");
-                    Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("userobject", (patientUser) user);
-                    startActivity(intent);
+                    mongoCollection = mongoDatabase.getCollection(selectedText);
+                    Document document = new Document().append("name",name);
+                    mongoCollection.findOne(document).getAsync( result -> {
+                        if(result.isSuccess()){
+                            if(result.get()!=null){
+                                Document dataa = result.get();
+                                Login login = new Login();
+                                userInterface user = login.createUser("Patient", name, "true_data");
+                                ((patientUser) user).setMedicalRecord(getMediarecord(dataa));
+                                Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.putExtra("userobject", (patientUser) user);
+                                startActivity(intent);
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
+                            }
+                        }else {
+                            Toast.makeText(getApplicationContext(),"FAIL",Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }
         });
 
     }
+    public MedRecord getMediarecord(Document data){
+        MedRecord medRecord = new MedRecord(data.getString("name"),"","","","","","","");
+//        medRecord.addRecord();
+        if(data.containsKey("medicalRecord")){
+            ArrayList<Document> arrList = (ArrayList<Document>) data.get("medicalRecord");
+            if (arrList.size() >= 1) {
+                Document secondElement = arrList.get(0);
+                medRecord.addRecord(secondElement.getString("weight"),secondElement.getString("height"),secondElement.getString("doctor"),
+                        "",secondElement.getString("dateIn"),"","");
+
+
+            } else {
+                                Log.v("Data Success", "Array does not contain a second element");
+            }
+        }
+        return medRecord;
+    }
+//    public static List<Document> createMedicalRecord() {
+//        List<Document> medications = new ArrayList<>();
+//
+//        Document medication1 = new Document("name", "Medication 1")
+//                .append("dosage", "10mg");
+//        medications.add(medication1);
+//
+//        Document medication2 = new Document("name", "Medication 2")
+//                .append("dosage", "20mg");
+//        medications.add(medication2);
+//
+//        return medications;
+//    }
+    // Find an element in array
+//        button1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Document queryFilter = new Document().append("arr.0", new Document("$exists", true));
+//                mongoCollection.findOne(queryFilter).getAsync(result -> {
+//                    if(result.isSuccess())
+//                    {
+//                        Toast.makeText(getApplicationContext(),"Found",Toast.LENGTH_LONG).show();
+//                        Document resultData = result.get();
+//                        Log.v("Data Success", resultData.toString());
+//                        if (resultData.containsKey("arr")) {
+//                            ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("arr");
+//                            if (arrList.size() > 1) {
+//                                Document secondElement = arrList.get(0);
+//                                textView.setText(secondElement.toJson());
+//                            } else {
+//                                Log.v("Data Success", "Array does not contain a second element");
+//                            }
+//                        } else {
+//                            Log.v("Data Success", "Document does not contain an 'arr' field");
+//                        }
+//                    }
+//                    else
+//                    {
+//                        Toast.makeText(getApplicationContext(),"Not Found",Toast.LENGTH_LONG).show();
+//                        Log.v("Data Error",result.getError().toString());
+//                    }
+//                });
+//            }
+//        });
+
 }

@@ -76,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
             user = (userInterface) intent.getSerializableExtra("userobject");
         }
         if (user instanceof adminUser) {
-             ((adminUser) user).getTypeuser();
             sendDataToSettingsFragment(false);
         } else if(user instanceof doctorUser) {
             sendDataToSettingsFragment(false);
         }
         else{
+            Log.v("ok","oke");
             sendDataToSettingsFragment(false);
         }
     }
