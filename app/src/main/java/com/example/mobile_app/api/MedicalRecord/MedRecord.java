@@ -30,7 +30,7 @@ public class MedRecord {
         // methods
         // constructor
         public Record(int bloodPressure, int heartRate, int temperature, double weight, double height, String doctor,
-                String nurse, String dateIn, String dateOut, String room, String RevisionDate) {
+                String nurse, String date, String room, String RevisionDate) {
             this.bloodPressure = bloodPressure;
             this.heartRate = heartRate;
             this.temperature = temperature;
@@ -38,8 +38,7 @@ public class MedRecord {
             this.height = height;
             this.doctor = doctor;
             this.nurse = nurse;
-            this.dateIn = dateIn;
-            this.dateOut = dateOut;
+            this.date = date;
             this.room = room;
             this.RevisionDate = RevisionDate;
             testResults = new ArrayList<Pair<String, Boolean>>();
@@ -98,12 +97,8 @@ public class MedRecord {
             this.nurse = nurse;
         }
 
-        public void setDateIn(String dateIn) {
-            this.dateIn = dateIn;
-        }
-
-        public void setDateOut(String dateOut) {
-            this.dateOut = dateOut;
+        public void setDate(String date) {
+            this.date = date;
         }
 
         public void setRoom(String room) {
@@ -113,6 +108,70 @@ public class MedRecord {
         public void setRevisionDate(String RevisionDate) {
             this.RevisionDate = RevisionDate;
         }
+
+        //getters
+        public ArrayList<Pair<String, Boolean>> getTestResults() {
+            return testResults;
+        }
+
+        public ArrayList<String> getPrescriptions() {
+            return prescriptions;
+        }
+
+        public ArrayList<String> getNotes() {
+            return notes;
+        }
+
+        public ArrayList<String> getDiagnosis() {
+            return diagnosis;
+        }
+
+        public ArrayList<String> getMedicalHistory() {
+            return medicalHistory;
+        }
+
+        public int getBloodPressure() {
+            return bloodPressure;
+        }
+
+        public int getHeartRate() {
+            return heartRate;
+        }
+
+        public int getTemperature() {
+            return temperature;
+        }
+
+        public double getWeight() {
+            return weight;
+        }
+
+        public double getHeight() {
+            return height;
+        }
+
+        public Doctor getDoctor() {
+            return doctor;
+        }
+
+        public Doctor getNurse() {
+            return nurse;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public String getRoom() {
+            return room;
+        }
+
+        public String getRevisionDate() {
+            return RevisionDate;
+        }
+
+
+
     }
 
     // attributes
