@@ -26,9 +26,11 @@
                 android:layout_margin="20dp"
                 app:cardCornerRadius="20dp">
                 <EditText
+                    android:id="@+id/id_thuoc_nhapthuoc"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="15dp"
+                    android:inputType="number"
                     android:hint="Nhập ID thuốc"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -40,10 +42,12 @@
                 app:cardCornerRadius="20dp"
                 >
                 <EditText
+                    android:id="@+id/soluong_nhapthuoc"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="15dp"
                     android:hint="Nhập số lượng"
+                    android:inputType="number"
                     android:textSize="20dp"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
@@ -54,6 +58,7 @@
                 android:layout_gravity="center_horizontal"
                 >
                 <Button
+                    android:id="@+id/button_nhapthuoc"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Nhập"

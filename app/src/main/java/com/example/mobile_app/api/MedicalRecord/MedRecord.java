@@ -1,7 +1,7 @@
 //import modules
 package com.example.mobile_app.api.MedicalRecord;
 
-import com.example.mobile_app.api.Doctor.DoctorObject.Doctor;
+import com.example.mobile_app.api.Doctor.DoctorObject.DoctorInter;
 
 import android.util.Pair;
 
@@ -21,16 +21,17 @@ public class MedRecord {
         int temperature;
         double weight;
         double height;
-        Doctor doctor;
-        Doctor nurse;
+        DoctorInter doctor;
+        DoctorInter nurse;
         String date;
         String room;
         String RevisionDate;
+        String date;
 
         // methods
         // constructor
-        public Record(int bloodPressure, int heartRate, int temperature, double weight, double height, String doctor,
-                String nurse, String date, String room, String RevisionDate) {
+        public Record(int bloodPressure, int heartRate, int temperature, double weight, double height, DoctorInter doctor,
+                DoctorInter nurse, String date, String room, String RevisionDate) {
             this.bloodPressure = bloodPressure;
             this.heartRate = heartRate;
             this.temperature = temperature;
@@ -89,11 +90,11 @@ public class MedRecord {
             this.height = height;
         }
 
-        public void setDoctor(String doctor) {
+        public void setDoctor(DoctorInter doctor) {
             this.doctor = doctor;
         }
 
-        public void setNurse(String nurse) {
+        public void setNurse(DoctorInter nurse) {
             this.nurse = nurse;
         }
 
@@ -186,8 +187,7 @@ public class MedRecord {
 
     // methods
     // constructor
-    MedRecord(String name, String dob, boolean Gender, String address, String phoneNumber, String ethnicity,
-                        String bloodType, String citizenId, String insuranceId) {
+    MedRecord(String name, String dob, boolean Gender, String address, String phoneNumber, String ethnicity, String bloodType, String citizenId, String insuranceId) {
         this.name = name;
         this.dob = dob;
         this.Gender = Gender;
@@ -201,9 +201,9 @@ public class MedRecord {
     }
 
     // setters
-    public void addRecord(int BloodPressure, int HeartRate, int Temperature, double Weight, double Height, String Doctor,
-            String Nurse, String Date, String Room, String RevisionDate) {
-        records.add(new Record(BloodPressure, HeartRate, Temperature, Weight, Height, Doctor, Nurse, Date, Room, RevisionDate));
+    public void addRecord(int bloodPressure, int heartRate, int temperature, double weight, double height,
+            DoctorInter doctor, DoctorInter nurse, String date, String room, String RevisionDate) {
+        records.add(new Record(bloodPressure, heartRate, temperature, weight, height, doctor, nurse, date, room, RevisionDate));
     }
 
     public void setName(String name) {
