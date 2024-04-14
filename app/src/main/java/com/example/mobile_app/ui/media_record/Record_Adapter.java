@@ -61,8 +61,8 @@ public class Record_Adapter extends BaseAdapter {
         }
 
         Record_Data recordData = mDataList.get(position);
-        viewHolder.date_in.setText(recordData.getDate_in());
-        viewHolder.date_out.setText(recordData.getDate_out());
+//        viewHolder.date_in.setText(recordData.getDate_in());
+//        viewHolder.date_out.setText(recordData.getDate_out());
         viewHolder.Doctor.setText(recordData.getDoctor());
         viewHolder.Nurse.setText(recordData.getNurse());
         viewHolder.Dia.setText(recordData.getDia());
