@@ -1,6 +1,6 @@
 # Mobile-App
 
-Welcome to the Mobile app Project! This repository contains the source code for a web application built using Java.
+Welcome to the Mobile app Project! This repository contains the source code for a mobile application built using Java.
 
 
 ## Table of Contents
