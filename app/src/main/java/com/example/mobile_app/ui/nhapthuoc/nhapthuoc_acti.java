@@ -11,6 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 import org.bson.Document;
 import com.example.mobile_app.R;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Calendar;
+
 import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -34,6 +40,8 @@ public class nhapthuoc_acti extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.nhapthuoc_layout);
+
+
 
         idthuoc = findViewById(R.id.id_thuoc_nhapthuoc);
         slthuoc = findViewById(R.id.soluong_nhapthuoc) ;
@@ -64,25 +72,42 @@ public class nhapthuoc_acti extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH); // 0-based
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                // Chuyển ngày, tháng, năm thành chuỗi
+                String entryDate = formatDate(year, month + 1, day);
+
+                // Tính toán ngày kết thúc sau 3 năm
+                calendar.add(Calendar.YEAR, 3);
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH); // 0-based
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                // Chuyển ngày, tháng, năm thành chuỗi
+                String expirationDate = formatDate(year, month + 1, day);
                 String id_string, sl_string ;
                 id_string = idthuoc.getText().toString();
                 sl_string = slthuoc.getText().toString();
-                int id = Integer.parseInt(id_string);
-                int sl = Integer.parseInt(sl_string);
-                transToWareHouse(id, sl);
+                transToWareHouse(id_string, sl_string,entryDate,expirationDate);
             }
         });
 
     }
 
-    public void transToWareHouse(int idthuoc, int soluong){
+    public void transToWareHouse(String idthuoc, String soluong, String entryDate, String expirationDate){
         Log.v("updating","updating");
-        Document filter = new Document().append("idthuoc", idthuoc);
-        Document update = new Document().append("$set", new Document().append("id", idthuoc).append("quantity",soluong));
+        Document filter = new Document().append("id", idthuoc);
+        Document prescriptionObject = new Document(); // Tạo một đối tượng Document cho đơn thuốc
+        prescriptionObject.put("quantity", soluong);
+        prescriptionObject.put("entryDate", entryDate);
+        prescriptionObject.put("expiredDate", expirationDate);
+        Document update = new Document().append("$push", new Document().append("prescription", prescriptionObject));
 
-        mongoCollection.updateOne(filter, update, new UpdateOptions().upsert(true)).getAsync(result -> {
-            if(result.isSuccess()) {
-                long numModified = result.get().getModifiedCount();
+        mongoCollection.updateOne(filter, update, new UpdateOptions().upsert(true)).getAsync(result1 -> {
+            if(result1.isSuccess()) {
+                long numModified = result1.get().getModifiedCount();
                 if (numModified == 1) {
                     Toast.makeText(getApplicationContext(),"Updated",Toast.LENGTH_LONG).show();
                     Log.v("Update", "Successfully updated document");
@@ -92,9 +117,17 @@ public class nhapthuoc_acti extends AppCompatActivity {
                 }
             } else {
                 Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
-                Log.v("Update", "Failed to update document: " + result.getError().toString());
+                Log.v("Update", "Failed to update document: " + result1.getError().toString());
             }
         });
+    }
+    // Hàm chuyển đổi ngày, tháng, năm thành chuỗi
+    public static String formatDate(int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day); // month là 0-based, nên trừ đi 1
+        Date date = calendar.getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return dateFormat.format(date);
     }
 
 

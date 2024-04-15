@@ -5,7 +5,7 @@ public class Cardiology implements SpecialtyInter {
     private String id;
     private int doctorNum;
 
-    public Endocrinology(String name, String id, int doctorNum) {
+    public Cardiology(String name, String id, int doctorNum) {
         this.name = name;
         this.id = id;
         this.doctorNum = doctorNum;
