@@ -12,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.mobile_app.R;
-import com.example.mobile_app.ui.dashboard.CustomAdapter;
-import com.example.mobile_app.ui.profile_frag.profile_adap;
 
 import java.util.ArrayList;
 

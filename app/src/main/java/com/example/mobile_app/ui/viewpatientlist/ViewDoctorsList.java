@@ -1,25 +1,18 @@
-package com.example.mobile_app.ui.dashboard;
+package com.example.mobile_app.ui.viewpatientlist;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.mobile_app.Data.Doctor;
-import com.example.mobile_app.LoginActivity;
 import com.example.mobile_app.R;
-import com.example.mobile_app.api.Patient.PatientFac.PatientFacInter;
 import com.example.mobile_app.api.Patient.PatientObj.Patient;
-import com.example.mobile_app.api.Patient.PatientObj.PatientInter;
-import com.example.mobile_app.ui.register.RegisterActivity;
 
 import org.bson.Document;
 
@@ -33,7 +26,6 @@ import io.realm.mongodb.User;
 import io.realm.mongodb.mongo.MongoClient;
 import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
-import io.realm.mongodb.mongo.options.UpdateOptions;
 
 public class ViewDoctorsList extends AppCompatActivity {
     CustomAdapter adapter;
