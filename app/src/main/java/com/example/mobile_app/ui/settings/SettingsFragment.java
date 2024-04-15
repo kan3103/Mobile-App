@@ -18,6 +18,7 @@ import com.example.mobile_app.LoginActivity;
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
 import com.example.mobile_app.api.user.userObject.adminUser;
+import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.FragmentSettingsBinding;
 import com.example.mobile_app.ui.add_user.AddUserActivity;
@@ -84,8 +85,8 @@ public class SettingsFragment extends Fragment {
                     startActivity(new Intent(getActivity(), profile_activity.class));
                 } else if(position==1 && user.getTypeuser().equals("Patient")) {
                     Intent intent = new Intent(getActivity(),RecordActivity.class);
-                    intent.putExtra("userobject", (adminUser) user);
-                    startActivity(new Intent(getActivity(), RecordActivity.class));
+                    intent.putExtra("userobject", (patientUser) user);
+                    startActivity(intent);
                 } else if(position==1 && user.getTypeuser().equals("Admin")){
                     startActivity(new Intent(getActivity(), AddUserActivity.class));
                 } else if(position==2 && user.getTypeuser().equals("Doctor")){
