@@ -11,7 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 import org.bson.Document;
 import com.example.mobile_app.R;
-
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Calendar;
 
 import io.realm.Realm;
@@ -92,15 +95,19 @@ public class nhapthuoc_acti extends AppCompatActivity {
         });
 
     }
-    public void transToWareHouse(int idthuoc, int soluong){
+
+    public void transToWareHouse(String idthuoc, String soluong, String entryDate, String expirationDate){
         Log.v("updating","updating");
-        Document filter = new Document().append("idthuoc", idthuoc);
-        Document update = new Document().append("$set", new Document().append("id", idthuoc).append("quantity",soluong));
+        Document filter = new Document().append("id", idthuoc);
+        Document prescriptionObject = new Document(); // Tạo một đối tượng Document cho đơn thuốc
+        prescriptionObject.put("quantity", soluong);
+        prescriptionObject.put("entryDate", entryDate);
+        prescriptionObject.put("expiredDate", expirationDate);
+        Document update = new Document().append("$push", new Document().append("prescription", prescriptionObject));
 
-        mongoCollection.updateOne(filter, update, new UpdateOptions().upsert(true)).getAsync(result -> {
-            if(result.isSuccess()) {
-                long numModified = result.get().getModifiedCount();
-
+        mongoCollection.updateOne(filter, update, new UpdateOptions().upsert(true)).getAsync(result1 -> {
+            if(result1.isSuccess()) {
+                long numModified = result1.get().getModifiedCount();
                 if (numModified == 1) {
                     Toast.makeText(getApplicationContext(),"Updated",Toast.LENGTH_LONG).show();
                     Log.v("Update", "Successfully updated document");
@@ -110,11 +117,20 @@ public class nhapthuoc_acti extends AppCompatActivity {
                 }
             } else {
                 Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
-
-                Log.v("Update", "Failed to update document: " + result.getError().toString());
+                Log.v("Update", "Failed to update document: " + result1.getError().toString());
             }
         });
-
     }
+    // Hàm chuyển đổi ngày, tháng, năm thành chuỗi
+    public static String formatDate(int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day); // month là 0-based, nên trừ đi 1
+        Date date = calendar.getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return dateFormat.format(date);
+    }
+
+
+
 
 }
