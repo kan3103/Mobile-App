@@ -9,6 +9,43 @@ public class patientUser implements userInterface, Serializable {
     private String password;
     private String typeuser;
     private MedRecord medicalRecord;
+    private String id;
+    private String sex;
+    private String nationality;
+    private String birth;
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
     public patientUser(String username, String password) {
         this.username = username;
         this.password = password;
