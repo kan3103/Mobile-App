@@ -92,6 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+
         System.out.println("Register");
 
         app.loginAsync(credentials, new App.Callback<User>() {
@@ -101,8 +102,17 @@ public class RegisterActivity extends AppCompatActivity {
                 mongoClient = user.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
                 mongoCollection = mongoDatabase.getCollection("Patient");
+
+                if (mongoCollection == null){
+                    System.out.println(user);
+                    System.out.println(mongoClient);
+                    System.out.println(mongoDatabase);
+                    System.out.println("Collection Null ma cung xai?");
+                }
             }
         });
+
+
         completeRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

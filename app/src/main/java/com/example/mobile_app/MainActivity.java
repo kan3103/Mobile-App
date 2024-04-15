@@ -28,8 +28,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.mobile_app.databinding.ActivityMainBinding;
 
+import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.Credentials;
 import io.realm.mongodb.mongo.MongoClient;
 import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
@@ -50,9 +52,12 @@ public class MainActivity extends AppCompatActivity {
     private userInterface user;
     private Button btnSend;
     String Appid = "mobileapp-fyjbw";
-    private App realmApp;
+    private App app;
     private MongoClient mongoClient;
-    private MongoDatabase database;
+    private MongoDatabase mongoDatabase;
+
+    User user1;
+    MongoCollection<Document> mongoCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,40 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+
+        Realm.init(getApplicationContext());
+
+        app = new App(new AppConfiguration.Builder(Appid).build());
+        Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
+
+        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456", it -> {
+            if (it.isSuccess()) {
+                Log.v("User", "Successfully registered user");
+            } else {
+                Log.v("User", "Failed to register user");
+            }
+        });
+
+        app.loginAsync(credentials, new App.Callback<User>() {
+            @Override
+            public void onResult(App.Result<User> result) {
+                user1 = app.currentUser();
+                mongoClient = user1.getMongoClient("mongodb-atlas");
+                mongoDatabase = mongoClient.getDatabase("Hospital");
+                mongoCollection = mongoDatabase.getCollection("Doctor");
+
+                if (mongoCollection == null){
+                    System.out.println(user1);
+                    System.out.println(user);
+                    System.out.println(mongoClient);
+                    System.out.println(mongoDatabase);
+                    System.out.println("Collection Null ma cung xai?");
+                }
+            }
+        });
+
+
 
         Intent intent = getIntent();
         if(intent != null) {
