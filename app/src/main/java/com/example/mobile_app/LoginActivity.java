@@ -156,7 +156,6 @@ public class LoginActivity extends AppCompatActivity {
                                 else{
                                     Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
                                 }
-                                getMediarecord(dataa);
                             }
                             else{
                                 Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
@@ -168,18 +167,21 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else{
                     mongoCollection = mongoDatabase.getCollection(selectedText);
-                    Document document = new Document().append("name",name);
+                    Document document = new Document().append("userName",name);
                     mongoCollection.findOne(document).getAsync( result -> {
                         if(result.isSuccess()){
                             if(result.get()!=null){
                                 Document dataa = result.get();
-                                Login login = new Login();
-                                userInterface user = login.createUser("Patient", name, "true_data");
-                                setPatient(user,dataa);
-                                Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("userobject", (patientUser) user);
-                                startActivity(intent);
+                                true_data = dataa.getString("password");
+                                if(true_data.equals(password.getText().toString())) {
+                                    Login login = new Login();
+                                    userInterface user = login.createUser("Patient", name, true_data);
+                                    setPatient(user, dataa);
+                                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.putExtra("userobject", (patientUser) user);
+                                    startActivity(intent);
+                                }
                             }
                             else{
                                 Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
