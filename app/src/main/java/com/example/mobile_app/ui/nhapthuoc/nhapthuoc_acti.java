@@ -35,6 +35,8 @@ public class nhapthuoc_acti extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.nhapthuoc_layout);
 
+
+
         idthuoc = findViewById(R.id.id_thuoc_nhapthuoc);
         slthuoc = findViewById(R.id.soluong_nhapthuoc) ;
         button = findViewById(R.id.button_nhapthuoc) ;
@@ -64,17 +66,29 @@ public class nhapthuoc_acti extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH); // 0-based
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                // Chuyển ngày, tháng, năm thành chuỗi
+                String entryDate = formatDate(year, month + 1, day);
+
+                // Tính toán ngày kết thúc sau 3 năm
+                calendar.add(Calendar.YEAR, 3);
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH); // 0-based
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                // Chuyển ngày, tháng, năm thành chuỗi
+                String expirationDate = formatDate(year, month + 1, day);
                 String id_string, sl_string ;
                 id_string = idthuoc.getText().toString();
                 sl_string = slthuoc.getText().toString();
-                int id = Integer.parseInt(id_string);
-                int sl = Integer.parseInt(sl_string);
-                transToWareHouse(id, sl);
+                transToWareHouse(id_string, sl_string,entryDate,expirationDate);
             }
         });
 
     }
-
     public void transToWareHouse(int idthuoc, int soluong){
         Log.v("updating","updating");
         Document filter = new Document().append("idthuoc", idthuoc);
@@ -83,6 +97,7 @@ public class nhapthuoc_acti extends AppCompatActivity {
         mongoCollection.updateOne(filter, update, new UpdateOptions().upsert(true)).getAsync(result -> {
             if(result.isSuccess()) {
                 long numModified = result.get().getModifiedCount();
+
                 if (numModified == 1) {
                     Toast.makeText(getApplicationContext(),"Updated",Toast.LENGTH_LONG).show();
                     Log.v("Update", "Successfully updated document");
@@ -92,12 +107,11 @@ public class nhapthuoc_acti extends AppCompatActivity {
                 }
             } else {
                 Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+
                 Log.v("Update", "Failed to update document: " + result.getError().toString());
             }
         });
+
     }
-
-
-
 
 }
