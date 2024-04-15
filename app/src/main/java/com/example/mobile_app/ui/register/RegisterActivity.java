@@ -24,6 +24,7 @@ import com.example.mobile_app.api.user.userObject.adminUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ActivityLoginBinding;
 import com.example.mobile_app.databinding.RegisterViewBinding;
+
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import io.realm.mongodb.mongo.MongoClient;
 import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 import io.realm.mongodb.mongo.options.UpdateOptions;
+
 public class RegisterActivity extends AppCompatActivity {
     private RegisterViewBinding binding;
 
@@ -56,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
     private User user;
 
     private App app;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,17 +77,17 @@ public class RegisterActivity extends AppCompatActivity {
         editTextJob = (EditText) findViewById(R.id.patient_job);
         gender = (RadioButton) findViewById(R.id.radioPatient);
 
-        progressBar = (ProgressBar)  findViewById(R.id.registerPatientIndeterminateProgressbar);
+        progressBar = (ProgressBar) findViewById(R.id.registerPatientIndeterminateProgressbar);
 
         Realm.init(getApplicationContext());
 
         app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
 
-        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
-            if(it.isSuccess()){
+        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456", it -> {
+            if (it.isSuccess()) {
                 Log.v("User", "Successfully registered user");
-            }else{
+            } else {
                 Log.v("User", "Failed to register user");
             }
         });
@@ -109,9 +112,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerPatient() {
-//        List<String> symp = new ArrayList<>();
-
-
         //Inputs
         String fullName = editTextFullName.getText().toString().trim();
         String userName = editTextUsername.getText().toString().trim();
@@ -124,15 +124,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Validations
         if (fullName.isEmpty()) {
-            editTextFullName.setError("First Name is required");
+            editTextFullName.setError("Full Name is required");
             editTextFullName.requestFocus();
             return;
         }
-
-//        if (lastName.isEmpty()) {
-//            // A person may or may not have his last name.
-//            editTextLastName.setText("");
-//        }
 
         if (userName.isEmpty()) {
             editTextUsername.setError("Username is required");
@@ -143,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         int selectedGenderRadioBtnId = radioGroup.getCheckedRadioButtonId();
         if (selectedGenderRadioBtnId == -1) {
-            Toast.makeText(getApplicationContext(),"Vui lòng chọn giới tính!",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Vui lòng chọn giới tính!", Toast.LENGTH_LONG).show();
             radioGroup.requestFocus();
             return;
         }
@@ -162,8 +157,8 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        if(password.length() < 8){
-            editTextPassword.setError("Password should be 8 characters long");
+        if (password.length() < 6) {
+            editTextPassword.setError("Password should be 6 characters long");
             editTextPassword.requestFocus();
             return;
         }
@@ -175,12 +170,12 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (!Patterns.PHONE.matcher(mobile).matches() || mobile.length() != 10) {
-            editTextMobile.setError("Invalid contact no");
+            editTextMobile.setError("Invalid contact number");
             editTextMobile.requestFocus();
             return;
         }
 
-        if(birthday.isEmpty()){
+        if (birthday.isEmpty()) {
             editTextBirthday.setText("");
         }
 //        else{
@@ -205,7 +200,7 @@ public class RegisterActivity extends AppCompatActivity {
 //            return;
         }
 
-//        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
 
         System.out.println("Clicked register");
         Log.v("updating", "updating");
@@ -215,46 +210,38 @@ public class RegisterActivity extends AppCompatActivity {
 
         Document filter = new Document().append("userName", userName);
 
-        Boolean usernameIsExist = false;
         mongoCollection.findOne(filter).getAsync(r -> {
-            if (r.isSuccess()){
+            if (r.isSuccess()) {
                 Document rData = r.get();
-                if (rData != null){
+                if (rData != null) {
                     editTextUsername.setError("Username is exist");
                     editTextUsername.requestFocus();
 
                     return;
                 }
-                else{
-                    mongoCollection.updateOne(filter, newPatient, new UpdateOptions().upsert(true)).getAsync(r1 -> {
-                        if(r1.isSuccess()) {
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            startActivity(intent);
+                mongoCollection.updateOne(filter, newPatient, new UpdateOptions().upsert(true)).getAsync(r1 -> {
+                    if (r1.isSuccess()) {
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
 
-                            long numModified = r1.get().getModifiedCount();
-                            if (numModified == 1) {
-                                Toast.makeText(getApplicationContext(),"Đã đăng kí thành công",Toast.LENGTH_LONG).show();
+                        long numModified = r1.get().getModifiedCount();
+                        if (numModified == 1) {
+                            Toast.makeText(getApplicationContext(), "Đã đăng kí thành công", Toast.LENGTH_LONG).show();
 //                    Log.v("Update", "Successfully updated document");
-                            } else {
-                                Toast.makeText(getApplicationContext(),"Đã đăng kí thành công!",Toast.LENGTH_LONG).show();
-//                    Log.v("Update", "Inserted new document");
-                            }
-
-
-
                         } else {
-                            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
-                            Log.v("Update", "Failed to update document: " + r.getError().toString());
+                            Toast.makeText(getApplicationContext(), "Đã đăng kí thành công!", Toast.LENGTH_LONG).show();
+//                    Log.v("Update", "Inserted new document");
                         }
-                    });
-                }
+
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        Log.v("Update", "Failed to update document: " + r.getError().toString());
+                    }
+                });
+
             }
         });
-
-
-
-
-
 
 
 //        mongoCollection = mongoDatabase.getCollection("Patient");
