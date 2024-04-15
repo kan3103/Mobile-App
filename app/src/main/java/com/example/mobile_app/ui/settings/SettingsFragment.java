@@ -12,18 +12,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobile_app.LoginActivity;
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
-import com.example.mobile_app.api.user.userObject.adminUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
-import com.example.mobile_app.databinding.FragmentSettingsBinding;
 import com.example.mobile_app.ui.add_user.AddUserActivity;
 import com.example.mobile_app.ui.capthuoc_frag.capthuoc_acti;
-import com.example.mobile_app.ui.dashboard.ViewDoctorsList;
+import com.example.mobile_app.ui.viewpatientlist.ViewDoctorsList;
 import com.example.mobile_app.ui.media_record.RecordActivity;
 import com.example.mobile_app.ui.profile_frag.profile_activity;
 

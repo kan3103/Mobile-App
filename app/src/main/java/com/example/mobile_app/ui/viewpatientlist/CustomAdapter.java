@@ -1,4 +1,4 @@
-package com.example.mobile_app.ui.dashboard;
+package com.example.mobile_app.ui.viewpatientlist;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,11 +8,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mobile_app.Data.Doctor;
-
 import com.example.mobile_app.R;
 import com.example.mobile_app.api.Patient.PatientObj.Patient;
-import com.example.mobile_app.api.Patient.PatientObj.PatientInter;
 
 import java.util.ArrayList;
 
