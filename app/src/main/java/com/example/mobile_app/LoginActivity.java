@@ -1,5 +1,57 @@
 package com.example.mobile_app;
 
+//Test
+package com.example.mobile_app;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+//Test library
+import android.widget.EditText;
+import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
+
+//import realm's library
+import io.realm.Realm;
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.Credentials;
+import io.realm.mongodb.User;
+import io.realm.mongodb.mongo.MongoClient;
+import io.realm.mongodb.mongo.MongoCollection;
+import io.realm.mongodb.mongo.MongoDatabase;
+import io.realm.mongodb.mongo.iterable.MongoCursor;
+import io.realm.mongodb.RealmResultTask;
+import io.realm.mongodb.mongo.options.UpdateOptions;
+import io.realm.mongodb.mongo.result.InsertOneResult;
+
+
+import org.bson.Document;
+import java.util.ArrayList;
+import java.util.Date;
+
+import com.example.mobile_app.ui.settings.SettingsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
+import com.example.mobile_app.databinding.ActivityMainBinding;
+
+//Test
+
+
+
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -146,3 +198,4 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 }
+
