@@ -39,7 +39,6 @@
         >
 
         <EditText
-            android:id="@+id/edittext_capthuoc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="10dp"
