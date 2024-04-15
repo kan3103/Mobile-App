@@ -18,6 +18,8 @@ import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ActivityLoginBinding;
+import com.example.mobile_app.ui.register.RegisterActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -37,7 +39,7 @@ import io.realm.mongodb.mongo.options.UpdateOptions;
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private View view;
-    Button loginButton;
+    Button loginButton, registerButton;
     EditText username;
     EditText password;
     private App app;
@@ -54,15 +56,19 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        System.out.println("Success");
+//        System.out.println("Success");
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         username = findViewById(R.id.loginPageEmailEditText);
         password = findViewById(R.id.loginPagePasswordEditText);
         loginButton = findViewById(R.id.login_button);
+        registerButton = findViewById(R.id.registerButton);
+
         Realm.init(getApplicationContext());
+
         app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
+
         app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
             if(it.isSuccess()){
                 Log.v("User", "Successfully registered user");
@@ -186,6 +192,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     public MedRecord getMediarecord(Document data){
         MedRecord medRecord = new MedRecord(data.getString("name"),"","","","","","","");
