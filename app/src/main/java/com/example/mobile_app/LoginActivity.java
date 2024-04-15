@@ -18,8 +18,6 @@ import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ActivityLoginBinding;
-
-
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -170,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Document dataa = result.get();
                                 Login login = new Login();
                                 userInterface user = login.createUser("Patient", name, "true_data");
-                                ((patientUser) user).setMedicalRecord(getMediarecord(dataa));
+                                setPatient(user,dataa);
                                 Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.putExtra("userobject", (patientUser) user);
@@ -190,64 +188,25 @@ public class LoginActivity extends AppCompatActivity {
     }
     public MedRecord getMediarecord(Document data){
         MedRecord medRecord = new MedRecord(data.getString("name"),"","","","","","","");
-//        medRecord.addRecord();
         if(data.containsKey("medicalRecord")){
+
             ArrayList<Document> arrList = (ArrayList<Document>) data.get("medicalRecord");
             if (arrList.size() >= 1) {
                 Document secondElement = arrList.get(0);
-                medRecord.addRecord(secondElement.getString("weight"),secondElement.getString("height"),secondElement.getString("doctor"),
-                        "",secondElement.getString("dateIn"),"","");
-
-
+                medRecord.addRecord(secondElement.containsKey("weight")?secondElement.getString("weight"):"",secondElement.containsKey("height")?secondElement.getString("height"):"",
+                        secondElement.containsKey("doctor")?secondElement.getString("doctor"):"", secondElement.containsKey("nurse")?secondElement.getString("nurse"):"",secondElement.containsKey("dateIn")?secondElement.getString("dateIn"):"",
+                        secondElement.containsKey("reDate")?secondElement.getString("reDate"):"",secondElement.containsKey("specialty")?secondElement.getString("specialty"):"");
             } else {
                                 Log.v("Data Success", "Array does not contain a second element");
             }
         }
         return medRecord;
     }
-//    public static List<Document> createMedicalRecord() {
-//        List<Document> medications = new ArrayList<>();
-//
-//        Document medication1 = new Document("name", "Medication 1")
-//                .append("dosage", "10mg");
-//        medications.add(medication1);
-//
-//        Document medication2 = new Document("name", "Medication 2")
-//                .append("dosage", "20mg");
-//        medications.add(medication2);
-//
-//        return medications;
-//    }
-    // Find an element in array
-//        button1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Document queryFilter = new Document().append("arr.0", new Document("$exists", true));
-//                mongoCollection.findOne(queryFilter).getAsync(result -> {
-//                    if(result.isSuccess())
-//                    {
-//                        Toast.makeText(getApplicationContext(),"Found",Toast.LENGTH_LONG).show();
-//                        Document resultData = result.get();
-//                        Log.v("Data Success", resultData.toString());
-//                        if (resultData.containsKey("arr")) {
-//                            ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("arr");
-//                            if (arrList.size() > 1) {
-//                                Document secondElement = arrList.get(0);
-//                                textView.setText(secondElement.toJson());
-//                            } else {
-//                                Log.v("Data Success", "Array does not contain a second element");
-//                            }
-//                        } else {
-//                            Log.v("Data Success", "Document does not contain an 'arr' field");
-//                        }
-//                    }
-//                    else
-//                    {
-//                        Toast.makeText(getApplicationContext(),"Not Found",Toast.LENGTH_LONG).show();
-//                        Log.v("Data Error",result.getError().toString());
-//                    }
-//                });
-//            }
-//        });
-
+    public void setPatient(userInterface user, Document dataa){
+        ((patientUser) user).setMedicalRecord(getMediarecord(dataa));
+        ((patientUser) user).setSex(dataa.getString("sex"));
+        ((patientUser) user).setId(dataa.getString("id"));
+        ((patientUser) user).setNationality(dataa.getString("nationality"));
+        ((patientUser) user).setBirth(dataa.getString("birth"));
+    }
 }

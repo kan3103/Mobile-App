@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import androidx.activity.EdgeToEdge;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 public class RecordActivity extends AppCompatActivity {
     private Button btn_next;
     private Button btn_prev;
+    private TextView name,ID,Birth,sex,nationality;
     private ViewSwitcher vs1;
     private userInterface user;
     private MedRecord medRecord;
@@ -35,6 +37,11 @@ public class RecordActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_medicalrecord);
         vs1 = findViewById(R.id.record);
+        name = findViewById(R.id.recordName);
+        ID = findViewById(R.id.recordId);
+        Birth = findViewById(R.id.recordBirth);
+        sex = findViewById(R.id.recordSex);
+        nationality = findViewById(R.id.recordNationality);
         btn_prev = findViewById(R.id.button_prev);
         btn_next = findViewById(R.id.button_next);
         Intent intent = getIntent();
@@ -43,6 +50,11 @@ public class RecordActivity extends AppCompatActivity {
             Log.v("hihi",((patientUser) user).getMedicalRecord().getRecords().get(0).getHeight());
         }
         if (user!=null) {
+            name.setText("Name: "+user.getUsername());
+            ID.setText("ID: "+((patientUser)user).getId());
+            Birth.setText("Birthday: "+((patientUser)user).getBirth());
+            sex.setText("Sex: "+((patientUser)user).getSex());
+            nationality.setText("Nationality: "+((patientUser)user).getNationality());
             medRecord = ((patientUser) user).getMedicalRecord();
         }
         if(medRecord!=null){
