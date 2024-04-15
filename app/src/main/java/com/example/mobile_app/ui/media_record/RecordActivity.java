@@ -47,7 +47,6 @@ public class RecordActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent!=null){
             user = (patientUser) intent.getSerializableExtra("userobject");
-            Log.v("hihi",((patientUser) user).getMedicalRecord().getRecords().get(0).getHeight());
         }
         if (user!=null) {
             name.setText("Name: "+user.getUsername());
