@@ -16,10 +16,10 @@ public class Patient {
     private String nationality;
     private String religion;
     private String birth;
-    private int age;
+    private String age;
     private boolean insuranceType;
 
-    public Patient(String name, String sex, String address, String phoneNumber, String id, MedRecord medicalRecord, String healthInsuranceID, String bloodType, String occupation, String nationality, String religion, String birth, int age, boolean insuranceType) {
+    public Patient(String name, String sex, String address, String phoneNumber, String id, MedRecord medicalRecord, String healthInsuranceID, String bloodType, String occupation, String nationality, String religion, String birth, String age, boolean insuranceType) {
         this.name = name;
         this.sex = sex;
         this.address = address;
@@ -36,6 +36,11 @@ public class Patient {
         this.insuranceType = insuranceType;
     }
 
+    public Patient(String name, String sex, String age) {
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+    }
     public String getName() {
         return name;
     }
@@ -132,11 +137,11 @@ public class Patient {
         this.birth = birth;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

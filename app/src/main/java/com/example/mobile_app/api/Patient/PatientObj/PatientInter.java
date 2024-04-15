@@ -28,7 +28,7 @@ public interface PatientInter {
     void setBirth(String birth);
     String getBirth();
     void setAge(int age);
-    int getAge();
+    String getAge();
     void setInsuranceType(boolean insuranceType);
     boolean getInsuranceType();
 }
