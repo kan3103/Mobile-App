@@ -135,13 +135,18 @@ public class RegisterActivity extends AppCompatActivity {
 //        }
 
         if (userName.isEmpty()) {
-            editTextUsername.setError("Email is required");
+            editTextUsername.setError("Username is required");
             editTextUsername.requestFocus();
             return;
         }
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         int selectedGenderRadioBtnId = radioGroup.getCheckedRadioButtonId();
+        if (selectedGenderRadioBtnId == -1) {
+            Toast.makeText(getApplicationContext(),"Vui lòng chọn giới tính!",Toast.LENGTH_LONG).show();
+            radioGroup.requestFocus();
+            return;
+        }
         RadioButton selectedGenderBtn = findViewById(selectedGenderRadioBtnId);
         String gender = selectedGenderBtn.getText().toString();
 
@@ -197,34 +202,56 @@ public class RegisterActivity extends AppCompatActivity {
 //            editTextAddress.setError("Address is required");
 //            editTextAddress.requestFocus();
             editTextBirthday.setText("");
-            return;
+//            return;
         }
 
 //        progressBar.setVisibility(View.VISIBLE);
 
         System.out.println("Clicked register");
         Log.v("updating", "updating");
-        Document filter = new Document().append("userName", userName);
-
         Document newPatient = new Document().append("name", fullName).append("userName", userName).append("password", password)
                 .append("phoneNum", mobile).append("birthday", birthday).append("nationality", nationality)
                 .append("address", address).append("occupation", job).append("sex", gender);
 
-        mongoCollection.updateOne(filter, newPatient, new UpdateOptions().upsert(true)).getAsync(r -> {
-            if(r.isSuccess()) {
-                long numModified = r.get().getModifiedCount();
-                if (numModified == 1) {
-                    Toast.makeText(getApplicationContext(),"Updated",Toast.LENGTH_LONG).show();
-                    Log.v("Update", "Successfully updated document");
-                } else {
-                    Toast.makeText(getApplicationContext(),"Inserted",Toast.LENGTH_LONG).show();
-                    Log.v("Update", "Inserted new document");
+        Document filter = new Document().append("userName", userName);
+
+        Boolean usernameIsExist = false;
+        mongoCollection.findOne(filter).getAsync(r -> {
+            if (r.isSuccess()){
+                Document rData = r.get();
+                if (rData != null){
+                    editTextUsername.setError("Username is exist");
+                    editTextUsername.requestFocus();
+
+                    return;
                 }
-            } else {
-                Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
-                Log.v("Update", "Failed to update document: " + r.getError().toString());
+                else{
+                    mongoCollection.updateOne(filter, newPatient, new UpdateOptions().upsert(true)).getAsync(r1 -> {
+                        if(r1.isSuccess()) {
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+
+                            long numModified = r1.get().getModifiedCount();
+                            if (numModified == 1) {
+                                Toast.makeText(getApplicationContext(),"Đã đăng kí thành công",Toast.LENGTH_LONG).show();
+//                    Log.v("Update", "Successfully updated document");
+                            } else {
+                                Toast.makeText(getApplicationContext(),"Đã đăng kí thành công!",Toast.LENGTH_LONG).show();
+//                    Log.v("Update", "Inserted new document");
+                            }
+
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+                            Log.v("Update", "Failed to update document: " + r.getError().toString());
+                        }
+                    });
+                }
             }
         });
+
+
 
 
 
