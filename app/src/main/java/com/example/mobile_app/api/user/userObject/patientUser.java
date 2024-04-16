@@ -10,8 +10,17 @@ public class patientUser implements userInterface, Serializable {
     private String typeuser;
     private MedRecord medicalRecord;
     private String id;
+    private String age;
+    private String name;
+    private String citizenID;
+    private String religion;
     private String sex;
     private String nationality;
+    private String bloodType;
+    private String phoneNumber;
+    private String healthInsuranceID;
+    private String occupation;
+    private String address;
     private String birth;
 
     public String getBirth() {
@@ -51,6 +60,12 @@ public class patientUser implements userInterface, Serializable {
         this.password = password;
         this.typeuser = "Patient";
     }
+    public patientUser(String name, String age, String phoneNumber)
+    {
+        this.name = name;
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+    }
     public void setUsername(String username) {
         this.username = username;
     }
@@ -70,4 +85,58 @@ public class patientUser implements userInterface, Serializable {
         return medicalRecord;
     }
     public String getTypeuser(){return typeuser; };
+    public String getAge() {
+        return age;
+    }
+    public void setAge(String age) {
+        this.age = age;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getCitizenID() {
+        return citizenID;
+    }
+    public void setCitizenID(String citizenID) {
+        this.citizenID = citizenID;
+    }
+    public String getReligion() {
+        return religion;
+    }
+    public void setReligion(String religion) {
+        this.religion = religion;
+    }
+    public String getBloodType() {
+        return bloodType;
+    }
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
+    }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    public String getHealthInsuranceID() {
+        return healthInsuranceID;
+    }
+    public void setHealthInsuranceID(String healthInsuranceID) {
+        this.healthInsuranceID = healthInsuranceID;
+    }
+    public String getOccupation() {
+        return occupation;
+    }
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

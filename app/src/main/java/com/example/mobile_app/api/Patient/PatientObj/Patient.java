@@ -10,7 +10,6 @@ public class Patient {
     private String id;
     private MedRecord medicalRecord;
     private String healthInsuranceID;
-    private String BloodType;
     private String bloodType;
     private String occupation;
     private String citizenID;
