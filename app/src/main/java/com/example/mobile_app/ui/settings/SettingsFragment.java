@@ -2,6 +2,7 @@ package com.example.mobile_app.ui.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.ui.add_user.AddUserActivity;
 import com.example.mobile_app.ui.capthuoc_frag.capthuoc_acti;
+import com.example.mobile_app.ui.nhapthuoc.nhapthuoc_acti;
 import com.example.mobile_app.ui.viewpatientlist.ViewDoctorsList;
 import com.example.mobile_app.ui.media_record.RecordActivity;
 import com.example.mobile_app.ui.profile_frag.profile_activity;
@@ -99,8 +101,13 @@ public class SettingsFragment extends Fragment {
                 }
                 else if (position == 1 && user.getTypeuser().equals("Admin")) {
                     startActivity(new Intent(getActivity(), AddUserActivity.class));
-                } else if (position == 2 && user.getTypeuser().equals("Doctor")) {
+                }
+                else if (position == 2 && user.getTypeuser().equals("Doctor")) {
                     startActivity(new Intent(getActivity(), capthuoc_acti.class));
+                }
+                else if (position == 2 && user.getTypeuser().equals("Admin")){
+                    Log.v("okeee",user.getTypeuser());
+                    startActivity(new Intent(getActivity(), nhapthuoc_acti.class));
                 }
             }
         });

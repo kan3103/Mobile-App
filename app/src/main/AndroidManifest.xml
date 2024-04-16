@@ -46,6 +46,10 @@
             android:label="Register"
             android:exported="true"/>
         <activity
+            android:name=".ui.nhapthuoc.nhapthuoc_acti"
+            android:label="nhapthuoc_activity"
+            android:exported="true"/>
+        <activity
             android:name=".LoginActivity"
             android:exported="true"
             android:label="@string/app_name">
