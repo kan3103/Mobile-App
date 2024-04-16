@@ -108,7 +108,7 @@ public class DashboardFragment extends Fragment {
             Intent intent = new Intent(view.getContext(), ViewDoctorsList.class);
             startActivity(intent);
         }
-
+        System.out.println(view);
         return view;
     }
 
