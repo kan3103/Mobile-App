@@ -23,7 +23,5 @@ public class HomeListActivity extends AppCompatActivity {
         Neurology = findViewById(R.id.neur);
         Pediatrics = findViewById(R.id.pedia);
         Obstetrics = findViewById(R.id.obs);
-
-
     }
 }
