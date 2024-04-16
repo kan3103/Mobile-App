@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobile_app.Data.Doctor;
 import com.example.mobile_app.R;
 import com.example.mobile_app.api.user.userObject.patientUser;
+import com.example.mobile_app.api.user.userObject.userInterface;
 
 import org.bson.Document;
 
@@ -28,11 +29,11 @@ import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 
 public class ViewPatientsList extends AppCompatActivity {
-    PatientAdapter adapter;
+    CustomAdapter adapter;
     RecyclerView recyclerView;
     ArrayList<Doctor> doctorList = new ArrayList<>();
 
-    ArrayList<patientUser> patientList = new ArrayList<>();
+    ArrayList<userInterface> patientList = new ArrayList<>();
 
     String Appid = "mobileapp-fyjbw";
     MongoDatabase mongoDatabase;
@@ -96,41 +97,13 @@ public class ViewPatientsList extends AppCompatActivity {
                                 String name = patient.getString("name");
                                 String age = patient.getString("age");
                                 String phoneNumber = patient.getString("phoneNumber");
-                                Boolean isUpdatedObject = patient.getBoolean("isUpdated");
-                                boolean isUpdated = isUpdatedObject != null ? isUpdatedObject : false;//                                Kiem tra field boolean updated trong patient
-//                                if (isUpdated) {
-                                    patientList.add(new patientUser(name, age, phoneNumber,isUpdated));
-//                                }
+                                userInterface hi = new patientUser(name,age,phoneNumber);
+                                patientList.add(hi);
 
                             }
-                            adapter = new PatientAdapter(patientList, ViewPatientsList.this, new PatientAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(patientUser patient) {
-//                                    System.out.println(patient.getName());
-                                    Intent intent = new Intent(ViewPatientsList.this, ExitHospitalActivity.class);
-                                    intent.putExtra("patitentInfor", patient);
-                                    intent.putExtra("isUpdated", false);
-
-//                                    boolean isUpdated = getIntent().getExtras().getBoolean("isUpdated");
-//                                    System.out.println(isUpdated);
-                                    startActivity(intent);
-                                }
-                            });
-
-//                            System.out.println(isUpdated);
-                            if (isUpdated) {
-//                                Xoa benh nhan:
-//                                - Co them 1 field boolean cho patient
-//                                - Check boolean nay truoc khi dua vao list
-//                                - Neu false thi cho vao list, true thi cho cook
-                                ArrayList<patientUser> updatedPatientList = new ArrayList<>();
-                                for (patientUser patient : patientList) {
-                                    if (!patient.isStatus()) {
-                                        updatedPatientList.add(patient);
-                                    }
-                                }
-                                patientList = updatedPatientList;
-                            }
+                            System.out.println(patientList);
+                            adapter = new CustomAdapter(patientList,ViewPatientsList.this);
+//                            System.out.println(adapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(ViewPatientsList.this));
                             recyclerView.setAdapter(adapter);
 

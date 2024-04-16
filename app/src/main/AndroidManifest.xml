@@ -64,6 +64,8 @@
             android:label="xemthuoc_activity"
             android:exported="true"/>
         <activity
+            android:name=".ui.home.HomeListActivity" />
+        <activity
             android:name=".LoginActivity"
             android:exported="true"
             android:label="@string/app_name">

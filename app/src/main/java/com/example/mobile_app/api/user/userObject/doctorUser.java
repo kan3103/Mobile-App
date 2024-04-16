@@ -11,9 +11,10 @@ public class doctorUser implements userInterface, Serializable {
     protected String Name;
     protected String Specialty;
     protected String Address;
+    protected String Sex;
     protected String PhoneNum;
     protected String citizenID;
-    protected int Experience;
+    protected String Experience;
     protected int PatientNum;
     protected Vector<String> PatientList;
     public doctorUser(String username, String password) {
@@ -22,7 +23,7 @@ public class doctorUser implements userInterface, Serializable {
         this.typeuser = "Doctor";
     }
 
-    public doctorUser(String username, String password, String ID, String name, String specialty, String address, String phoneNum, String citizenID, int experience, int patientNum, Vector<String> patientList) {
+    public doctorUser(String username, String password, String ID, String name, String specialty, String address, String phoneNum, String citizenID, String experience, int patientNum, Vector<String> patientList) {
         this.username = username;
         this.password = password;
         this.typeuser = "Doctor";
@@ -36,7 +37,13 @@ public class doctorUser implements userInterface, Serializable {
         PatientNum = patientNum;
         PatientList = patientList;
     }
-
+    public  doctorUser(String username,String name,String sex,String experience){
+        this.username=username;
+        this.typeuser="Doctor";
+        this.Name = name;
+        this.Sex = sex;
+        this.Experience=experience;
+    }
     public String getID() {
         return ID;
     }
@@ -85,11 +92,11 @@ public class doctorUser implements userInterface, Serializable {
         this.citizenID = citizenID;
     }
 
-    public int getExperience() {
+    public String getExperience() {
         return Experience;
     }
 
-    public void setExperience(int experience) {
+    public void setExperience(String experience) {
         Experience = experience;
     }
 
