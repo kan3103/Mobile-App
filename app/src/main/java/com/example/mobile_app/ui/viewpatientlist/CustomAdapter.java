@@ -40,7 +40,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.row_item_doctor, viewGroup, false);
+                .inflate(R.layout.row_item_patient, viewGroup, false);
 
         return new ViewHolder(view);
     }
