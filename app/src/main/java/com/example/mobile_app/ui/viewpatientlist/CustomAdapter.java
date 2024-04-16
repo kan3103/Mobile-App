@@ -39,8 +39,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.row_item_patient, viewGroup, false);
+        View view;
+        if(list.get(0).getSymptoms().equals("")){view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.row_item_patient, viewGroup, false);}
+        else{
+            view = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.row_item_doctor, viewGroup, false);
+        }
 
         return new ViewHolder(view);
     }
@@ -49,13 +54,23 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         final int index=viewHolder.getAdapterPosition();
 
-        String name = list.get(position).getName();
-        String phoneNumber = list.get(position).getPhoneNumber();
-        String age = list.get(position).getAge();
+        if(list.get(0).getSymptoms().equals("")){
+            String name = list.get(position).getName();
+            String phoneNumber = list.get(position).getPhoneNumber();
+            String age = list.get(position).getAge();
 
-        viewHolder.patientName.setText(name);
-        viewHolder.patientPhoneNumber.setText(phoneNumber);
-        viewHolder.patientAge.setText(age);
+            viewHolder.patientName.setText(name);
+            viewHolder.patientPhoneNumber.setText(phoneNumber);
+            viewHolder.patientAge.setText(age);
+        }else {
+            String name = list.get(position).getName();
+            String phoneNumber = list.get(position).getPhoneNumber();
+            String symptoms = list.get(position).getSymptoms();
+
+            viewHolder.patientName.setText(name);
+            viewHolder.patientPhoneNumber.setText(phoneNumber);
+            viewHolder.patientAge.setText(symptoms);
+        }
 
     }
 

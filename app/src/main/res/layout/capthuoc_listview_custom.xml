@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Ten thuoc"
-        android:textSize="35dp"
+        android:textSize="25dp"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,14 +21,15 @@
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:text="Số lượng : "
-        android:textSize="30dp"
+        android:textColor="@color/black"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/drugName_capthuoc" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
