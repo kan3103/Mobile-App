@@ -128,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
         String password = editTextPassword.getText().toString().trim();
         String mobile = editTextMobile.getText().toString().trim();
         String birthday = editTextBirthday.getText().toString().trim();
-        String nationality = editTextBirthday.getText().toString().trim();
+        String citizenID = editTextBirthday.getText().toString().trim();
         String address = editTextAddress.getText().toString().trim();
         String job = editTextJob.getText().toString().trim();
 
@@ -215,7 +215,7 @@ public class RegisterActivity extends AppCompatActivity {
         System.out.println("Clicked register");
         Log.v("updating", "updating");
         Document newPatient = new Document().append("name", fullName).append("userName", userName).append("password", password)
-                .append("phoneNum", mobile).append("birthday", birthday).append("nationality", nationality)
+                .append("phoneNum", mobile).append("birthday", birthday).append("citizedID", citizenID)
                 .append("address", address).append("occupation", job).append("sex", gender);
 
         Document filter = new Document().append("userName", userName);
