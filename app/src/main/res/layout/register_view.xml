@@ -154,7 +154,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:hint="Nationality">
+        android:hint="citizenID">
 
         <!--this is the actual edit text which takes the input-->
         <com.google.android.material.textfield.TextInputEditText
@@ -182,12 +182,12 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/patient_address"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="61dp"
+            android:gravity="top|start"
             android:inputType="textMultiLine"
             android:lines="3"
-            android:gravity="top|start"
             android:maxLines="3"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

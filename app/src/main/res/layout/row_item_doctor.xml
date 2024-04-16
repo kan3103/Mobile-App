@@ -48,17 +48,17 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/doctoritem_textViewSexHeading"
+                android:id="@+id/doctoritem_textViewPhoneNumberHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
-                android:text="Sex:"
+                android:text="PhoneNumber:"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/doctoritem_textViewSex"
+                android:id="@+id/doctoritem_textViewPhoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""

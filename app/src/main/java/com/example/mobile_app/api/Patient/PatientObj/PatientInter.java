@@ -21,8 +21,8 @@ public interface PatientInter {
     String getBloodType();
     void setOccupation(String occupation);
     String getOccupation();
-    void setNationality(String nationality);
-    String getNationality();
+    void setcitizenID(String nationality);
+    String getcitizenID();
     void setReligion(String religion);
     String getReligion();
     void setBirth(String birth);

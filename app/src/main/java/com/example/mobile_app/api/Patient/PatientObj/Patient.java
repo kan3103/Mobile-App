@@ -13,7 +13,7 @@ public class Patient {
     private String BloodType;
     private String bloodType;
     private String occupation;
-    private String nationality;
+    private String citizenID;
     private String religion;
     private String birth;
     private String age;
@@ -29,16 +29,16 @@ public class Patient {
         this.healthInsuranceID = healthInsuranceID;
         this.bloodType = bloodType;
         this.occupation = occupation;
-        this.nationality = nationality;
+        this.citizenID = citizenID;
         this.religion = religion;
         this.birth = birth;
         this.age = age;
         this.insuranceType = insuranceType;
     }
 
-    public Patient(String name, String sex, String age) {
+    public Patient(String name, String phoneNumber, String age) {
         this.name = name;
-        this.sex = sex;
+        this.phoneNumber = phoneNumber;
         this.age = age;
     }
     public String getName() {
@@ -113,12 +113,12 @@ public class Patient {
         this.occupation = occupation;
     }
 
-    public String getNationality() {
-        return nationality;
+    public String getCitizenID() {
+        return citizenID;
     }
 
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
+    public void setCitizenID(String citizenID) {
+        this.citizenID = citizenID;
     }
 
     public String getReligion() {
