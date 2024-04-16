@@ -46,7 +46,7 @@ public class capthuoc_acti extends AppCompatActivity {
     MongoClient mongoClient1;
     MongoCollection<Document> mongoCollection1;
 
-    boolean found = false;
+    String numberDrug = "";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +77,7 @@ public class capthuoc_acti extends AppCompatActivity {
         });
 
         button = findViewById(R.id.button_capthuoc);
-        tenthuoc = new ArrayList<>(Arrays.asList("Pencilin" , "Paracetamol" , "Prospan" , "Vitamin B1" , "Petol" , "Gastro" , "Gaviscon" , "V.ROHTO" , "Seduxen" , "Nautamine") );
+        tenthuoc = new ArrayList<>(Arrays.asList( "Pencilin", "Paracetamol" , "Prospan" , "Vitamin B1" , "Petol" , "Gastro" , "Gaviscon" , "V.ROHTO" , "Seduxen" , "Nautamine") );
 
         capthuoc_adap adapter = new capthuoc_adap(this,R.layout.capthuoc_listview_custom, tenthuoc) ;
         listView = findViewById(R.id.list_view_capthuoc) ;
@@ -105,42 +105,50 @@ public class capthuoc_acti extends AppCompatActivity {
         //EditText editText = (EditText) listView.getChildAt(1).findViewById(R.id.sl_thuoc_capathuoc);
         Log.d("ChildCount", "Number of children in listView: " + listView.getChildCount());
 
+//        int minCount = Math.min(listView.getChildCount(), tenthuoc.size());
         for (int i = 0; i <listView.getChildCount() ; i++) {
+
             EditText editText2 = (EditText) listView.getChildAt(i).findViewById(R.id.sl_thuoc_capathuoc);
             String text = editText2.getText().toString();
+            numberDrug = text;
+            Log.v("DAngtest", "Text: ");
+            Log.d("Stringtext", "Text: " + text);
             // Xử lý giá trị text tại đây
-            add_thuoc(id, tenthuoc.get(i), text, prescriptionDate);
-        }
 
-    }
+            if(!text.equals("0")){
+                find_thuoc(tenthuoc.get(i), Integer.parseInt(numberDrug));
+                Log.v("updating", "updating");
+                Document filter = new Document().append("id", id);
+                Document drugListObject = new Document(); // Tạo một đối tượng Document cho đơn thuốc
+                drugListObject.put("name", tenthuoc.get(i));
+                drugListObject.put("quantity", numberDrug);
+                drugListObject.put("prescritionDate", prescriptionDate);
+                Document update = new Document().append("$push", new Document().append("drugList", drugListObject));
 
-    public void add_thuoc( String id,String name, String sl, String prescriptionDate  ){
-        if(find_thuoc(name,sl)) {
-            Log.v("updating", "updating");
-            Document filter = new Document().append("id", id);
-            Document drugListObject = new Document(); // Tạo một đối tượng Document cho đơn thuốc
-            drugListObject.put("name", name);
-            drugListObject.put("quantity", sl);
-            drugListObject.put("prescritionDate", prescriptionDate);
-            Document update = new Document().append("$push", new Document().append("drugList", drugListObject));
-
-            mongoCollection.updateOne(filter, update, new UpdateOptions().upsert(true)).getAsync(result1 -> {
-                if (result1.isSuccess()) {
-                    long numModified = result1.get().getModifiedCount();
-                    if (numModified == 1) {
-                        Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_LONG).show();
-                        Log.v("Update", "Successfully updated document");
+                mongoCollection.updateOne(filter, update, new UpdateOptions().upsert(true)).getAsync(result1 -> {
+                    if (result1.isSuccess()) {
+                        long numModified = result1.get().getModifiedCount();
+                        if (numModified == 1) {
+                            Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_LONG).show();
+                            Log.v("Update", "Successfully updated document");
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_LONG).show();
+                            Log.v("Update", "Inserted new document");
+                        }
                     } else {
-                        Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_LONG).show();
-                        Log.v("Update", "Inserted new document");
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        Log.v("Update", "Failed to update document: " + result1.getError().toString());
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                    Log.v("Update", "Failed to update document: " + result1.getError().toString());
-                }
-            });
+                });
+            }
+
         }
+
     }
+
+//    public void add_thuoc( String id,String name, String sl, String prescriptionDate  ){
+//
+//    }
 
     public static String formatDate(int year, int month, int day) {
         Calendar calendar = Calendar.getInstance();
@@ -150,19 +158,17 @@ public class capthuoc_acti extends AppCompatActivity {
         return dateFormat.format(date);
     }
 
-    public boolean find_thuoc(String name, String soluong) {
-        int sl = Integer.parseInt(soluong);
-        mongoClient1 = user.getMongoClient("mongodb-atlas");
-        mongoDatabase1 = mongoClient1.getDatabase("Hospital");
-        mongoCollection1 = mongoDatabase1.getCollection("Drug");
+    public void find_thuoc(String name, int soluong) {
+//        Log.v("VOHAM", "FUNC: " );
 
+        //int new_sl = sl - 0 ;
         Realm.init(getApplicationContext());
         App app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
-        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
-            if(it.isSuccess()){
+        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456", it -> {
+            if (it.isSuccess()) {
                 Log.v("User", "Successfully registered user");
-            }else{
+            } else {
                 Log.v("User", "Failed to register user");
             }
         });
@@ -173,67 +179,79 @@ public class capthuoc_acti extends AppCompatActivity {
                 mongoClient1 = user.getMongoClient("mongodb-atlas");
                 mongoDatabase1 = mongoClient1.getDatabase("Hospital");
                 mongoCollection1 = mongoDatabase1.getCollection("Drug");
-            }
-        });
-        Document queryFilter = new Document("name", name);
-        mongoCollection1.findOne(queryFilter).getAsync(result -> {
-            if (result.isSuccess()) {
-                Document foundDocument = result.get();
-                if (foundDocument != null) {
-                    ArrayList<Document> prescriptionArray = foundDocument.get("prescription", ArrayList.class);
-                    for (int i = 0; i < prescriptionArray.size(); i++) {
-                        if (prescriptionArray != null && !prescriptionArray.isEmpty()) {
-                            if (sl != 0) {
-                                Document firstPrescription = prescriptionArray.get(i); // Lấy ra object đầu tiên trong mảng prescription
-                                String currentQuantity = firstPrescription.getString("quantity");
-                                int quantity = Integer.parseInt(currentQuantity);// Lấy ra số lượng hiện tại từ object đó
-                                int updatedQuantity = quantity - sl;
+                Document queryFilter = new Document("name", name);
+                mongoCollection1.findOne(queryFilter).getAsync(result1 -> {
+                    if (result1.isSuccess()) {
+                        Document foundDocument = result1.get();
+                        if (foundDocument != null) {
+                            ArrayList<Document> prescriptionArray = foundDocument.get("prescription", ArrayList.class);
+                            int sl = Integer.parseInt(soluong);
+                            int temp = 0;
+                            for (int i = 0; i < prescriptionArray.size(); i++) {
+                                if( sl == 0 ) continue;
+                                if (prescriptionArray != null && !prescriptionArray.isEmpty()) {
+                                    Document firstPrescription = prescriptionArray.get(i); // Lấy ra object đầu tiên trong mảng prescription
+                                    String currentQuantity = firstPrescription.getString("quantity");
+                                    int quantity = Integer.parseInt(currentQuantity);// Lấy ra số lượng hiện tại từ object đó
+                                    int updatedQuantity = quantity - sl;
+                                    Log.v("QUANTITY", "updatedQuantity " + updatedQuantity);
+                                    if (updatedQuantity <= 0) {
+                                        // Xóa tài liệu nếu số lượng sau khi giảm bằng hoặc nhỏ hơn 0
+                                        temp += quantity;
+                                        sl-=quantity ;
+                                        prescriptionArray.remove(i);
+                                        i--;
+                                        // Cập nhật lại mảng trong tài liệu MongoDB
+                                        Document update = new Document("$set", new Document("prescription", prescriptionArray));
+                                        mongoCollection1.updateOne(queryFilter, update).getAsync(deleteResult -> {
+                                            if (deleteResult.isSuccess()) {
+                                                Toast.makeText(getApplicationContext(), "Document updated", Toast.LENGTH_LONG).show();
+                                                Log.v("Update", "Successfully updated document");
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Failed to update document", Toast.LENGTH_LONG).show();
+                                                Log.v("Update", "Failed to update document: " + deleteResult.getError().toString());
+                                            }
+                                        });
+                                    } else {
+//                                        numberDrug = String.valueOf(sl;);
+                                        // Cập nhật số lượng mới vào object trong mảng prescription
+                                        temp += sl;
+                                        sl = 0 ;
+                                        //new_sl = 0 ;
+                                        firstPrescription.put("quantity", String.valueOf(updatedQuantity));
+                                        Document update = new Document("$set", new Document("prescription", prescriptionArray));
+                                        mongoCollection1.updateOne(queryFilter, update).getAsync(updateResult -> {
+                                            if (updateResult.isSuccess()) {
+                                                Toast.makeText(getApplicationContext(), "Document updated", Toast.LENGTH_LONG).show();
+                                                Log.v("Update", "Successfully updated document");
 
-                                if (updatedQuantity <= 0) {
-                                    // Xóa tài liệu nếu số lượng sau khi giảm bằng hoặc nhỏ hơn 0
-                                    mongoCollection1.deleteOne(queryFilter).getAsync(deleteResult -> {
-                                        if (deleteResult.isSuccess()) {
-                                            Toast.makeText(getApplicationContext(), "Document deleted", Toast.LENGTH_LONG).show();
-                                            Log.v("Delete", "Successfully deleted document");
-                                            found = true;
-                                            return;
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), "Failed to delete document", Toast.LENGTH_LONG).show();
-                                            Log.v("Delete", "Failed to delete document: " + deleteResult.getError().toString());
-                                        }
-                                    });
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Failed to update document", Toast.LENGTH_LONG).show();
+                                                Log.v("Update", "Failed to update document: " + updateResult.getError().toString());
+                                            }
+                                        });
+                                    }
+
+
                                 } else {
-                                    // Cập nhật số lượng mới vào object trong mảng prescription
-                                    firstPrescription.put("quantity", String.valueOf(updatedQuantity));
-                                    Document update = new Document("$set", new Document("prescription", prescriptionArray));
-                                    mongoCollection1.updateOne(queryFilter, update).getAsync(updateResult -> {
-                                        if (updateResult.isSuccess()) {
-                                            Toast.makeText(getApplicationContext(), "Document updated", Toast.LENGTH_LONG).show();
-                                            Log.v("Update", "Successfully updated document");
-                                            found = true;
-                                            return;
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), "Failed to update document", Toast.LENGTH_LONG).show();
-                                            Log.v("Update", "Failed to update document: " + updateResult.getError().toString());
-                                        }
-                                    });
+                                    Toast.makeText(getApplicationContext(), "Prescription array is empty", Toast.LENGTH_LONG).show();
+                                    Log.v("Prescription", "Prescription array is empty");
                                 }
+
                             }
+                            numberDrug = String.valueOf(temp);
                         } else {
-                            Toast.makeText(getApplicationContext(), "Prescription array is empty", Toast.LENGTH_LONG).show();
-                            Log.v("Prescription", "Prescription array is empty");
+                            Toast.makeText(getApplicationContext(), "Document not found", Toast.LENGTH_LONG).show();
+                            Log.v("Find", "Document not found");
                         }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Error finding document", Toast.LENGTH_LONG).show();
+                        Log.v("Find", "Error finding document: " + result.getError().toString());
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Document not found", Toast.LENGTH_LONG).show();
-                    Log.v("Find", "Document not found");
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), "Error finding document", Toast.LENGTH_LONG).show();
-                Log.v("Find", "Error finding document: " + result.getError().toString());
+                });
             }
         });
-        return found;
+
     }
 
 }
