@@ -1,22 +1,18 @@
 package com.example.mobile_app.ui.dashboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.mobile_app.Data.Doctor;
+
+
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
 import com.example.mobile_app.api.user.userObject.patientUser;
@@ -24,33 +20,23 @@ import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.FragmentDashboardBinding;
 
 import java.util.ArrayList;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
+
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mobile_app.Data.Doctor;
-import com.example.mobile_app.R;
-import com.example.mobile_app.ui.viewpatientlist.ViewDoctorsList;
+import com.example.mobile_app.ui.viewpatientlist.CustomAdapter;
+
 
 import org.bson.Document;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.realm.mongodb.mongo.MongoCollection;
+import io.realm.mongodb.mongo.iterable.MongoCursor;
 import io.realm.mongodb.mongo.options.UpdateOptions;
+
 
 public class DashboardFragment extends Fragment {
 
@@ -58,6 +44,9 @@ public class DashboardFragment extends Fragment {
     MainActivity mainActivity;
     userInterface user;
     private View view;
+    CustomAdapter adapter;
+    RecyclerView recyclerView;
+    ArrayList<patientUser> patientList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -72,26 +61,23 @@ public class DashboardFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if(user instanceof patientUser){
-                        EditText name,username,birthday,symtomps;
-
+                        EditText name,birthday,symtomps;
                         name = getView().findViewById(R.id.board_name);
-                        username = getView().findViewById(R.id.board_id);
                         birthday = getView().findViewById(R.id.board_birthday);
                         symtomps = getView().findViewById(R.id.board_symptoms);
                         // Tạo một tài liệu mới với thông tin từ các trường dữ liệu trên giao diện người dùng
-                        Document filter = new Document().append("username", username.getText().toString().trim());
+                        Document filter = new Document().append("username", mainActivity.getUser().getUsername());
                         Document newDoctor = new Document()
-                                .append("username", username.getText().toString().trim())
+                                .append("username", mainActivity.getUser().getUsername())
                                 .append("name", name.getText().toString().trim())
-                                .append("birthday",birthday.getText().toString().trim())
-                                .append("symtomps",symtomps.getText().toString().trim());
+                                .append("phoneNumber",birthday.getText().toString().trim())
+                                .append("symptoms",symtomps.getText().toString().trim());
                         // Thêm tài liệu mới vào collection "Doctor"
                         MongoCollection mongoCollection = mainActivity.mongoCollection;
                         mongoCollection = mainActivity.mongoDatabase.getCollection("Register");
                         mongoCollection.updateOne(filter,newDoctor,new UpdateOptions().upsert(true)).getAsync(result -> {
                             if(result.isSuccess()){
                                 Toast.makeText(getContext(),"Register succesful", Toast.LENGTH_LONG).show();
-                                username.setText("");
                                 name.setText("");
                                 birthday.setText("");
                                 symtomps.setText("");
@@ -104,9 +90,31 @@ public class DashboardFragment extends Fragment {
             });
         }
         else{
-            view = inflater.inflate(R.layout.activity_view_patient_list,container,false);
-            Intent intent = new Intent(view.getContext(), ViewDoctorsList.class);
-            startActivity(intent);
+            view = inflater.inflate(R.layout.activity_view_doctors_list,container,false);
+            recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+            MongoCollection mongoCollection = mainActivity.mongoCollection;
+            mongoCollection = mainActivity.mongoDatabase.getCollection("Register");
+            mongoCollection.find().iterator().getAsync(task -> {
+                if (task.isSuccess()) {
+                    MongoCursor<Document> results = (MongoCursor<Document>) task.get();
+                    while (results.hasNext()) {
+                        Document currentDocument = results.next();
+                        String symtomps = currentDocument.getString("symptoms");
+                        String phoneNum = currentDocument.getString("phoneNumber");
+                        String name = currentDocument.getString("name");
+
+                        patientList.add(new patientUser(name, "",phoneNum,symtomps));
+                    }
+                    adapter = new CustomAdapter(patientList, getContext());
+
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.setAdapter(adapter);
+                    System.out.println(recyclerView);
+
+                } else {
+                    Log.e("APP", "Failed to find documents with: ", task.getError());
+                }
+            });
         }
 
         return view;

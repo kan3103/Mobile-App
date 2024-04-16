@@ -90,19 +90,9 @@
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
             android:textColor="@color/black"
-            android:hint="Your Birthday" />
+            android:hint="Your Phone" />
 
-        <EditText
-            android:id="@+id/board_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/board_birthday"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:backgroundTint="#CC3399"
-            android:textColor="@color/black"
-            android:hint="Your ID" />
+
 
         <EditText
             android:id="@+id/board_symptoms"
@@ -111,10 +101,10 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
-            android:layout_below="@id/board_id"
+            android:layout_below="@id/board_birthday"
             android:layout_marginTop="16dp"
             android:textColor="@color/black"
-            android:hint="Your symptoms"/>
+            android:hint="Your Symptoms"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

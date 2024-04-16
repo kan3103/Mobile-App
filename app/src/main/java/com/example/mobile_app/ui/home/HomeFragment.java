@@ -7,29 +7,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.mobile_app.R;
 import com.example.mobile_app.databinding.FragmentHomeBinding;
 public class HomeFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
-
+    private View view;
+//    private FragmentHomeBinding binding;
+    private CardView dsach_khoa,overview;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
+        view= inflater.inflate(R.layout.fragment_home, container, false);
+        dsach_khoa = view.findViewById(R.id.home_dsach);
+        overview = view.findViewById(R.id.home_overview);
+        return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+        view =null;
     }
 }
