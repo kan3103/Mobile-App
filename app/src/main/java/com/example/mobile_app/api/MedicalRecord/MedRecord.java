@@ -33,6 +33,7 @@ public class MedRecord implements Serializable {
         String date;
         String RevisionDate;
 
+
         // methods
         // constructor
         public Record(String weight, String height, String doctor,

@@ -126,7 +126,7 @@ public class loginPatient extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         System.out.println("1");
         progressBar.setVisibility(View.VISIBLE);
-        Intent intent=new Intent(loginPatient.this,ViewDoctorsList.class);
+        Intent intent=new Intent(loginPatient.this, ViewDoctorsList.class);
         startActivity(intent);
         progressBar.setVisibility(View.GONE);
         System.out.println("1");

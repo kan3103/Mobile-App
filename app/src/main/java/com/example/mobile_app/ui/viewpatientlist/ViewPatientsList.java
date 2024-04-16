@@ -96,10 +96,10 @@ public class ViewPatientsList extends AppCompatActivity {
                                 String name = patient.getString("name");
                                 String age = patient.getString("age");
                                 String phoneNumber = patient.getString("phoneNumber");
-//                                boolean isUpdated = patient.getStatus("isUpdated");
-//                                Kiem tra field boolean updated trong patient
+                                Boolean isUpdatedObject = patient.getBoolean("isUpdated");
+                                boolean isUpdated = isUpdatedObject != null ? isUpdatedObject : false;//                                Kiem tra field boolean updated trong patient
 //                                if (isUpdated) {
-                                    patientList.add(new patientUser(name, age, phoneNumber));
+                                    patientList.add(new patientUser(name, age, phoneNumber,isUpdated));
 //                                }
 
                             }
@@ -123,6 +123,13 @@ public class ViewPatientsList extends AppCompatActivity {
 //                                - Co them 1 field boolean cho patient
 //                                - Check boolean nay truoc khi dua vao list
 //                                - Neu false thi cho vao list, true thi cho cook
+                                ArrayList<patientUser> updatedPatientList = new ArrayList<>();
+                                for (patientUser patient : patientList) {
+                                    if (!patient.isStatus()) {
+                                        updatedPatientList.add(patient);
+                                    }
+                                }
+                                patientList = updatedPatientList;
                             }
                             recyclerView.setLayoutManager(new LinearLayoutManager(ViewPatientsList.this));
                             recyclerView.setAdapter(adapter);

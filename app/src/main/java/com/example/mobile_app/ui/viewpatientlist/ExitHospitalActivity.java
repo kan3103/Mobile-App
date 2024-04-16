@@ -42,7 +42,7 @@ public class ExitHospitalActivity extends AppCompatActivity {
     MongoCollection<Document> mongoCollection;
     private ExitHospitalFormBinding binding;
     private Button btn2;
-    private EditText name, username, birthday, symtomps;
+    private EditText name, id, dateOut, bloodType;
     private User user;
     public boolean isUpdated;
     private ProgressBar progressBar;
@@ -56,9 +56,9 @@ public class ExitHospitalActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         name = findViewById(R.id.board_name);
-        username = findViewById(R.id.board_id);
-        birthday = findViewById(R.id.board_birthday);
-        symtomps = findViewById(R.id.board_symptoms);
+        id = findViewById(R.id.board_id);
+        dateOut = findViewById(R.id.board_dateOut);
+        bloodType = findViewById(R.id.board_bloodType);
         btn2 = (Button) findViewById(R.id.board_xacnhan);
 
         Realm.init(getApplicationContext());
@@ -102,13 +102,6 @@ public class ExitHospitalActivity extends AppCompatActivity {
                 mongoClient = user.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
                 mongoCollection = mongoDatabase.getCollection("Patient");
-
-                if (mongoCollection == null) {
-                    System.out.println(user);
-                    System.out.println(mongoClient);
-                    System.out.println(mongoDatabase);
-                    System.out.println("Collection Null ma cung xai?");
-                }
             }
         });
 
@@ -123,10 +116,10 @@ public class ExitHospitalActivity extends AppCompatActivity {
 
     private void fillPatientInfor() {
         //Inputs
-        String fullName = name.getText().toString().trim();
-        String userName = username.getText().toString().trim();
-        String birthDay = birthday.getText().toString().trim();
-        String symTomps = symtomps.getText().toString().trim();
+        String patientName = name.getText().toString().trim();
+        String ID = id.getText().toString().trim();
+        String DateOut = dateOut.getText().toString().trim();
+        String BloodType = bloodType.getText().toString().trim();
 
 //        username.setText();
 //        username.setFocusable(false);
@@ -139,12 +132,11 @@ public class ExitHospitalActivity extends AppCompatActivity {
 
 
         Log.v("updating","updating");
-        Document filter = new Document().append("username", userName);
-//        Document update = new Document().append("$set", new Document().append("data", "Finding"));
-        Document updatedPatient = new Document().append("name", fullName).append("username", userName).
-                append("birthday", birthDay).append("symtomps", symTomps);
+        Document filter = new Document().append("id", ID);
+        Document updatedPatient = new Document().append("dateOut", DateOut).append("bloodType", BloodType);
+        Document update = new Document().append("$set", new Document().append("medicalRecord.0", updatedPatient));
 
-        mongoCollection.updateOne(filter, updatedPatient, new UpdateOptions().upsert(true)).getAsync(result -> {
+        mongoCollection.updateOne(filter, update).getAsync(result -> {
             if(result.isSuccess()) {
                 Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
                 intent.putExtra("isUpdated", true);
@@ -163,7 +155,6 @@ public class ExitHospitalActivity extends AppCompatActivity {
                 Log.v("Update", "Failed to update document: " + result.getError().toString());
             }
         });
-
 
 
         System.out.println("Clicked register");

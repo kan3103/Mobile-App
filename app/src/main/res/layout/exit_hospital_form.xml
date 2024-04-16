@@ -43,7 +43,7 @@
             android:id="@+id/welcome_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome Patient"
+            android:text="Welcome, Doctor"
             android:textSize="25sp"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
@@ -78,10 +78,10 @@
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
             android:textColor="#CC3399"
-            android:hint="Your name" />
+            android:hint="Patient's Name" />
 
         <EditText
-            android:id="@+id/board_birthday"
+            android:id="@+id/board_dateOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/board_name"
@@ -90,22 +90,22 @@
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
             android:textColor="@color/black"
-            android:hint="Your Birthday" />
+            android:hint="Date out" />
 
         <EditText
             android:id="@+id/board_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/board_birthday"
+            android:layout_below="@id/board_dateOut"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
             android:textColor="@color/black"
-            android:hint="Your ID" />
+            android:hint="ID" />
 
         <EditText
-            android:id="@+id/board_symptoms"
+            android:id="@+id/board_bloodType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -114,13 +114,13 @@
             android:layout_below="@id/board_id"
             android:layout_marginTop="16dp"
             android:textColor="@color/black"
-            android:hint="Your symptoms"/>
+            android:hint="BloodType"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:gravity="center"
-            android:layout_below="@+id/board_symptoms">
+            android:layout_below="@+id/board_bloodType">
             <Button
                 android:layout_width="wrap_content"
                 android:text="Xác nhận"
