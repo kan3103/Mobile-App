@@ -24,6 +24,7 @@ import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.ui.add_user.AddUserActivity;
 import com.example.mobile_app.ui.capthuoc_frag.capthuoc_acti;
 import com.example.mobile_app.ui.nhapthuoc.nhapthuoc_acti;
+import com.example.mobile_app.ui.thuoc_patient.xemthuoc_acti;
 import com.example.mobile_app.ui.viewpatientlist.ViewDoctorsList;
 import com.example.mobile_app.ui.media_record.RecordActivity;
 import com.example.mobile_app.ui.profile_frag.profile_activity;
@@ -110,6 +111,11 @@ public class SettingsFragment extends Fragment {
                     Log.v("okeee",user.getTypeuser());
                     startActivity(new Intent(getActivity(), nhapthuoc_acti.class));
                 }
+                else if( position == 2 && user.getTypeuser().equals("Patient") ){
+                    Intent intent = new Intent(getActivity(), xemthuoc_acti.class);
+                    if(user instanceof patientUser )intent.putExtra("userobject", (patientUser) user);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -119,7 +125,6 @@ public class SettingsFragment extends Fragment {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
-
         return mview;
     }
 
