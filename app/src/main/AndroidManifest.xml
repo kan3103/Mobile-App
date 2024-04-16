@@ -21,6 +21,11 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".ui.viewpatientlist.ViewPatientsList"
+            android:label="Patients"
+            android:parentActivityName=".ui.viewpatientlist.loginPatient"
+            android:exported="false" />
+        <activity
             android:name=".ui.viewpatientlist.ViewDoctorsList"
             android:label="Doctors"
             android:parentActivityName=".ui.viewpatientlist.loginPatient"
@@ -44,6 +49,10 @@
         <activity
             android:name=".ui.register.RegisterActivity"
             android:label="Register"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.nhapthuoc.nhapthuoc_acti"
+            android:label="nhapthuoc_activity"
             android:exported="true"/>
         <activity
             android:name=".LoginActivity"
