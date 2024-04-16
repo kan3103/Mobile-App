@@ -9,13 +9,13 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobile_app.R;
-import com.example.mobile_app.api.Patient.PatientObj.Patient;
+import com.example.mobile_app.api.user.userObject.patientUser;
 
 import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
-    private ArrayList<Patient> list;
+    private ArrayList<patientUser> list;
     Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -32,7 +32,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
     }
 
-    public CustomAdapter(ArrayList<Patient> list,Context context) {
+    public CustomAdapter(ArrayList<patientUser> list, Context context) {
         this.list=list;
         this.context=context;
     }

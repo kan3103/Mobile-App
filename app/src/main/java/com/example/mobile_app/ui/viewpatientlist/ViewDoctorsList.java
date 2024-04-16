@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.mobile_app.Data.Doctor;
 import com.example.mobile_app.R;
-import com.example.mobile_app.api.Patient.PatientObj.Patient;
+import com.example.mobile_app.api.user.userObject.patientUser;
 
 import org.bson.Document;
 
@@ -32,7 +32,7 @@ public class ViewDoctorsList extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Doctor> doctorList = new ArrayList<>();
 
-    ArrayList<Patient> patientList = new ArrayList<>();
+    ArrayList<patientUser> patientList = new ArrayList<>();
 
     String Appid = "mobileapp-fyjbw";
     MongoDatabase mongoDatabase;
@@ -94,7 +94,7 @@ public class ViewDoctorsList extends AppCompatActivity {
                                 String name = patient.getString("name");
                                 String age = patient.getString("age");
                                 String phoneNumber = patient.getString("phoneNumber");
-                                patientList.add(new Patient(name,phoneNumber , age));
+                                patientList.add(new patientUser(name,age,phoneNumber));
 
                             }
                             System.out.println(patientList);
