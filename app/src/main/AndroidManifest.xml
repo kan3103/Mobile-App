@@ -26,6 +26,11 @@
             android:parentActivityName=".ui.viewpatientlist.loginPatient"
             android:exported="false" />
         <activity
+            android:name=".ui.viewpatientlist.ExitHospitalActivity"
+            android:label="Doctors"
+            android:parentActivityName=".ui.viewpatientlist.ViewPatientsList"
+            android:exported="false" />
+        <activity
             android:name=".ui.viewpatientlist.ViewDoctorsList"
             android:label="Doctors"
             android:parentActivityName=".ui.viewpatientlist.loginPatient"
