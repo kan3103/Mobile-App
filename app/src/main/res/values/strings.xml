@@ -1,6 +1,7 @@
 <resources>
     <!--    <string name="app_name">Medi-Consult</string>-->
     <string name="emailHint">E-mail</string>
+    <string name="userNameHint">Username</string>
     <string name="passwordHint">Password</string>
     <string name="invalidCredentialsMsg">Invalid Credentials</string>
     <string name="feesRangeSpecification">\*Fees should be less than Rs. 1000</string>

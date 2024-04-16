@@ -10,16 +10,15 @@ public class Patient {
     private String id;
     private MedRecord medicalRecord;
     private String healthInsuranceID;
-    private String BloodType;
     private String bloodType;
     private String occupation;
-    private String nationality;
+    private String citizenID;
     private String religion;
     private String birth;
-    private int age;
+    private String age;
     private boolean insuranceType;
 
-    public Patient(String name, String sex, String address, String phoneNumber, String id, MedRecord medicalRecord, String healthInsuranceID, String bloodType, String occupation, String nationality, String religion, String birth, int age, boolean insuranceType) {
+    public Patient(String name, String sex, String address, String phoneNumber, String id, MedRecord medicalRecord, String healthInsuranceID, String bloodType, String occupation, String nationality, String religion, String birth, String age, boolean insuranceType) {
         this.name = name;
         this.sex = sex;
         this.address = address;
@@ -29,13 +28,18 @@ public class Patient {
         this.healthInsuranceID = healthInsuranceID;
         this.bloodType = bloodType;
         this.occupation = occupation;
-        this.nationality = nationality;
+        this.citizenID = citizenID;
         this.religion = religion;
         this.birth = birth;
         this.age = age;
         this.insuranceType = insuranceType;
     }
 
+    public Patient(String name, String phoneNumber, String age) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.age = age;
+    }
     public String getName() {
         return name;
     }
@@ -108,12 +112,12 @@ public class Patient {
         this.occupation = occupation;
     }
 
-    public String getNationality() {
-        return nationality;
+    public String getCitizenID() {
+        return citizenID;
     }
 
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
+    public void setCitizenID(String citizenID) {
+        this.citizenID = citizenID;
     }
 
     public String getReligion() {
@@ -132,11 +136,11 @@ public class Patient {
         this.birth = birth;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

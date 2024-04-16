@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -32,31 +33,37 @@ import io.realm.mongodb.mongo.MongoDatabase;
 
 public class profile_activity extends AppCompatActivity {
 
-    String Appid = "mobileapp-fyjbw";
+    public String Appid = "mobileapp-fyjbw";
+    private
     MongoDatabase mongoDatabase;
-    MongoClient mongoClient;
-    MongoCollection<org.bson.Document> mongoCollection;
-    User user;
-    String userName ;
-    ArrayList<Item_list> items ;
-    ListView listView ;
-
+    private MongoClient mongoClient;
+    private MongoCollection<Document> mongoCollection;
+    private  User user;
+    private String userName ;
+    private ArrayList<Item_list> items ;
+    private ListView listView ;
+    private TextView pro5name;
+    private App app;
+    public userInterface user1;
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.profile_layout);
-
-        items = new ArrayList<>(); // Khởi tạo items
-
-
+        listView = findViewById(R.id.pro5list);
+        pro5name = findViewById(R.id.pro5name);
+        Intent intent = getIntent();
+        if(intent != null) {
+            user1 = (userInterface) intent.getSerializableExtra("userobject");
+        }
         Realm.init(getApplicationContext());
-        App app = new App(new AppConfiguration.Builder(Appid).build());
+        app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
-        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456", it -> {
-            if (it.isSuccess()) {
+
+        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
+            if(it.isSuccess()){
                 Log.v("User", "Successfully registered user");
-            } else {
+            }else{
                 Log.v("User", "Failed to register user");
             }
         });
@@ -66,26 +73,58 @@ public class profile_activity extends AppCompatActivity {
                 user = app.currentUser();
                 mongoClient = user.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
-                mongoCollection = mongoDatabase.getCollection("Patient");
-            }
-        });
-        mongoCollection = mongoDatabase.getCollection(userName);
-        org.bson.Document document = new Document().append("username",userName);
-        mongoCollection.findOne(document).getAsync(result -> {
-            if (result.isSuccess()) {
-                org.bson.Document doc = result.get();
-                ArrayList<String> keys = new ArrayList<>(Arrays.asList("name", "sex", "userName", "phoneNum", "birthday", "nationality", "address", "occupation"));
-                for (int index = 0; index < 8; index++) {
-                    String descrip = doc.getString(keys.get(index));
-                    items.add(new Item_list(keys.get(index), descrip));
-                }
+                mongoCollection = mongoDatabase.getCollection(user1.getTypeuser());
+                Document document = new Document().append("username", user1.getUsername());
+                items = new ArrayList<>();
 
-                profile_adap adapter = new profile_adap(items, getApplicationContext());
-                listView.setAdapter(adapter);
-            } else {
-                Toast.makeText(getApplicationContext(), "FAIL", Toast.LENGTH_LONG).show();
+                mongoCollection.findOne(document).getAsync(result1 -> {
+                    if (result1.isSuccess()) {
+                        Document doc = result1.get();
+                        setpro5(doc);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "FAIL", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
+
+    }
+    public void setpro5(Document doc){
+        if(user1.getTypeuser().equals("Patient")) {
+            ArrayList<String> keys = new ArrayList<>(Arrays.asList("name", "sex",  "birthday","phoneNum", "nationality", "address", "occupation"));
+            ArrayList<String> key2 = new ArrayList<>(Arrays.asList("Name", "Sex",  "Birthday", "Phone number", "Nationality", "Address", "Occupation"));
+            for (int index = 0; index < keys.size(); index++) {
+                String descrip = doc.containsKey(keys.get(index)) ? doc.getString(keys.get(index)) : "";
+                items.add(new Item_list(keys.get(index), descrip));
+                Log.v("test",descrip);
+            }
+            profile_adap adapter = new profile_adap(items, getApplicationContext());
+            pro5name.setText(doc.getString("name"));
+            listView.setAdapter(adapter);
+        }
+        else if(user1.getTypeuser().equals("Doctor")){
+            ArrayList<String> keys = new ArrayList<>(Arrays.asList("name", "sex",  "birthday", "specialty","phoneNum", "nationality", "address", "occupation"));
+            ArrayList<String> key2 = new ArrayList<>(Arrays.asList("Name", "Sex",  "Birthday", "Specialty","Phone number", "Nationality", "Address", "Occupation"));
+            for (int index = 0; index < keys.size(); index++) {
+                String descrip = doc.containsKey(keys.get(index)) ? doc.getString(keys.get(index)) : "";
+                items.add(new Item_list(key2.get(index), descrip));
+                Log.v("test",descrip);
+            }
+            profile_adap adapter = new profile_adap(items, getApplicationContext());
+            pro5name.setText(doc.getString("name"));
+            listView.setAdapter(adapter);
+        }else {
+            ArrayList<String> keys = new ArrayList<>(Arrays.asList("name", "sex",  "birthday", "specialty","phoneNum", "nationality", "address", "occupation"));
+            ArrayList<String> key2 = new ArrayList<>(Arrays.asList("Name", "Sex",  "Birthday", "Specialty","Phone number", "Nationality", "Address", "Occupation"));
+            for (int index = 0; index < keys.size(); index++) {
+                String descrip = doc.containsKey(keys.get(index)) ? doc.getString(keys.get(index)) : "";
+                items.add(new Item_list(key2.get(index), descrip));
+                Log.v("test",descrip);
+            }
+            profile_adap adapter = new profile_adap(items, getApplicationContext());
+            pro5name.setText(doc.getString("name"));
+            listView.setAdapter(adapter);
+        }
 
     }
 }

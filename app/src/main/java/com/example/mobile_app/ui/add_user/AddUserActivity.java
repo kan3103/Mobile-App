@@ -40,7 +40,7 @@ public class AddUserActivity extends AppCompatActivity {
     MongoClient mongoClient;
     MongoCollection<Document> mongoCollection;
     User user;
-    EditText username,pass,name,birth,specialty;
+    EditText username,pass,name,birth,specialty,sex,nationality,phone;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +52,9 @@ public class AddUserActivity extends AppCompatActivity {
         name = findViewById(R.id.add_name);
         birth = findViewById(R.id.add_birthday);
         specialty = findViewById(R.id.add_specialty);
+        sex = findViewById(R.id.add_sex);
+        nationality = findViewById(R.id.add_nationality);
+        phone = findViewById(R.id.add_phone);
         Realm.init(getApplicationContext());
         App app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
@@ -82,7 +85,10 @@ public class AddUserActivity extends AppCompatActivity {
                         .append("password", pass.getText().toString().trim())
                         .append("name", name.getText().toString().trim())
                         .append("birthday", birth.getText().toString().trim())
-                        .append("specialty", specialty.getText().toString().trim());
+                        .append("specialty", specialty.getText().toString().trim())
+                        .append("sex",sex.getText().toString().trim())
+                        .append("nationality",nationality.getText().toString().trim())
+                        .append("numPhone",phone.getText().toString().trim());
                 // Thêm tài liệu mới vào collection "Doctor"
                 mongoCollection.updateOne(filter,newDoctor,new UpdateOptions().upsert(true)).getAsync(result -> {
                     if(result.isSuccess()){

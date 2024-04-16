@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
-                android:text="PhoneNumber:"
+                android:text="PhoneNumber"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -93,5 +93,11 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rowitem_specializationLayout"
+            android:layout_alignEnd="@+id/rowitem_specializationLayout" />
     </RelativeLayout>
 </HorizontalScrollView>

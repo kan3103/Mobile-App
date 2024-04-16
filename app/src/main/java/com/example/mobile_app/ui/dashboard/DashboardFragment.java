@@ -19,6 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.mobile_app.Data.Doctor;
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
+import com.example.mobile_app.api.user.userObject.patientUser;
+import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.FragmentDashboardBinding;
 
 import java.util.ArrayList;
@@ -41,42 +43,69 @@ import android.widget.Toast;
 import com.example.mobile_app.Data.Doctor;
 import com.example.mobile_app.R;
 
+import org.bson.Document;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.mongodb.mongo.MongoCollection;
+import io.realm.mongodb.mongo.options.UpdateOptions;
 
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
-
+    MainActivity mainActivity;
+    userInterface user;
     private View view;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
 
-//        binding = FragmentDashboardBinding.inflate(inflater, container, false);
-//        View root = binding.getRoot();
+//        view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        mainActivity= (MainActivity) getActivity();
+        user = mainActivity.getUser();
+        if(user instanceof patientUser){
+            view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+            Button btn2 = view.findViewById(R.id.board_xacnhan);
+            btn2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(user instanceof patientUser){
+                        EditText name,username,birthday,symtomps;
 
-        view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        view_doctors = (Button) view.findViewById(R.id.buttonViewDoctors);
-        System.out.println(view_doctors);
+                        name = getView().findViewById(R.id.board_name);
+                        username = getView().findViewById(R.id.board_id);
+                        birthday = getView().findViewById(R.id.board_birthday);
+                        symtomps = getView().findViewById(R.id.board_symptoms);
+                        // Tạo một tài liệu mới với thông tin từ các trường dữ liệu trên giao diện người dùng
+                        Document filter = new Document().append("username", username.getText().toString().trim());
+                        Document newDoctor = new Document()
+                                .append("username", username.getText().toString().trim())
+                                .append("name", name.getText().toString().trim())
+                                .append("birthday",birthday.getText().toString().trim())
+                                .append("symtomps",symtomps.getText().toString().trim());
+                        // Thêm tài liệu mới vào collection "Doctor"
+                        MongoCollection mongoCollection = mainActivity.mongoCollection;
+                        mongoCollection = mainActivity.mongoDatabase.getCollection("Register");
+                        mongoCollection.updateOne(filter,newDoctor,new UpdateOptions().upsert(true)).getAsync(result -> {
+                            if(result.isSuccess()){
+                                Toast.makeText(getContext(),"Register succesful", Toast.LENGTH_LONG).show();
+                                username.setText("");
+                                name.setText("");
+                                birthday.setText("");
+                                symtomps.setText("");
+                            }
+                            else {
+                                Toast.makeText(getContext(),"Fail to register", Toast.LENGTH_LONG).show();
+                            }
+                        });}
+                }
+            });
+        }
+        else{
+            view = inflater.inflate(R.layout.activity_view_patient_list,container,false);
+        }
 
-        view_doctors.setOnClickListener(v -> {
-            System.out.println("1");
-//            progressBar.setVisibility(View.VISIBLE);
-            Intent intent = new Intent(view.getContext(), ViewDoctorsList.class);
-            startActivity(intent);
-//            progressBar.setVisibility(View.GONE);
-            System.out.println("1");
-        });
-
-//        Intent intent = new Intent(DashboardFragment.this, loginPatient.class);
-//        startActivity(intent);
-//        System.out.println(binding.buttonViewDoctors);
-//        final Button button = binding.buttonViewDoctors;
-//        final TextView textView = binding.textDashboard;
-//        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return view;
     }
 
@@ -85,50 +114,5 @@ public class DashboardFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
-
-    Button my_profile, view_doctors, book_appointment, view_appointment_history, submit_appointment_form, load_fees, reset_form, sign_out;
-    TextView welcome_text, textview_name, textview_email, textview_address, textview_contact, textview_usertype, textview_allergies;
-    AutoCompleteTextView textview_doctorname, textview_fees;
-    RelativeLayout layout_myprofile, layout_bookappointment;
-    ProgressBar progressBar;
-    EditText edittext_date, edittext_time, edittext_allergies;
-
-    //    DatabaseReference reference;
-//    FirebaseUser user;
-    String uid,doctorId;
-
-    //Doctor's List
-    ArrayList<String> doctor_name = new ArrayList<>();
-    ArrayList<Doctor> doctors = new ArrayList<>();
-
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        System.out.println(2311);
-//        ((MainActivity) getActivity()).setContentView(R.layout.fragment_dashboard);
-////        progressBar=findViewById(R.id.loginActivityIndeterminateProgressbar);
-//
-//        view_doctors=(Button) view.findViewById(R.id.buttonViewDoctors);
-//        view_doctors.setOnClickListener(DashboardFragment.this);
-//
-//
-//
-//        progressBar.setVisibility(View.VISIBLE);
-//        System.out.println(1);
-//
-//    }
-
-
-//    public void onClick(View view) {
-//        System.out.println("1");
-//        progressBar.setVisibility(View.VISIBLE);
-//        Intent intent = new Intent(DashboardFragment.this, ViewDoctorsList.class);
-//        startActivity(intent);
-//        progressBar.setVisibility(View.GONE);
-//        System.out.println("1");
-//    }
-
 
 }

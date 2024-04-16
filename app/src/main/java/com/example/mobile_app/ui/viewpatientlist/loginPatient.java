@@ -1,20 +1,16 @@
-package com.example.mobile_app.ui.dashboard;
+package com.example.mobile_app.ui.viewpatientlist;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mobile_app.Data.Doctor;
 import com.example.mobile_app.R;
@@ -29,7 +25,6 @@ import com.example.mobile_app.R;
 //import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class loginPatient extends AppCompatActivity implements View.OnClickListener {
 
@@ -57,7 +52,7 @@ public class loginPatient extends AppCompatActivity implements View.OnClickListe
         progressBar=findViewById(R.id.loginActivityIndeterminateProgressbar);
 
 //        my_profile=findViewById(R.id.buttonMyProfile);
-        view_doctors=findViewById(R.id.buttonViewDoctors);
+//        view_doctors=findViewById(R.id.buttonViewDoctors);
 //        book_appointment=findViewById(R.id.buttonScheduleAppointment);
 //        view_appointment_history=findViewById(R.id.buttonViewAppointmentHistory);
 //        submit_appointment_form=findViewById(R.id.buttonViewSubmitAppointmentForm);
