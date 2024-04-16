@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.v("hee","ok rooif");
                             if(result.get()!=null){
                                 Document dataa = result.get();
-                                true_data = dataa.getString("password");
+                                true_data = dataa.containsKey("password")?dataa.getString("password"):return;
 
                                 if(true_data.equals(password.getText().toString())) {
                                     Login login = new Login();
@@ -167,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else{
                     mongoCollection = mongoDatabase.getCollection(selectedText);
-                    Document document = new Document().append("userName",name);
+                    Document document = new Document().append("username",name);
                     mongoCollection.findOne(document).getAsync( result -> {
                         if(result.isSuccess()){
                             if(result.get()!=null){

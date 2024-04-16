@@ -52,7 +52,7 @@ public class loginPatient extends AppCompatActivity implements View.OnClickListe
         progressBar=findViewById(R.id.loginActivityIndeterminateProgressbar);
 
 //        my_profile=findViewById(R.id.buttonMyProfile);
-        view_doctors=findViewById(R.id.buttonViewDoctors);
+//        view_doctors=findViewById(R.id.buttonViewDoctors);
 //        book_appointment=findViewById(R.id.buttonScheduleAppointment);
 //        view_appointment_history=findViewById(R.id.buttonViewAppointmentHistory);
 //        submit_appointment_form=findViewById(R.id.buttonViewSubmitAppointmentForm);
