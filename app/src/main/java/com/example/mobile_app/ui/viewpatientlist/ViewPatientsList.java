@@ -2,7 +2,6 @@ package com.example.mobile_app.ui.viewpatientlist;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
