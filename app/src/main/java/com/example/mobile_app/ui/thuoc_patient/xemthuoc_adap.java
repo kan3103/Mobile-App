@@ -36,7 +36,7 @@ public class xemthuoc_adap extends ArrayAdapter<in4medicine> {
         if( convertView == null ){
             viewholder = new viewHolder();
             LayoutInflater inflater =  LayoutInflater.from(getContext());
-            convertView = inflater.inflate( R.layout.profile_listview_custom, parent , false ) ;
+            convertView = inflater.inflate( R.layout.xemthuoc_customitem, parent , false ) ;
 
             viewholder.text1 = (TextView) convertView.findViewById(R.id.textViewxem1);
             viewholder.text2 = (TextView) convertView.findViewById(R.id.textViewxem2);

@@ -46,14 +46,14 @@ public class xemthuoc_acti extends AppCompatActivity {
         setContentView(R.layout.xemthuoc_layout);
 
         khoitao();
-        listView.findViewById(R.id.listthuoc_xemthuoc) ;
+        listView = findViewById(R.id.listthuoc_xemthuoc) ;
         Intent intent = getIntent();
         if(intent != null) {
             user1 = (userInterface) intent.getSerializableExtra("userobject");
         }
 
-
         app.loginAsync(credentials, new App.Callback<User>() {
+
             @Override
             public void onResult(App.Result<User> result) {
                 user = app.currentUser();
@@ -65,9 +65,14 @@ public class xemthuoc_acti extends AppCompatActivity {
                 mongoCollection.findOne(document).getAsync(result1 -> {
                     if (result1.isSuccess()) {
                         Document doc = result1.get();
+
                         ArrayList<Document> tmp  ;
+                        TextView nameView = findViewById(R.id.name_patient_xemthuoc) ;
+                        nameView.setText(doc.get("name").toString());
+
                         if(doc.containsKey("drugList")) {
                                 tmp = ( ArrayList<Document> ) doc.get("drugList");
+
                                 for(Document med : tmp) {
                                     String name , quantity , prescritionDate;
                                     name = ( med.containsKey("name") ? med.get("name").toString() : "" ) ;
@@ -75,7 +80,9 @@ public class xemthuoc_acti extends AppCompatActivity {
                                     prescritionDate = ( med.containsKey("prescritionDate") ? med.get("prescritionDate").toString() : "" ) ;
                                     if ( name!="" && quantity !="" && prescritionDate!="" )  items.add(new in4medicine(name, quantity , prescritionDate )) ;
                                 }
-                                if(items.get(0).getName() !="" ){
+
+
+                                if(items.get(0).getName().toString() !="" ){
                                     xemthuoc_adap adapter = new xemthuoc_adap( items ,getApplicationContext());
                                     listView.setAdapter(adapter);
                                 }
@@ -83,6 +90,7 @@ public class xemthuoc_acti extends AppCompatActivity {
                                     TextView textView = findViewById(R.id.thong_bao_nothing_xemthuoc) ;
                                     textView.setText("Nothing Here!");
                                 }
+
                         }
                         else {
                             TextView textView = findViewById(R.id.thong_bao_nothing_xemthuoc) ;
@@ -91,8 +99,14 @@ public class xemthuoc_acti extends AppCompatActivity {
                     } else {
                         Toast.makeText(getApplicationContext(), "FAIL", Toast.LENGTH_LONG).show();
                     }
+
+
                 });
+
+
             }
+
+
         });
 
 
