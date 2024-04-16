@@ -20,14 +20,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView patientName;
-        TextView patientSex;
+        TextView patientPhoneNumber;
         TextView patientAge;
 
 
         public ViewHolder(View view) {
             super(view);
             patientName = (TextView) view.findViewById(R.id.doctoritem_textViewName);
-            patientSex = (TextView) view.findViewById(R.id.doctoritem_textViewSex);
+            patientPhoneNumber = (TextView) view.findViewById(R.id.doctoritem_textViewPhoneNumber);
             patientAge = (TextView) view.findViewById(R.id.doctoritem_textViewAge);
         }
     }
@@ -50,11 +50,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         final int index=viewHolder.getAdapterPosition();
 
         String name = list.get(position).getName();
-        String sex = list.get(position).getSex();
+        String phoneNumber = list.get(position).getPhoneNumber();
         String age = list.get(position).getAge();
 
         viewHolder.patientName.setText(name);
-        viewHolder.patientSex.setText(sex);
+        viewHolder.patientPhoneNumber.setText(phoneNumber);
         viewHolder.patientAge.setText(age);
 
     }

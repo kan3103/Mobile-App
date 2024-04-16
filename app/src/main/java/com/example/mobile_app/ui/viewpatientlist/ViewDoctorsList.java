@@ -93,8 +93,8 @@ public class ViewDoctorsList extends AppCompatActivity {
 
                                 String name = patient.getString("name");
                                 String age = patient.getString("age");
-                                String sex = patient.getString("sex");
-                                patientList.add(new Patient(name, sex, age));
+                                String phoneNumber = patient.getString("phoneNumber");
+                                patientList.add(new Patient(name,phoneNumber , age));
 
                             }
                             System.out.println(patientList);

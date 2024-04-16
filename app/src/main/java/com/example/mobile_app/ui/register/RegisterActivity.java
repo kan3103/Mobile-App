@@ -128,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
         String password = editTextPassword.getText().toString().trim();
         String mobile = editTextMobile.getText().toString().trim();
         String birthday = editTextBirthday.getText().toString().trim();
-        String nationality = editTextBirthday.getText().toString().trim();
+        String citizenID = editTextBirthday.getText().toString().trim();
         String address = editTextAddress.getText().toString().trim();
         String job = editTextJob.getText().toString().trim();
 
