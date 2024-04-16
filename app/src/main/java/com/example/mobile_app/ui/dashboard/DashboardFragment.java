@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobile_app.ui.viewpatientlist.CustomAdapter;
@@ -60,26 +61,23 @@ public class DashboardFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if(user instanceof patientUser){
-                        EditText name,username,birthday,symtomps;
-
+                        EditText name,birthday,symtomps;
                         name = getView().findViewById(R.id.board_name);
-                        username = getView().findViewById(R.id.board_id);
                         birthday = getView().findViewById(R.id.board_birthday);
                         symtomps = getView().findViewById(R.id.board_symptoms);
                         // Tạo một tài liệu mới với thông tin từ các trường dữ liệu trên giao diện người dùng
-                        Document filter = new Document().append("username", username.getText().toString().trim());
+                        Document filter = new Document().append("username", mainActivity.getUser().getUsername());
                         Document newDoctor = new Document()
-                                .append("username", username.getText().toString().trim())
+                                .append("username", mainActivity.getUser().getUsername())
                                 .append("name", name.getText().toString().trim())
-                                .append("birthday",birthday.getText().toString().trim())
-                                .append("symtomps",symtomps.getText().toString().trim());
+                                .append("phoneNumber",birthday.getText().toString().trim())
+                                .append("symptoms",symtomps.getText().toString().trim());
                         // Thêm tài liệu mới vào collection "Doctor"
                         MongoCollection mongoCollection = mainActivity.mongoCollection;
                         mongoCollection = mainActivity.mongoDatabase.getCollection("Register");
                         mongoCollection.updateOne(filter,newDoctor,new UpdateOptions().upsert(true)).getAsync(result -> {
                             if(result.isSuccess()){
                                 Toast.makeText(getContext(),"Register succesful", Toast.LENGTH_LONG).show();
-                                username.setText("");
                                 name.setText("");
                                 birthday.setText("");
                                 symtomps.setText("");
@@ -101,11 +99,11 @@ public class DashboardFragment extends Fragment {
                     MongoCursor<Document> results = (MongoCursor<Document>) task.get();
                     while (results.hasNext()) {
                         Document currentDocument = results.next();
-
-                        String username = currentDocument.getString("username");
-                        String birthday = currentDocument.getString("birthday");
+                        String symtomps = currentDocument.getString("symptoms");
+                        String phoneNum = currentDocument.getString("phoneNumber");
                         String name = currentDocument.getString("name");
-                        patientList.add(new patientUser(username, birthday, name));
+
+                        patientList.add(new patientUser(name, "",phoneNum,symtomps));
                     }
                     adapter = new CustomAdapter(patientList, getContext());
 

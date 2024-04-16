@@ -8,6 +8,7 @@ public class patientUser implements userInterface, Serializable {
     private String username;
     private String password;
     private String typeuser;
+    private String symptoms;
     private MedRecord medicalRecord;
     private String id;
     private String age;
@@ -65,7 +66,20 @@ public class patientUser implements userInterface, Serializable {
         this.name = name;
         this.age = age;
         this.phoneNumber = phoneNumber;
+        symptoms ="";
     }
+    public patientUser(String name, String age, String phoneNumber,String symptoms)
+    {
+        this.name = name;
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+        this.symptoms = symptoms;
+    }
+
+    public String getSymptoms() {
+        return symptoms;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
