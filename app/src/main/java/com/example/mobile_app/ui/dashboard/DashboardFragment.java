@@ -105,7 +105,7 @@ public class DashboardFragment extends Fragment {
         else{
             view = inflater.inflate(R.layout.activity_view_patient_list,container,false);
         }
-
+        System.out.println(view);
         return view;
     }
 

@@ -6,6 +6,7 @@
     android:fillViewport="true">
 
     <RelativeLayout
+        android:id="@+id/patient_card"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="32dp"
@@ -93,14 +94,14 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rowitem_specializationLayout"
-            android:layout_alignEnd="@+id/rowitem_specializationLayout"
-            android:trackTint="@drawable/switch_track_selector"
-            android:thumbTint="@drawable/switch_thumb_selector"
-            />
+<!--        <Switch-->
+<!--            android:id="@+id/switch1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/rowitem_specializationLayout"-->
+<!--            android:layout_alignEnd="@+id/rowitem_specializationLayout"-->
+<!--            android:trackTint="@drawable/switch_track_selector"-->
+<!--            android:thumbTint="@drawable/switch_thumb_selector"-->
+<!--            />-->
     </RelativeLayout>
 </HorizontalScrollView>

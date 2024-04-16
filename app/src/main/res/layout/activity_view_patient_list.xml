@@ -27,6 +27,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center">
             <Button
+                android:id="@+id/cancel_button"
                 android:layout_marginRight="20dp"
                 android:layout_width="wrap_content"
                 android:backgroundTint="#87CEFA"
@@ -35,6 +36,7 @@
                 android:layout_height="wrap_content">
             </Button>
             <Button
+                android:id="@+id/confirm_button"
                 android:layout_marginLeft="20dp"
                 android:layout_width="wrap_content"
                 android:backgroundTint="#87CEFA"
