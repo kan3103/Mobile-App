@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobile_app.Data.Doctor;
 import com.example.mobile_app.R;
 import com.example.mobile_app.api.user.userObject.patientUser;
+import com.example.mobile_app.api.user.userObject.userInterface;
 
 import org.bson.Document;
 
@@ -30,7 +31,7 @@ public class ViewPatientsList extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Doctor> doctorList = new ArrayList<>();
 
-    ArrayList<patientUser> patientList = new ArrayList<>();
+    ArrayList<userInterface> patientList = new ArrayList<>();
 
     String Appid = "mobileapp-fyjbw";
     MongoDatabase mongoDatabase;
@@ -92,7 +93,8 @@ public class ViewPatientsList extends AppCompatActivity {
                                 String name = patient.getString("name");
                                 String age = patient.getString("age");
                                 String phoneNumber = patient.getString("phoneNumber");
-                                patientList.add(new patientUser(name, age, phoneNumber));
+                                userInterface hi = new patientUser(name,age,phoneNumber);
+                                patientList.add(hi);
 
                             }
                             System.out.println(patientList);

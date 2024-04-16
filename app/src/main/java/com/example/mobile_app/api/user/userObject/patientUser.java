@@ -67,6 +67,7 @@ public class patientUser implements userInterface, Serializable {
         this.age = age;
         this.phoneNumber = phoneNumber;
         symptoms ="";
+        this.typeuser = "Patient";
     }
     public patientUser(String name, String age, String phoneNumber,String symptoms)
     {
@@ -74,6 +75,7 @@ public class patientUser implements userInterface, Serializable {
         this.age = age;
         this.phoneNumber = phoneNumber;
         this.symptoms = symptoms;
+        this.typeuser = "Patient";
     }
 
     public String getSymptoms() {
