@@ -1,12 +1,10 @@
 package com.example.mobile_app.ui.viewpatientlist;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,6 +24,8 @@ import io.realm.mongodb.User;
 import io.realm.mongodb.mongo.MongoClient;
 import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
+import io.realm.mongodb.mongo.iterable.FindIterable;
+import io.realm.mongodb.mongo.iterable.MongoCursor;
 
 public class ViewDoctorsList extends AppCompatActivity {
     CustomAdapter adapter;
@@ -44,7 +44,7 @@ public class ViewDoctorsList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_doctors_list);
+        setContentView(R.layout.activity_view_patient_list);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -68,50 +68,65 @@ public class ViewDoctorsList extends AppCompatActivity {
                 user = app.currentUser();
                 mongoClient = user.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
-                mongoCollection = mongoDatabase.getCollection("Doctor");
+                mongoCollection = mongoDatabase.getCollection("Register");
+                mongoCollection.find().iterator().getAsync(task -> {
+                    if (task.isSuccess()) {
+                        MongoCursor<Document> results = task.get();
+                        while (results.hasNext()) {
+                            Document currentDocument = results.next();
 
-//                if (mongoCollection == null){
-//                    System.out.println(user);
-//                    System.out.println(mongoClient);
-//                    System.out.println(mongoDatabase);
-//                    System.out.println("Collection Null ma cung xai?");
-//                }
-
-                Document queryFilter = new Document().append("patientList", new Document("$exists", true));
-                mongoCollection.findOne(queryFilter).getAsync(result -> {
-                    if (result.isSuccess()) {
-                        Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
-                        Document resultData = result.get();
-                        Log.v("Data Success", resultData.toString());
-                        if (resultData.containsKey("patientList")) {
-                            ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("patientList");
-                            for (Document patient : arrList) {
-//                                System.out.println(patient);
-
-                                String patientDoc = patient.toJson();
-//                                System.out.println(patientDoc);
-
-                                String name = patient.getString("name");
-                                String age = patient.getString("age");
-                                String phoneNumber = patient.getString("phoneNumber");
-                                patientList.add(new patientUser(name,age,phoneNumber));
-
-                            }
-                            System.out.println(patientList);
-                            adapter = new CustomAdapter(patientList, ViewDoctorsList.this);
-//                            System.out.println(adapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(ViewDoctorsList.this));
-                            recyclerView.setAdapter(adapter);
-                            System.out.println(recyclerView);
-//                    textView.setText(arrList.toString());
-                        } else {
-                            Log.v("Data Success", "Document does not contain an 'arr' field");
+                            String username = currentDocument.getString("username");
+                            String birthday = currentDocument.getString("birthday");
+                            String name = currentDocument.getString("name");
+                            patientList.add(new patientUser(username, birthday, name));
                         }
+                        System.out.println(patientList);
+                        adapter = new CustomAdapter(patientList, ViewDoctorsList.this);
+//                            System.out.println(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(ViewDoctorsList.this));
+                        recyclerView.setAdapter(adapter);
+                        System.out.println(recyclerView);
+//                    textView.setText(arrList.toString());
                     } else {
-                        Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
-                        Log.v("Data Error", result.getError().toString());
+                        Log.e("APP", "Failed to find documents with: ", task.getError());
                     }
                 });
+
+//                Document queryFilter = new Document().append("patientList", new Document("$exists", true));
+//                mongoCollection.find().getAsync(result -> {
+//                    if (result.isSuccess()) {
+//                        Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
+//                        Document resultData = result.get();
+//                        Log.v("Data Success", resultData.toString());
+//                        if (resultData.containsKey("patientList")) {
+//                            ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("patientList");
+//                            for (Document patient : arrList) {
+////                                System.out.println(patient);
+//
+//                                String patientDoc = patient.toJson();
+////                                System.out.println(patientDoc);
+//
+//                                String name = patient.getString("name");
+//                                String age = patient.getString("age");
+//                                String phoneNumber = patient.getString("phoneNumber");
+//                                patientList.add(new patientUser(name,age,phoneNumber));
+//
+//                            }
+//                            System.out.println(patientList);
+//                            adapter = new CustomAdapter(patientList, ViewDoctorsList.this);
+////                            System.out.println(adapter);
+//                            recyclerView.setLayoutManager(new LinearLayoutManager(ViewDoctorsList.this));
+//                            recyclerView.setAdapter(adapter);
+//                            System.out.println(recyclerView);
+////                    textView.setText(arrList.toString());
+//                        } else {
+//                            Log.v("Data Success", "Document does not contain an 'arr' field");
+//                        }
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
+//                        Log.v("Data Error", result.getError().toString());
+//                    }
+//                });
 
 //                System.out.println(patientList);
 
@@ -122,79 +137,11 @@ public class ViewDoctorsList extends AppCompatActivity {
         // Find an element in array
         System.out.println("Load list of patients");
 
-//        Document queryFilter = new Document().append("arr", new Document("$exists", true));
-//        mongoCollection.findOne(queryFilter).getAsync(result -> {
-//            if (result.isSuccess()) {
-//                Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
-//                Document resultData = result.get();
-//                Log.v("Data Success", resultData.toString());
-//                if (resultData.containsKey("arr")) {
-//                    ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("arr");
-//                    for (Document patient : arrList) {
-//                        System.out.println(patient);
-//                    }
-////                    textView.setText(arrList.toString());
-//                } else {
-//                    Log.v("Data Success", "Document does not contain an 'arr' field");
-//                }
-//            } else {
-//                Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
-//                Log.v("Data Error", result.getError().toString());
-//            }
-//        });
-//        getPatientFromDB();
-//        Document filter = new Document().append("name","A");
-//
-//        if(mongoCollection.findOne(filter) != null){
-//            System.out.println("Null ma cung xai?");
-//            Document queryFilter = new Document().append("patientList.0", new Document("$exists", true));
-//            mongoCollection.findOne(queryFilter).getAsync(result -> {
-//                if (result.isSuccess()) {
-//                    Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
-//                    Document resultData = result.get();
-//                    Log.v("Data Success", resultData.toString());
-//                    if (resultData.containsKey("patientList")) {
-//                        ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("patientList");
-//                        if (arrList.size() > 1) {
-//                            Document secondElement = arrList.get(0);
-//                            System.out.println(secondElement);
-//                            //                        textView.setText(secondElement.toJson());
-//                        } else {
-//                            Log.v("Data Success", "Array does not contain a second element");
-//                        }
-//                    } else {
-//                        Log.v("Data Success", "Document does not contain an 'arr' field");
-//                    }
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
-//                    Log.v("Data Error", result.getError().toString());
-//                }
-//            });
-//
-//        }
-
-
-//        Doctor doctor1 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "1", "Master", "Japan");
-//        Doctor doctor2 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "2", "Professional", "Japan");
-//        Doctor doctor3 = new Doctor("Japan", "Alpha", "Beta", "a@abc.com", "Japan", "Alpha", "3", "Doctor", "Japan");
-//
-//        doctorList.add(doctor1);
-//        doctorList.add(doctor2);
-//        doctorList.add(doctor3);
-
-
     }
 
 
     //        Getting data:
     private void getPatientFromDB() {
-
-//        for (PatientInter patient : patientList) {
-//
-//        }
-//        for (int i = 0; i < mongoCollection; i++) {
-//
-//        }
         // Find all data in array
 
         Document queryFilter = new Document().append("arr", new Document("$exists", true));
@@ -219,55 +166,6 @@ public class ViewDoctorsList extends AppCompatActivity {
         });
 
 
-//        Document queryFilter = new Document().append("arr.0", new Document("$exists", true));
-//        mongoCollection.findOne(queryFilter).getAsync(result -> {
-//            if (result.isSuccess()) {
-//                Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
-//                Document resultData = result.get();
-//                Log.v("Data Success", resultData.toString());
-//                if (resultData.containsKey("arr")) {
-//                    ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("arr");
-//                    if (arrList.size() > 1) {
-//                        Document secondElement = arrList.get(0);
-//
-////                        textView.setText(secondElement.toJson());
-//                    } else {
-//                        Log.v("Data Success", "Array does not contain a second element");
-//                    }
-//                } else {
-//                    Log.v("Data Success", "Document does not contain an 'arr' field");
-//                }
-//            } else {
-//                Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
-//                Log.v("Data Error", result.getError().toString());
-//            }
 //        });
     }
-//        DatabaseReference reference=FirebaseDatabase.getInstance().getReferenceFromUrl("https://medi-consult-project-default-rtdb.firebaseio.com/");
-//
-//        reference.child("Doctors").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for(DataSnapshot data:snapshot.getChildren()){
-//                    Doctor doctor=data.getValue(Doctor.class);
-//                    if(!doctorList.contains(doctor)){
-//                        doctorList.add(doctor);
-//                    }
-//                }
-//                if(doctorList.isEmpty()){
-//                    Toast.makeText(ViewDoctorsList.this, "Sorry,No doctors are availaible at this moment", Toast.LENGTH_LONG).show();
-//                }
-//                else {
-//                    adapter = new CustomAdapter(doctorList, ViewDoctorsList.this);
-//                    recyclerView.setLayoutManager(new LinearLayoutManager(ViewDoctorsList.this));
-//                    recyclerView.setAdapter(adapter);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(ViewDoctorsList.this,error.getCode(), Toast.LENGTH_LONG).show();
-//            }
-//        });
-
 }

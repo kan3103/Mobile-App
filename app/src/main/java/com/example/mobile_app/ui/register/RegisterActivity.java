@@ -12,23 +12,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobile_app.LoginActivity;
-import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
-import com.example.mobile_app.api.user.factoryUser.Login;
-import com.example.mobile_app.api.user.userObject.adminUser;
-import com.example.mobile_app.api.user.userObject.userInterface;
-import com.example.mobile_app.databinding.ActivityLoginBinding;
 import com.example.mobile_app.databinding.RegisterViewBinding;
 
 import org.bson.Document;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.mongodb.App;
@@ -41,20 +32,15 @@ import io.realm.mongodb.mongo.MongoDatabase;
 import io.realm.mongodb.mongo.options.UpdateOptions;
 
 public class RegisterActivity extends AppCompatActivity {
-    private RegisterViewBinding binding;
-
-    private Button completeRegister;
-
-    private EditText editTextFullName, editTextUsername, editTextPassword, editTextMobile, editTextAddress, editTextBirthday, editTextNationality, editTextJob;
-
-    private RadioButton gender;
-    private ProgressBar progressBar;
-
     String Appid = "mobileapp-fyjbw";
     MongoDatabase mongoDatabase;
     MongoClient mongoClient;
     MongoCollection<Document> mongoCollection;
-
+    private RegisterViewBinding binding;
+    private Button completeRegister;
+    private EditText editTextFullName, editTextUsername, editTextPassword, editTextMobile, editTextAddress, editTextBirthday, editTextNationality, editTextJob;
+    private RadioButton gender;
+    private ProgressBar progressBar;
     private User user;
 
     private App app;
@@ -103,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
                 mongoDatabase = mongoClient.getDatabase("Hospital");
                 mongoCollection = mongoDatabase.getCollection("Patient");
 
-                if (mongoCollection == null){
+                if (mongoCollection == null) {
                     System.out.println(user);
                     System.out.println(mongoClient);
                     System.out.println(mongoDatabase);

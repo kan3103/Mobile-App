@@ -42,6 +42,7 @@ import android.widget.Toast;
 
 import com.example.mobile_app.Data.Doctor;
 import com.example.mobile_app.R;
+import com.example.mobile_app.ui.viewpatientlist.ViewDoctorsList;
 
 import org.bson.Document;
 
@@ -104,6 +105,8 @@ public class DashboardFragment extends Fragment {
         }
         else{
             view = inflater.inflate(R.layout.activity_view_patient_list,container,false);
+            Intent intent = new Intent(view.getContext(), ViewDoctorsList.class);
+            startActivity(intent);
         }
 
         return view;
