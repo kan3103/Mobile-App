@@ -21,6 +21,11 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".ui.viewpatientlist.ViewPatientsList"
+            android:label="Patients"
+            android:parentActivityName=".ui.viewpatientlist.loginPatient"
+            android:exported="false" />
+        <activity
             android:name=".ui.viewpatientlist.ViewDoctorsList"
             android:label="Doctors"
             android:parentActivityName=".ui.viewpatientlist.loginPatient"

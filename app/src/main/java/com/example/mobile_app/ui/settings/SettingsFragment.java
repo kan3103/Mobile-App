@@ -27,6 +27,7 @@ import com.example.mobile_app.ui.nhapthuoc.nhapthuoc_acti;
 import com.example.mobile_app.ui.viewpatientlist.ViewDoctorsList;
 import com.example.mobile_app.ui.media_record.RecordActivity;
 import com.example.mobile_app.ui.profile_frag.profile_activity;
+import com.example.mobile_app.ui.viewpatientlist.ViewPatientsList;
 
 import java.util.ArrayList;
 
@@ -96,7 +97,7 @@ public class SettingsFragment extends Fragment {
                     startActivity(intent);
                 }
                 else if(position == 1 && user.getTypeuser().equals("Doctor")){
-                    Intent intent = new Intent(view.getContext(), ViewDoctorsList.class);
+                    Intent intent = new Intent(view.getContext(), ViewPatientsList.class);
                     startActivity(intent);
                 }
                 else if (position == 1 && user.getTypeuser().equals("Admin")) {
