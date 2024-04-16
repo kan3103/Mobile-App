@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.viewpatientlist.ExitHospitalActivity">
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/text_dashboard"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.viewpatientlist.loginPatient">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/layout_bg_profileview" />
+
+        <ProgressBar
+            android:id="@+id/loginActivityIndeterminateProgressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/black"/>
+
+        <TextView
+            android:id="@+id/welcome_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome, Doctor"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="64dp"/>
+
+        <TextView
+            android:background="@color/black"
+            android:id="@+id/display_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type your information"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/welcome_textView"/>
+
+
+
+        <EditText
+            android:layout_marginTop="55dp"
+            android:layout_below="@+id/display_category"
+            android:id="@+id/board_name"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="#CC3399"
+            android:textColor="#CC3399"
+            android:hint="Patient's Name" />
+
+        <EditText
+            android:id="@+id/board_dateOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/board_name"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="#CC3399"
+            android:textColor="@color/black"
+            android:hint="Date out" />
+
+        <EditText
+            android:id="@+id/board_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/board_dateOut"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="#CC3399"
+            android:textColor="@color/black"
+            android:hint="ID" />
+
+        <EditText
+            android:id="@+id/board_bloodType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="#CC3399"
+            android:layout_below="@id/board_id"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            android:hint="BloodType"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:layout_below="@+id/board_bloodType">
+            <Button
+                android:layout_width="wrap_content"
+                android:text="Xác nhận"
+                android:id="@+id/board_xacnhan"
+                android:backgroundTint="#0000CC"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

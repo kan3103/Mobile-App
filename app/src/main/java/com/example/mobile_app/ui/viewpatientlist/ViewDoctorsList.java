@@ -25,7 +25,6 @@ import io.realm.mongodb.User;
 import io.realm.mongodb.mongo.MongoClient;
 import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
-import io.realm.mongodb.mongo.iterable.FindIterable;
 import io.realm.mongodb.mongo.iterable.MongoCursor;
 
 public class ViewDoctorsList extends AppCompatActivity {
@@ -45,7 +44,7 @@ public class ViewDoctorsList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_patient_list);
+        setContentView(R.layout.activity_view_doctors_list);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 

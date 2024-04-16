@@ -116,7 +116,7 @@ public class DashboardFragment extends Fragment {
                 }
             });
         }
-
+        System.out.println(view);
         return view;
     }
 

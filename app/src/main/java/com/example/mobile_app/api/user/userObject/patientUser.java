@@ -23,7 +23,11 @@ public class patientUser implements userInterface, Serializable {
     private String occupation;
     private String address;
     private String birth;
+    private boolean getStatus ;
 
+    public boolean isStatus() {
+        return getStatus;
+    }
     public String getBirth() {
         return birth;
     }
@@ -76,6 +80,13 @@ public class patientUser implements userInterface, Serializable {
         this.phoneNumber = phoneNumber;
         this.symptoms = symptoms;
         this.typeuser = "Patient";
+    }
+    public patientUser(String name, String age, String phoneNumber, boolean getStatus)
+    {
+        this.name = name;
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+        this.getStatus = getStatus;
     }
 
     public String getSymptoms() {

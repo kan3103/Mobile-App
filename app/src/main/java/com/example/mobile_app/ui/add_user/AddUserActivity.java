@@ -80,25 +80,50 @@ public class AddUserActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Tạo một tài liệu mới với thông tin từ các trường dữ liệu trên giao diện người dùng
                 Document filter = new Document().append("username", username.getText().toString().trim());
-                Document newDoctor = new Document()
-                        .append("username", username.getText().toString().trim())
-                        .append("password", pass.getText().toString().trim())
-                        .append("name", name.getText().toString().trim())
-                        .append("birthday", birth.getText().toString().trim())
-                        .append("specialty", specialty.getText().toString().trim())
-                        .append("sex",sex.getText().toString().trim())
-                        .append("nationality",nationality.getText().toString().trim())
-                        .append("numPhone",phone.getText().toString().trim());
-                // Thêm tài liệu mới vào collection "Doctor"
-                mongoCollection.updateOne(filter,newDoctor,new UpdateOptions().upsert(true)).getAsync(result -> {
+                mongoCollection.findOne(filter).getAsync(result -> {
                     if(result.isSuccess()){
-                        Toast.makeText(getApplicationContext(),"Add Doctor Successful", Toast.LENGTH_LONG).show();
-                        finish();
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),"Fail to add new", Toast.LENGTH_LONG).show();
+                        if(result.get()!=null)
+                        Toast.makeText(getApplicationContext(),"Đã có người dùng username này", Toast.LENGTH_LONG).show();
+                        else{
+                            MongoCollection<Document> mongoCollection1 = mongoDatabase.getCollection("Specialty");
+                            Document filter1 = new Document().append("name", specialty.getText().toString().trim());
+                            mongoCollection1.findOne(filter1).getAsync(result1 -> {
+                                if(result1.isSuccess()){
+                                    if(result1.get()==null)
+                                        Toast.makeText(getApplicationContext(),"Không có khoa này", Toast.LENGTH_LONG).show();
+                                    else {
+                                        Document newDoctor = new Document()
+                                                .append("username", username.getText().toString().trim())
+                                                .append("password", pass.getText().toString().trim())
+                                                .append("name", name.getText().toString().trim())
+                                                .append("birthday", birth.getText().toString().trim())
+                                                .append("specialty", specialty.getText().toString().trim())
+                                                .append("sex", sex.getText().toString().trim())
+                                                .append("nationality", nationality.getText().toString().trim())
+                                                .append("numPhone", phone.getText().toString().trim());
+                                        // Thêm tài liệu mới vào collection "Doctor"
+                                        mongoCollection.updateOne(filter, newDoctor, new UpdateOptions().upsert(true)).getAsync(result3 -> {
+                                            if (result3.isSuccess()) {
+                                                Toast.makeText(getApplicationContext(), "Add Doctor Successful", Toast.LENGTH_LONG).show();
+                                                finish();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Fail to add new", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "ko truy cap duoc", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }else {
+
+
                     }
                 });
+
+
             }
         });
 
