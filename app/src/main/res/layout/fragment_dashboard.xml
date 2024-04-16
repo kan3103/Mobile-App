@@ -70,7 +70,7 @@
         <EditText
             android:layout_marginTop="55dp"
             android:layout_below="@+id/display_category"
-            android:id="@+id/buttonMyProfile"
+            android:id="@+id/board_name"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -78,13 +78,13 @@
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
             android:textColor="#CC3399"
-            android:hint="Your username" />
+            android:hint="Your name" />
 
         <EditText
-            android:id="@+id/buttonViewDoctors"
+            android:id="@+id/board_birthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/buttonMyProfile"
+            android:layout_below="@id/board_name"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
@@ -93,10 +93,10 @@
             android:hint="Your Birthday" />
 
         <EditText
-            android:id="@+id/buttonScheduleAppointment"
+            android:id="@+id/board_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/buttonViewDoctors"
+            android:layout_below="@id/board_birthday"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
@@ -105,13 +105,13 @@
             android:hint="Your ID" />
 
         <EditText
-            android:id="@+id/buttonViewAppointmentHistory"
+            android:id="@+id/board_symptoms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
-            android:layout_below="@id/buttonScheduleAppointment"
+            android:layout_below="@id/board_id"
             android:layout_marginTop="16dp"
             android:textColor="@color/black"
             android:hint="Your symptoms"/>
@@ -120,17 +120,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:gravity="center"
-            android:layout_below="@+id/buttonViewAppointmentHistory">
+            android:layout_below="@+id/board_symptoms">
             <Button
-                android:layout_marginRight="20dp"
-                android:layout_width="wrap_content"
-                android:text="Hủy"
-                android:backgroundTint="#0000CC"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_marginLeft="20dp"
                 android:layout_width="wrap_content"
                 android:text="Xác nhận"
+                android:id="@+id/board_xacnhan"
                 android:backgroundTint="#0000CC"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

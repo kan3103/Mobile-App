@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import com.example.mobile_app.LoginActivity;
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
+import com.example.mobile_app.api.user.userObject.adminUser;
+import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.ui.add_user.AddUserActivity;
@@ -50,10 +52,11 @@ public class SettingsFragment extends Fragment {
         array_com_doc.add(new SettingsComp(R.drawable.list, "Danh sách bệnh nhân"));
         array_com.add(new SettingsComp(R.drawable.icon_person, "Thông tin cá nhân"));
         array_com.add(new SettingsComp(R.drawable.medical_record, "Hồ sơ bệnh án"));
+        array_com.add(new SettingsComp(R.drawable.drug_icon, "Đơn thuốc"));
         array_com_doc.add(new SettingsComp(R.drawable.drug_icon, "Cấp thuốc"));
         array_com_admin.add(new SettingsComp(R.drawable.icon_person, "Thông tin cá nhân"));
         array_com_admin.add(new SettingsComp(R.drawable.add_doctor, "Thêm bác sĩ"));
-//        array_com_admin.add(new SettingsComp(R.drawable.drug_icon, "Hóa đơn thuốc"));
+           array_com_admin.add(new SettingsComp(R.drawable.drug_icon, "Thêm thuốc vào kho"));
         if (user.getTypeuser().equals("Patient")) {
             adapter = new Settings_Fragment(getActivity(), array_com);
             gridView = mview.findViewById(R.id.setting_com);
@@ -80,7 +83,11 @@ public class SettingsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Xử lý khi phần tử được nhấp
                 if (position == 0) {
-                    startActivity(new Intent(getActivity(), profile_activity.class));
+                    Intent intent = new Intent(getActivity(), profile_activity.class);
+                    if(user instanceof patientUser )intent.putExtra("userobject", (patientUser) user);
+                    else if(user instanceof doctorUser) intent.putExtra("userobject",(doctorUser) user);
+                    else intent.putExtra("userobject",(adminUser) user);
+                    startActivity(intent);
                 } else if (position == 1 && user.getTypeuser().equals("Patient")) {
                     Intent intent = new Intent(getActivity(), RecordActivity.class);
                     intent.putExtra("userobject", (patientUser) user);

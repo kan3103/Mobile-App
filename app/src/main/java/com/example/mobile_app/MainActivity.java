@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
     String Appid = "mobileapp-fyjbw";
     private App app;
     private MongoClient mongoClient;
-    private MongoDatabase mongoDatabase;
-    private  MongoCollection mongoCollection;
+    public MongoDatabase mongoDatabase;
+    public   MongoCollection mongoCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
