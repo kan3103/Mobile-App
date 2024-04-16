@@ -112,7 +112,8 @@ public class LoginActivity extends AppCompatActivity {
                             Log.v("hee","ok rooif");
                             if(result.get()!=null){
                                 Document dataa = result.get();
-                                true_data = dataa.containsKey("password")?dataa.getString("password"):return;
+                                if(dataa.containsKey("password"))true_data=dataa.getString("password");
+                            else return;
 
                                 if(true_data.equals(password.getText().toString())) {
                                     Login login = new Login();
