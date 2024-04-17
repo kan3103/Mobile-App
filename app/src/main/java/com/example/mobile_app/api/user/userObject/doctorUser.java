@@ -12,6 +12,7 @@ public class doctorUser implements userInterface, Serializable {
     protected String Name;
     protected String Specialty;
     protected String Address;
+    protected String Sex;
     protected String PhoneNum;
     protected String citizenID;
     protected String Experience;
@@ -26,7 +27,16 @@ public class doctorUser implements userInterface, Serializable {
     }
 
     protected int PatientNum;
-    protected String sex;
+
+    public String getSex() {
+        return Sex;
+    }
+
+    public void setSex(String sex) {
+        Sex = sex;
+    }
+
+
     protected String birthday;
 
     public String getBirthday() {
@@ -37,13 +47,6 @@ public class doctorUser implements userInterface, Serializable {
         this.birthday = birthday;
     }
 
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
     public doctorUser(String username, String password) {
         this.username = username;
         this.password = password;
@@ -64,7 +67,13 @@ public class doctorUser implements userInterface, Serializable {
         PatientNum = patientNum;
         PatientList = patientList;
     }
-
+    public  doctorUser(String username,String name,String sex,String experience){
+        this.username=username;
+        this.typeuser="Doctor";
+        this.Name = name;
+        this.Sex = sex;
+        this.Experience=experience;
+    }
     public String getID() {
         return ID;
     }
@@ -113,11 +122,12 @@ public class doctorUser implements userInterface, Serializable {
         this.citizenID = citizenID;
     }
 
+
     public String getExperience() {
         return Experience;
     }
 
-    public void setExperience(String  experience) {
+    public void setExperience(String experience) {
         Experience = experience;
     }
 

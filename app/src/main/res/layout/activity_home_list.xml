@@ -47,9 +47,10 @@
                         android:layout_marginBottom="10dp"
                         app:cardCornerRadius="6dp">
                         <TextView
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:textSize="18dp"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginBottom="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Cardiology"
@@ -64,8 +65,9 @@
                         android:layout_marginBottom="10dp"
                         app:cardCornerRadius="6dp">
                         <TextView
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:textSize="18dp"
                             android:layout_marginLeft="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -82,8 +84,9 @@
                         android:layout_marginBottom="10dp"
                         app:cardCornerRadius="6dp">
                         <TextView
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:textSize="18dp"
                             android:layout_marginLeft="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -100,8 +103,9 @@
                         android:layout_marginBottom="10dp"
                         app:cardCornerRadius="6dp">
                         <TextView
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:textSize="18dp"
                             android:layout_marginLeft="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -118,8 +122,9 @@
                         android:layout_marginBottom="10dp"
                         app:cardCornerRadius="6dp">
                         <TextView
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:textSize="18dp"
                             android:layout_marginLeft="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -136,8 +141,9 @@
                         android:layout_marginBottom="10dp"
                         app:cardCornerRadius="6dp">
                         <TextView
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:textSize="18dp"
                             android:layout_marginLeft="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

@@ -1,5 +1,6 @@
 package com.example.mobile_app.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,12 @@ public class HomeFragment extends Fragment {
         view= inflater.inflate(R.layout.fragment_home, container, false);
         dsach_khoa = view.findViewById(R.id.home_dsach);
         overview = view.findViewById(R.id.home_overview);
+        dsach_khoa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), HomeListActivity.class));
+            }
+        });
         return view;
     }
 
