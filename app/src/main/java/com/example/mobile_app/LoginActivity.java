@@ -25,7 +25,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import io.realm.Realm;
 import io.realm.mongodb.App;
@@ -146,22 +145,11 @@ public class LoginActivity extends AppCompatActivity {
                             if(result.get()!=null){
                                 Document dataa = result.get();
                             true_data = dataa.getString("password");
-                                ArrayList<Document> documentArrayList;
-                                ArrayList<patientUser> he = new ArrayList<>();
-                                if(dataa.containsKey("patientList"))
-                                {
-                                    documentArrayList = (ArrayList<Document>) dataa.get("patientList");
-                                    for(Document run:documentArrayList){
-                                        patientUser new_patient = new patientUser(run.getString("username"),run.getString("name"),run.getString("age"),run.getBoolean("status"));
-                                        he.add(new_patient);
-                                    }
-                                }
                                 if(true_data.equals(password.getText().toString())){
                                     Login login = new Login();
                                     // Thực hiện đăng nhập
                                     userInterface user = login.createUser("Doctor", name, true_data);
                                     Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
-                                    setDoctor(user,dataa,he);
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.putExtra("userobject", (doctorUser) user);
                                     startActivity(intent);
@@ -186,7 +174,6 @@ public class LoginActivity extends AppCompatActivity {
                             if(result.get()!=null){
                                 Document dataa = result.get();
                                 true_data = dataa.getString("password");
-
                                 if(true_data.equals(password.getText().toString())) {
                                     Login login = new Login();
                                     userInterface user = login.createUser("Patient", name, true_data);
@@ -238,17 +225,5 @@ public class LoginActivity extends AppCompatActivity {
         ((patientUser) user).setId(dataa.getString("id"));
         ((patientUser) user).setNationality(dataa.getString("nationality"));
         ((patientUser) user).setBirth(dataa.getString("birth"));
-    }
-    public void setDoctor(userInterface user,Document dataa,ArrayList<patientUser>he){
-        ((doctorUser) user).setName(dataa.containsKey("name")?dataa.getString("name"):"");
-        ((doctorUser) user).setExperience(dataa.containsKey("experience")?dataa.getString("experience"):"");
-        ((doctorUser) user).setSex(dataa.containsKey("sex")?dataa.getString("sex"):"");
-        ((doctorUser) user).setSex(dataa.containsKey("sex")?dataa.getString("sex"):"");
-        ((doctorUser) user).setSpecialty(dataa.containsKey("specialty")?dataa.getString("specialty"):"");
-        ((doctorUser) user).setBirthday(dataa.containsKey("birthday")?dataa.getString("birthday"):"");
-        ((doctorUser) user).setNationality(dataa.containsKey("nationality")?dataa.getString("nationality"):"");
-        ((doctorUser) user).setPhoneNum(dataa.containsKey("numPhone")?dataa.getString("numPhone"):"");
-        if(he.size()!=0)((doctorUser) user).setPatientList(he);
-        Log.v("oke","Thêm được nha");
     }
 }

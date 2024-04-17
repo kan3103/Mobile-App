@@ -23,12 +23,11 @@ public class patientUser implements userInterface, Serializable {
     private String occupation;
     private String address;
     private String birth;
-    private boolean status ;
+    private boolean getStatus ;
 
     public boolean isStatus() {
-        return status;
+        return getStatus;
     }
-    public void setStatus(boolean status){this.status = status;}
     public String getBirth() {
         return birth;
     }
@@ -82,20 +81,14 @@ public class patientUser implements userInterface, Serializable {
         this.symptoms = symptoms;
         this.typeuser = "Patient";
     }
-    public patientUser(String name, String age, String phoneNumber, boolean status, String id)
+    public patientUser(String name, String age, String phoneNumber, boolean getStatus)
     {
         this.name = name;
         this.age = age;
         this.phoneNumber = phoneNumber;
-        this.status = status;
-        this.id = id;
+        this.getStatus = getStatus;
     }
-    public  patientUser(String username,String name, String age,boolean status){
-        this.username = username;
-        this.name = name;
-        this.age = age;
-        this.status=status;
-    }
+
     public String getSymptoms() {
         return symptoms;
     }
