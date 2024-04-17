@@ -8,9 +8,9 @@
     <TextView
         android:id="@+id/drugName_capthuoc"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:text="Ten thuoc"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,11 +18,11 @@
     <TextView
         android:id="@+id/textView3"
         android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:layout_marginTop="8dp"
         android:text="Số lượng : "
         android:textColor="@color/black"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
@@ -46,6 +46,7 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="10dp"
             android:text="0"
+            android:textSize="15dp"
             android:inputType="number"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/white"

@@ -142,13 +142,13 @@ public class HomeListActivity extends AppCompatActivity {
             }
 
         });
-        ENT.setOnClickListener(new View.OnClickListener() {
+        Endocrinology.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.activity_view_patient_list);
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
                 ArrayList<userInterface> save = new ArrayList<>();
-                Document doc = new Document().append("name","ENT");
+                Document doc = new Document().append("name","Endocrinology");
                 mongoCollection.findOne(doc).getAsync( result -> {
                     if(result.isSuccess()){
 
