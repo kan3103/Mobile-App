@@ -90,7 +90,21 @@ public class nhapthuoc_acti extends AppCompatActivity {
                 String id_string, sl_string ;
                 id_string = idthuoc.getText().toString();
                 sl_string = slthuoc.getText().toString();
-                transToWareHouse(id_string, sl_string,entryDate,expirationDate);
+                Document filter = new Document().append("id", id_string);
+                mongoCollection.findOne(filter).getAsync(result -> {
+                    if (result.isSuccess()) {
+                        if (result.get() != null) {
+                            // If ID is found in the database, call the transToWareHouse function
+                            transToWareHouse(id_string, sl_string, entryDate, expirationDate);
+                        } else {
+                            // If ID is not found, display a message asking to enter the drug ID again
+                            Toast.makeText(getApplicationContext(), "Invalid drug ID, Please enter the drug ID again", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        // If there is an error during the query process, display an error message
+                        Toast.makeText(getApplicationContext(), "Error: " + result.getError().toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 
