@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
             Log.v("ok","oke");
             sendDataToSettingsFragment(false);
         }
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
     public void sendDataToSettingsFragment(boolean check) {
         if(!check) return;

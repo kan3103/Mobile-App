@@ -1,7 +1,7 @@
 //import modules
 package com.example.mobile_app.api.MedicalRecord;
 
-import com.example.mobile_app.api.Doctor.DoctorObject.DoctorInter;
+//import com.example.mobile_app.api.Doctor.DoctorObject.DoctorInter;
 import com.example.mobile_app.api.user.userObject.doctorUser;
 
 import android.util.Pair;
