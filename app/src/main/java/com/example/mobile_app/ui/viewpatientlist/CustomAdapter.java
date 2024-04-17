@@ -88,11 +88,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
         else{
             String name = ((doctorUser) list.get(position)).getName();
-            String phoneNumber = ((doctorUser) list.get(position)).getPhoneNum();
+            String sex = ((doctorUser) list.get(position)).getSex();
             String age = ((doctorUser) list.get(position)).getExperience();
 
             viewHolder.patientName.setText(name);
-            viewHolder.patientPhoneNumber.setText(phoneNumber);
+            viewHolder.patientPhoneNumber.setText(sex);
+            viewHolder.patientAge.setText(age);
         }
     }
 

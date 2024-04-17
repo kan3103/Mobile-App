@@ -16,6 +16,15 @@ public class doctorUser implements userInterface, Serializable {
     protected String citizenID;
     protected String Experience;
     protected int PatientNum;
+
+    public String getSex() {
+        return Sex;
+    }
+
+    public void setSex(String sex) {
+        Sex = sex;
+    }
+
     protected Vector<String> PatientList;
     public doctorUser(String username, String password) {
         this.username = username;
