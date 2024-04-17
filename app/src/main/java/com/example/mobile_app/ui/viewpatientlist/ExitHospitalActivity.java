@@ -133,8 +133,9 @@ public class ExitHospitalActivity extends AppCompatActivity {
 
         Log.v("updating","updating");
         Document filter = new Document().append("id", ID);
-        Document updatedPatient = new Document().append("dateOut", DateOut).append("bloodType", BloodType);
-        Document update = new Document().append("$set", new Document().append("medicalRecord.0", updatedPatient));
+        Document updatedPatient = new Document().append("medicalRecord.0.dateOut", DateOut)
+                .append("medicalRecord.0.bloodType", BloodType);
+        Document update = new Document().append("$set", updatedPatient);
 
         mongoCollection.updateOne(filter, update).getAsync(result -> {
             if(result.isSuccess()) {
