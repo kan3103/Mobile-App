@@ -110,6 +110,7 @@ public class HomeListActivity extends AppCompatActivity {
             }
 
         });
+
         Endocrinology.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +124,7 @@ public class HomeListActivity extends AppCompatActivity {
                         Document doc2 = result.get();
                         if(doc2.containsKey("array")){
                             ArrayList<Document> check = (ArrayList<Document>) doc2.get("array");
+                            if(check!=null){
                             for(Document run : check){
                                 userInterface hi = new doctorUser(run.getString("username"),run.getString("name"),run.getString("sex"),run.getString("experience"));
                                 save.add(hi);
@@ -130,40 +132,7 @@ public class HomeListActivity extends AppCompatActivity {
                             Log.v("oke","Thanh cong roi");
                             CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
                             recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
-
-                            recyclerView.setAdapter(adapter);
-                        }
-
-                    }
-                    else {
-                        Log.v("oke","kooo Thanh cong roi");
-                    }
-                });
-            }
-
-        });
-        Endocrinology.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setContentView(R.layout.activity_view_patient_list);
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-                ArrayList<userInterface> save = new ArrayList<>();
-                Document doc = new Document().append("name","Endocrinology");
-                mongoCollection.findOne(doc).getAsync( result -> {
-                    if(result.isSuccess()){
-
-                        Document doc2 = result.get();
-                        if(doc2.containsKey("array")){
-                            ArrayList<Document> check = (ArrayList<Document>) doc2.get("array");
-                            for(Document run : check){
-                                userInterface hi = new doctorUser(run.getString("username"),run.getString("name"),run.getString("sex"),run.getString("experience"));
-                                save.add(hi);
-                            }
-                            Log.v("oke","Thanh cong roi");
-                            CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
-
-                            recyclerView.setAdapter(adapter);
+                            recyclerView.setAdapter(adapter);}
                         }
 
                     }
@@ -187,15 +156,15 @@ public class HomeListActivity extends AppCompatActivity {
                         Document doc2 = result.get();
                         if(doc2.containsKey("array")){
                             ArrayList<Document> check = (ArrayList<Document>) doc2.get("array");
-                            for(Document run : check){
-                                userInterface hi = new doctorUser(run.getString("username"),run.getString("name"),run.getString("sex"),run.getString("experience"));
-                                save.add(hi);
-                            }
-                            Log.v("oke","Thanh cong roi");
-                            CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
-
-                            recyclerView.setAdapter(adapter);
+                            if(check!=null){
+                                for(Document run : check){
+                                    userInterface hi = new doctorUser(run.getString("username"),run.getString("name"),run.getString("sex"),run.getString("experience"));
+                                    save.add(hi);
+                                }
+                                Log.v("oke","Thanh cong roi");
+                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
+                                recyclerView.setAdapter(adapter);}
                         }
 
                     }
@@ -219,15 +188,15 @@ public class HomeListActivity extends AppCompatActivity {
                         Document doc2 = result.get();
                         if(doc2.containsKey("array")){
                             ArrayList<Document> check = (ArrayList<Document>) doc2.get("array");
-                            for(Document run : check){
-                                userInterface hi = new doctorUser(run.getString("username"),run.getString("name"),run.getString("sex"),run.getString("experience"));
-                                save.add(hi);
-                            }
-                            Log.v("oke","Thanh cong roi");
-                            CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
-
-                            recyclerView.setAdapter(adapter);
+                            if(check!=null){
+                                for(Document run : check){
+                                    userInterface hi = new doctorUser(run.getString("username"),run.getString("name"),run.getString("sex"),run.getString("experience"));
+                                    save.add(hi);
+                                }
+                                Log.v("oke","Thanh cong roi");
+                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
+                                recyclerView.setAdapter(adapter);}
                         }
 
                     }
@@ -251,15 +220,15 @@ public class HomeListActivity extends AppCompatActivity {
                         Document doc2 = result.get();
                         if(doc2.containsKey("array")){
                             ArrayList<Document> check = (ArrayList<Document>) doc2.get("array");
-                            for(Document run : check){
-                                userInterface hi = new doctorUser(run.getString("username"),run.getString("name"),run.getString("sex"),run.getString("experience"));
-                                save.add(hi);
-                            }
-                            Log.v("oke","Thanh cong roi");
-                            CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
-
-                            recyclerView.setAdapter(adapter);
+                            if(check!=null){
+                                for(Document run : check){
+                                    userInterface hi = new doctorUser(run.getString("username"),run.getString("name"),run.getString("sex"),run.getString("experience"));
+                                    save.add(hi);
+                                }
+                                Log.v("oke","Thanh cong roi");
+                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
+                                recyclerView.setAdapter(adapter);}
                         }
 
                     }
@@ -269,6 +238,38 @@ public class HomeListActivity extends AppCompatActivity {
                 });
             }
 
+        });
+        ENT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.activity_view_patient_list);
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                ArrayList<userInterface> save = new ArrayList<>();
+                Document doc = new Document().append("name","ENT");
+                mongoCollection.findOne(doc).getAsync( result -> {
+                    if(result.isSuccess()){
+
+                        Document doc2 = result.get();
+                        if(doc2.containsKey("array")){
+                            ArrayList<Document> check = (ArrayList<Document>) doc2.get("array");
+                            if(check!=null){
+                                for(Document run : check){
+                                    userInterface hi = new doctorUser(run.getString("username"),run.getString("name"),run.getString("sex"),run.getString("experience"));
+                                    save.add(hi);
+                                }
+                                Log.v("oke","Thanh cong roi");
+                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
+                                recyclerView.setAdapter(adapter);}
+                        }
+
+                    }
+                    else {
+                        Log.v("oke","kooo Thanh cong roi");
+                    }
+                });
+
+        }
         });
     }
 }
