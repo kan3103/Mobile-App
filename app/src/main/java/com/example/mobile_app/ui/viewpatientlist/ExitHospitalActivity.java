@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mobile_app.LoginActivity;
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
+import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ExitHospitalFormBinding;
@@ -47,7 +48,8 @@ public class ExitHospitalActivity extends AppCompatActivity {
     public boolean isUpdated;
     private ProgressBar progressBar;
     private App app;
-
+    patientUser patient;
+    private userInterface userdoctor;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,14 @@ public class ExitHospitalActivity extends AppCompatActivity {
         dateOut = findViewById(R.id.board_dateOut);
         bloodType = findViewById(R.id.board_bloodType);
         btn2 = (Button) findViewById(R.id.board_xacnhan);
+        Intent intent =getIntent();
+        if(intent != null) {
+            userdoctor = (userInterface) intent.getSerializableExtra("userobject");
+            if(userdoctor!=null){
+                Log.v("test",((doctorUser)userdoctor).getName());
+            }
 
+        }
         Realm.init(getApplicationContext());
         app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
@@ -76,24 +85,16 @@ public class ExitHospitalActivity extends AppCompatActivity {
 
         System.out.println("Register");
 
-//        Bundle extras = getIntent().getExtras();
-//
-//        if (extras != null) {
-//            patient = extras.getSerializableExtra("patientInfor");
-//        }
-//
-//        patientUser patient = (patientUser) getIntent().getSerializableExtra("patientInfor");
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            patient = (patientUser) extras.getSerializable("patientInfor");
+//            System.out.println(extras);
+        }
 
-//        boolean isUpdated = getIntent().getExtras().getBoolean("isUpdated");
-
-//        System.out.print(patient.getUsername());
-//        System.out.print(patient.getName());
-//        username.setText(patient.getUsername());
-//        username.setFocusable(false);
-//        name.setText(patient.getName());
-//        name.setFocusable(false);
-//        birthday.setText("11111");
-//        symtomps.setText("");
+        id.setText(patient.getId());
+        id.setFocusable(false);
+        name.setText(patient.getName());
+        name.setFocusable(false);
 
         app.loginAsync(credentials, new App.Callback<User>() {
             @Override
@@ -121,26 +122,53 @@ public class ExitHospitalActivity extends AppCompatActivity {
         String DateOut = dateOut.getText().toString().trim();
         String BloodType = bloodType.getText().toString().trim();
 
-//        username.setText();
-//        username.setFocusable(false);
-//        name.setText(patient.getName());
-//        name.setFocusable(false);
-//        birthday.setText("11111");
-//        symtomps.setText("");
-
 //        progressBar.setVisibility(View.VISIBLE);
+
+
+//        Log.v("updating","updating");
+//        Document filter = new Document().append("id", ID);
+//        Document updatedPatient = new Document().append("dateOut", DateOut).append("bloodType", BloodType).append("status", true);
+//        Document update = new Document().append("$set", new Document().append("medicalRecord.0", updatedPatient));
+//
+//        mongoCollection.updateOne(filter, update).getAsync(result -> {
+//            if(result.isSuccess()) {
+////                patient.setStatus(true);
+//                Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
+////                intent.putExtra("isUpdated", true);
+//                startActivity(intent);
+//
+//                long numModified = result.get().getModifiedCount();
+//                if (numModified == 1) {
+//                    Toast.makeText(getApplicationContext(),"Updated",Toast.LENGTH_LONG).show();
+//                    Log.v("Update", "Successfully updated document");
+//                } else {
+//                    Toast.makeText(getApplicationContext(),"Inserted",Toast.LENGTH_LONG).show();
+//                    Log.v("Update", "Inserted new document");
+//                }
+//            } else {
+//                Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+//                Log.v("Update", "Failed to update document: " + result.getError().toString());
+//            }
+//        });
+//
+//
+//        System.out.println("Clicked register");
+//        Log.v("updating", "updating");
+
 
 
         Log.v("updating","updating");
         Document filter = new Document().append("id", ID);
-        Document updatedPatient = new Document().append("dateOut", DateOut).append("bloodType", BloodType);
-        Document update = new Document().append("$set", new Document().append("medicalRecord.0", updatedPatient));
+        Document updatedPatient = new Document()
+                .append("medicalRecord.0.dateOut", DateOut)
+                .append("medicalRecord.0.bloodType", BloodType)
+                .append("medicalRecord.0.status", true);
+        Document update = new Document().append("$set", updatedPatient);
 
         mongoCollection.updateOne(filter, update).getAsync(result -> {
             if(result.isSuccess()) {
-                Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
-                intent.putExtra("isUpdated", true);
-                startActivity(intent);
+//                Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
+//                startActivity(intent);
 
                 long numModified = result.get().getModifiedCount();
                 if (numModified == 1) {
@@ -157,37 +185,6 @@ public class ExitHospitalActivity extends AppCompatActivity {
         });
 
 
-        System.out.println("Clicked register");
-        Log.v("updating", "updating");
-
-
-
-
-//        mongoCollection.findOne(filter).getAsync(r -> {
-//            if (r.isSuccess()) {
-//                mongoCollection.updateOne(filter, newPatient, new UpdateOptions().upsert(true)).getAsync(r1 -> {
-//                    if (r1.isSuccess()) {
-//                        Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
-//                        startActivity(intent);
-//
-//                        long numModified = r1.get().getModifiedCount();
-//                        if (numModified == 1) {
-//                            Toast.makeText(getApplicationContext(), "Đã gửi thành công", Toast.LENGTH_LONG).show();
-////                    Log.v("Update", "Successfully updated document");
-//                        } else {
-//                            Toast.makeText(getApplicationContext(), "Đã gửi thành công!", Toast.LENGTH_LONG).show();
-////                    Log.v("Update", "Inserted new document");
-//                        }
-//
-//
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-//                        Log.v("Update", "Failed to update document: " + r.getError().toString());
-//                    }
-//                });
-//
-//            }
-//        });
 
     }
 }

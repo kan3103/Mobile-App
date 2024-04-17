@@ -1,6 +1,7 @@
 package com.example.mobile_app.api.user.userObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class doctorUser implements userInterface, Serializable {
@@ -15,6 +16,16 @@ public class doctorUser implements userInterface, Serializable {
     protected String PhoneNum;
     protected String citizenID;
     protected String Experience;
+    protected String nationality;
+    protected ArrayList<patientUser> PatientList;
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
     protected int PatientNum;
 
     public String getSex() {
@@ -25,14 +36,24 @@ public class doctorUser implements userInterface, Serializable {
         Sex = sex;
     }
 
-    protected Vector<String> PatientList;
+
+    protected String birthday;
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
     public doctorUser(String username, String password) {
         this.username = username;
         this.password = password;
         this.typeuser = "Doctor";
     }
 
-    public doctorUser(String username, String password, String ID, String name, String specialty, String address, String phoneNum, String citizenID, String experience, int patientNum, Vector<String> patientList) {
+    public doctorUser(String username, String password, String ID, String name, String specialty, String address, String phoneNum, String citizenID, String experience, int patientNum, ArrayList<patientUser> patientList) {
         this.username = username;
         this.password = password;
         this.typeuser = "Doctor";
@@ -101,6 +122,7 @@ public class doctorUser implements userInterface, Serializable {
         this.citizenID = citizenID;
     }
 
+
     public String getExperience() {
         return Experience;
     }
@@ -117,11 +139,11 @@ public class doctorUser implements userInterface, Serializable {
         PatientNum = patientNum;
     }
 
-    public Vector<String> getPatientList() {
+    public ArrayList<patientUser> getPatientList() {
         return PatientList;
     }
 
-    public void setPatientList(Vector<String> patientList) {
+    public void setPatientList(ArrayList<patientUser> patientList) {
         PatientList = patientList;
     }
 
