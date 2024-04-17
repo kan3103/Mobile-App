@@ -16,11 +16,11 @@ import com.example.mobile_app.R;
 import java.util.ArrayList;
 
 public class capthuoc_adap extends ArrayAdapter<String> {
-    private ArrayList<String> list_thuoc ;
+    ArrayList<String> list_thuoc ;
     Context context ;
 
-    public capthuoc_adap(@NonNull Context context, int resource, ArrayList<String> list_thuoc) {
-        super(context, R.layout.capthuoc_layout, list_thuoc);
+    public capthuoc_adap(@NonNull Context context, ArrayList<String> list_thuoc) {
+        super(context, R.layout.capthuoc_listview_custom, list_thuoc);
         this.list_thuoc = list_thuoc;
         this.context = context;
     }
