@@ -42,7 +42,7 @@ public class AddUserActivity extends AppCompatActivity {
     MongoClient mongoClient;
     MongoCollection<Document> mongoCollection;
     User user;
-    EditText username,pass,name,birth,specialty,sex,nationality,phone,experience;
+    EditText username,pass,name,birth,specialty,sex,nationality,phone,experience,citizenid;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +58,7 @@ public class AddUserActivity extends AppCompatActivity {
         nationality = findViewById(R.id.add_nationality);
         phone = findViewById(R.id.add_phone);
         experience = findViewById(R.id.experience);
+        citizenid = findViewById(R.id.add_citizenid);
         Realm.init(getApplicationContext());
         App app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
@@ -114,7 +115,8 @@ public class AddUserActivity extends AppCompatActivity {
                                                 .append("sex", sex.getText().toString().trim())
                                                 .append("nationality", nationality.getText().toString().trim())
                                                 .append("numPhone", phone.getText().toString().trim())
-                                                .append("experience",experience.getText().toString().trim());
+                                                .append("experience",experience.getText().toString().trim())
+                                                .append("citizendid",citizenid.getText().toString().trim());
                                         // Thêm tài liệu mới vào collection "Doctor"
                                         mongoCollection.updateOne(filter, newDoctor, new UpdateOptions().upsert(true)).getAsync(result3 -> {
                                             if (result3.isSuccess()) {

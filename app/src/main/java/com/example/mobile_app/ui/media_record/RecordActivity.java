@@ -57,15 +57,15 @@ public class RecordActivity extends AppCompatActivity {
             medRecord = ((patientUser) user).getMedicalRecord();
         }
         if(medRecord!=null){
-        for(int i=0;i<medRecord.getRecords().size();++i){
-            MedRecord.Record record = medRecord.getRecords().get(0);
-            CustomCardListView adapter = new CustomCardListView(this);
-            adapter.setDataList(record);
-            adapter.setBackgroundColor(Color.parseColor("#87CEFA"));
-            vs1.addView(adapter);
+            for(int i=0;i<medRecord.getRecords().size();++i){
+                MedRecord.Record record = medRecord.getRecords().get(i);
+                CustomCardListView adapter = new CustomCardListView(this);
+                adapter.setDataList(record);
+                adapter.setBackgroundColor(Color.parseColor("#87CEFA"));
+                vs1.addView(adapter);
 
 //            Log.v("oke","okeeee");
-        }}
+            }}
 
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
