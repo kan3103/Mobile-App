@@ -60,7 +60,7 @@ public class SettingsFragment extends Fragment {
         array_com_doc.add(new SettingsComp(R.drawable.drug_icon, "Cấp thuốc"));
         array_com_admin.add(new SettingsComp(R.drawable.icon_person, "Thông tin cá nhân"));
         array_com_admin.add(new SettingsComp(R.drawable.add_doctor, "Thêm bác sĩ"));
-           array_com_admin.add(new SettingsComp(R.drawable.drug_icon, "Thêm thuốc vào kho"));
+        array_com_admin.add(new SettingsComp(R.drawable.drug_icon, "Thêm thuốc vào kho"));
         if (user.getTypeuser().equals("Patient")) {
             adapter = new Settings_Fragment(getActivity(), array_com);
             gridView = mview.findViewById(R.id.setting_com);
@@ -99,6 +99,7 @@ public class SettingsFragment extends Fragment {
                 }
                 else if(position == 1 && user.getTypeuser().equals("Doctor")){
                     Intent intent = new Intent(view.getContext(), ViewPatientsList.class);
+                    intent.putExtra("userobject", (doctorUser) user);
                     startActivity(intent);
                 }
                 else if (position == 1 && user.getTypeuser().equals("Admin")) {

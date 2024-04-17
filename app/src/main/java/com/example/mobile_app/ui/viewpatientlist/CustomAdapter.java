@@ -49,7 +49,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
             if(((patientUser) list.get(0)).getSymptoms().equals("")){view = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.row_item_patient, viewGroup, false);
-                }
+            }
             else{
                 view = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.row_item_doctor, viewGroup, false);
