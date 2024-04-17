@@ -103,8 +103,8 @@ public class profile_activity extends AppCompatActivity {
             listView.setAdapter(adapter);
         }
         else if(user1.getTypeuser().equals("Doctor")){
-            ArrayList<String> keys = new ArrayList<>(Arrays.asList("name", "sex",  "birthday", "specialty","phoneNum", "nationality", "address", "occupation"));
-            ArrayList<String> key2 = new ArrayList<>(Arrays.asList("Name", "Sex",  "Birthday", "Specialty","Phone number", "Nationality", "Address", "Occupation"));
+            ArrayList<String> keys = new ArrayList<>(Arrays.asList("name", "sex",  "birthday", "specialty","phoneNum", "nationality", "address"));
+            ArrayList<String> key2 = new ArrayList<>(Arrays.asList("Name", "Sex",  "Birthday", "Specialty","Phone number", "Nationality", "Address"));
             for (int index = 0; index < keys.size(); index++) {
                 String descrip = doc.containsKey(keys.get(index)) ? doc.getString(keys.get(index)) : "";
                 items.add(new Item_list(key2.get(index), descrip));
@@ -114,8 +114,8 @@ public class profile_activity extends AppCompatActivity {
             pro5name.setText(doc.getString("name"));
             listView.setAdapter(adapter);
         }else {
-            ArrayList<String> keys = new ArrayList<>(Arrays.asList("name", "sex",  "birthday", "specialty","phoneNum", "nationality", "address", "occupation"));
-            ArrayList<String> key2 = new ArrayList<>(Arrays.asList("Name", "Sex",  "Birthday", "Specialty","Phone number", "Nationality", "Address", "Occupation"));
+            ArrayList<String> keys = new ArrayList<>(Arrays.asList("name", "sex"));
+            ArrayList<String> key2 = new ArrayList<>(Arrays.asList("Name", "Sex"));
             for (int index = 0; index < keys.size(); index++) {
                 String descrip = doc.containsKey(keys.get(index)) ? doc.getString(keys.get(index)) : "";
                 items.add(new Item_list(key2.get(index), descrip));

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.mobile_app.Data.Doctor;
 import com.example.mobile_app.R;
 import com.example.mobile_app.api.user.userObject.patientUser;
+import com.example.mobile_app.api.user.userObject.userInterface;
 
 import org.bson.Document;
 
@@ -31,7 +32,7 @@ public class ViewDoctorsList extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Doctor> doctorList = new ArrayList<>();
 
-    ArrayList<patientUser> patientList = new ArrayList<>();
+    ArrayList<userInterface> patientList = new ArrayList<>();
 
     String Appid = "mobileapp-fyjbw";
     MongoDatabase mongoDatabase;

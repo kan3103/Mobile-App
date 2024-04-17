@@ -46,7 +46,7 @@ public class DashboardFragment extends Fragment {
     private View view;
     CustomAdapter adapter;
     RecyclerView recyclerView;
-    ArrayList<patientUser> patientList = new ArrayList<>();
+    ArrayList<userInterface> patientList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -102,8 +102,8 @@ public class DashboardFragment extends Fragment {
                         String symtomps = currentDocument.getString("symptoms");
                         String phoneNum = currentDocument.getString("phoneNumber");
                         String name = currentDocument.getString("name");
-
-                        patientList.add(new patientUser(name, "",phoneNum,symtomps));
+                        userInterface hi = new patientUser(name,"",phoneNum,symtomps);
+                        patientList.add(hi);
                     }
                     adapter = new CustomAdapter(patientList, getContext());
 

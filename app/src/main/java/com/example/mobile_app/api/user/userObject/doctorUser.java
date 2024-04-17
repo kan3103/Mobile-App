@@ -1,6 +1,7 @@
 package com.example.mobile_app.api.user.userObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class doctorUser implements userInterface, Serializable {
@@ -11,18 +12,48 @@ public class doctorUser implements userInterface, Serializable {
     protected String Name;
     protected String Specialty;
     protected String Address;
+    protected String Sex;
     protected String PhoneNum;
     protected String citizenID;
-    protected int Experience;
+    protected String Experience;
+    protected String nationality;
+    protected ArrayList<patientUser> PatientList;
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
     protected int PatientNum;
-    protected Vector<String> PatientList;
+
+    public String getSex() {
+        return Sex;
+    }
+
+    public void setSex(String sex) {
+        Sex = sex;
+    }
+
+
+    protected String birthday;
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
     public doctorUser(String username, String password) {
         this.username = username;
         this.password = password;
         this.typeuser = "Doctor";
     }
 
-    public doctorUser(String username, String password, String ID, String name, String specialty, String address, String phoneNum, String citizenID, int experience, int patientNum, Vector<String> patientList) {
+    public doctorUser(String username, String password, String ID, String name, String specialty, String address, String phoneNum, String citizenID, String experience, int patientNum, ArrayList<patientUser> patientList) {
         this.username = username;
         this.password = password;
         this.typeuser = "Doctor";
@@ -36,7 +67,13 @@ public class doctorUser implements userInterface, Serializable {
         PatientNum = patientNum;
         PatientList = patientList;
     }
-
+    public  doctorUser(String username,String name,String sex,String experience){
+        this.username=username;
+        this.typeuser="Doctor";
+        this.Name = name;
+        this.Sex = sex;
+        this.Experience=experience;
+    }
     public String getID() {
         return ID;
     }
@@ -85,11 +122,12 @@ public class doctorUser implements userInterface, Serializable {
         this.citizenID = citizenID;
     }
 
-    public int getExperience() {
+
+    public String getExperience() {
         return Experience;
     }
 
-    public void setExperience(int experience) {
+    public void setExperience(String experience) {
         Experience = experience;
     }
 
@@ -101,11 +139,11 @@ public class doctorUser implements userInterface, Serializable {
         PatientNum = patientNum;
     }
 
-    public Vector<String> getPatientList() {
+    public ArrayList<patientUser> getPatientList() {
         return PatientList;
     }
 
-    public void setPatientList(Vector<String> patientList) {
+    public void setPatientList(ArrayList<patientUser> patientList) {
         PatientList = patientList;
     }
 

@@ -20,6 +20,8 @@ import com.example.mobile_app.R;
 
 import org.bson.Document;
 
+import java.util.ArrayList;
+
 import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -40,7 +42,7 @@ public class AddUserActivity extends AppCompatActivity {
     MongoClient mongoClient;
     MongoCollection<Document> mongoCollection;
     User user;
-    EditText username,pass,name,birth,specialty,sex,nationality,phone;
+    EditText username,pass,name,birth,specialty,sex,nationality,phone,experience;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class AddUserActivity extends AppCompatActivity {
         sex = findViewById(R.id.add_sex);
         nationality = findViewById(R.id.add_nationality);
         phone = findViewById(R.id.add_phone);
+        experience = findViewById(R.id.experience);
         Realm.init(getApplicationContext());
         App app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
@@ -80,25 +83,61 @@ public class AddUserActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Tạo một tài liệu mới với thông tin từ các trường dữ liệu trên giao diện người dùng
                 Document filter = new Document().append("username", username.getText().toString().trim());
-                Document newDoctor = new Document()
-                        .append("username", username.getText().toString().trim())
-                        .append("password", pass.getText().toString().trim())
-                        .append("name", name.getText().toString().trim())
-                        .append("birthday", birth.getText().toString().trim())
-                        .append("specialty", specialty.getText().toString().trim())
-                        .append("sex",sex.getText().toString().trim())
-                        .append("nationality",nationality.getText().toString().trim())
-                        .append("numPhone",phone.getText().toString().trim());
-                // Thêm tài liệu mới vào collection "Doctor"
-                mongoCollection.updateOne(filter,newDoctor,new UpdateOptions().upsert(true)).getAsync(result -> {
+                mongoCollection.findOne(filter).getAsync(result -> {
                     if(result.isSuccess()){
-                        Toast.makeText(getApplicationContext(),"Add Doctor Successful", Toast.LENGTH_LONG).show();
-                        finish();
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),"Fail to add new", Toast.LENGTH_LONG).show();
+                        if(result.get()!=null)
+                        Toast.makeText(getApplicationContext(),"Đã có người dùng username này", Toast.LENGTH_LONG).show();
+                        else{
+                            MongoCollection<Document> mongoCollection1 = mongoDatabase.getCollection("Specialty");
+                            Document filter1 = new Document().append("name", specialty.getText().toString().trim());
+                            mongoCollection1.findOne(filter1).getAsync(result1 -> {
+                                if(result1.isSuccess()){
+                                    if(result1.get()==null)
+                                        Toast.makeText(getApplicationContext(),"Không có khoa này", Toast.LENGTH_LONG).show();
+                                    else {
+                                        Document document = result1.get();
+                                        ArrayList<Document> he = (ArrayList<Document>) document.get("array");
+                                        Document new2 = new Document()
+                                                .append("username", username.getText().toString().trim())
+                                                .append("sex", sex.getText().toString().trim())
+                                                .append("name", name.getText().toString().trim())
+                                                .append("experience",experience.getText().toString().trim());
+                                        he.add(new2);
+                                        Document update = document.append("array", he);
+                                        mongoCollection1.updateOne(filter1, update).getAsync(result2 -> {});
+                                        Document newDoctor = new Document()
+                                                .append("username", username.getText().toString().trim())
+                                                .append("password", pass.getText().toString().trim())
+                                                .append("name", name.getText().toString().trim())
+                                                .append("birthday", birth.getText().toString().trim())
+                                                .append("specialty", specialty.getText().toString().trim())
+                                                .append("sex", sex.getText().toString().trim())
+                                                .append("nationality", nationality.getText().toString().trim())
+                                                .append("numPhone", phone.getText().toString().trim())
+                                                .append("experience",experience.getText().toString().trim());
+                                        // Thêm tài liệu mới vào collection "Doctor"
+                                        mongoCollection.updateOne(filter, newDoctor, new UpdateOptions().upsert(true)).getAsync(result3 -> {
+                                            if (result3.isSuccess()) {
+                                                Toast.makeText(getApplicationContext(), "Add Doctor Successful", Toast.LENGTH_LONG).show();
+                                                finish();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Fail to add new", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "ko truy cap duoc", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }else {
+
+
                     }
                 });
+
+
             }
         });
 
