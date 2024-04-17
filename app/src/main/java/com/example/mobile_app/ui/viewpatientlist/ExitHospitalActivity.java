@@ -18,12 +18,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mobile_app.LoginActivity;
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
+import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ExitHospitalFormBinding;
 import com.example.mobile_app.ui.register.RegisterActivity;
 
 import org.bson.Document;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import io.realm.Realm;
 import io.realm.mongodb.App;
@@ -36,10 +40,13 @@ import io.realm.mongodb.mongo.MongoDatabase;
 import io.realm.mongodb.mongo.options.UpdateOptions;
 
 public class ExitHospitalActivity extends AppCompatActivity {
+    public boolean isUpdated;
     String Appid = "mobileapp-fyjbw";
     MongoDatabase mongoDatabase;
     MongoClient mongoClient;
     MongoCollection<Document> mongoCollection;
+    patientUser patient;
+    ArrayList<patientUser> patientList = new ArrayList<>();
     private ExitHospitalFormBinding binding;
     private Button btn2;
     private EditText name, id, dateOut, bloodType;
@@ -47,7 +54,8 @@ public class ExitHospitalActivity extends AppCompatActivity {
     public boolean isUpdated;
     private ProgressBar progressBar;
     private App app;
-
+    patientUser patient;
+    private userInterface userdoctor;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +68,14 @@ public class ExitHospitalActivity extends AppCompatActivity {
         dateOut = findViewById(R.id.board_dateOut);
         bloodType = findViewById(R.id.board_bloodType);
         btn2 = (Button) findViewById(R.id.board_xacnhan);
+        Intent intent =getIntent();
+        if(intent != null) {
+            userdoctor = (userInterface) intent.getSerializableExtra("userobject");
+            if(userdoctor!=null){
+                Log.v("test",((doctorUser)userdoctor).getName());
+            }
 
+        }
         Realm.init(getApplicationContext());
         app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
@@ -76,24 +91,16 @@ public class ExitHospitalActivity extends AppCompatActivity {
 
         System.out.println("Register");
 
-//        Bundle extras = getIntent().getExtras();
-//
-//        if (extras != null) {
-//            patient = extras.getSerializableExtra("patientInfor");
-//        }
-//
-//        patientUser patient = (patientUser) getIntent().getSerializableExtra("patientInfor");
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            patient = (patientUser) extras.getSerializable("patientInfor");
+//            System.out.println(extras);
+        }
 
-//        boolean isUpdated = getIntent().getExtras().getBoolean("isUpdated");
-
-//        System.out.print(patient.getUsername());
-//        System.out.print(patient.getName());
-//        username.setText(patient.getUsername());
-//        username.setFocusable(false);
-//        name.setText(patient.getName());
-//        name.setFocusable(false);
-//        birthday.setText("11111");
-//        symtomps.setText("");
+        id.setText(patient.getId());
+        id.setFocusable(false);
+        name.setText(patient.getName());
+        name.setFocusable(false);
 
         app.loginAsync(credentials, new App.Callback<User>() {
             @Override
@@ -108,40 +115,66 @@ public class ExitHospitalActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fillPatientInfor();
+                fillPatientInform();
             }
         });
 
     }
 
-    private void fillPatientInfor() {
+    private void fillPatientInform() {
         //Inputs
         String patientName = name.getText().toString().trim();
         String ID = id.getText().toString().trim();
         String DateOut = dateOut.getText().toString().trim();
         String BloodType = bloodType.getText().toString().trim();
 
-//        username.setText();
-//        username.setFocusable(false);
-//        name.setText(patient.getName());
-//        name.setFocusable(false);
-//        birthday.setText("11111");
-//        symtomps.setText("");
-
 //        progressBar.setVisibility(View.VISIBLE);
+
+
+//        Log.v("updating","updating");
+//        Document filter = new Document().append("id", ID);
+//        Document updatedPatient = new Document().append("dateOut", DateOut).append("bloodType", BloodType).append("status", true);
+//        Document update = new Document().append("$set", new Document().append("medicalRecord.0", updatedPatient));
+//
+//        mongoCollection.updateOne(filter, update).getAsync(result -> {
+//            if(result.isSuccess()) {
+////                patient.setStatus(true);
+//                Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
+////                intent.putExtra("isUpdated", true);
+//                startActivity(intent);
+//
+//                long numModified = result.get().getModifiedCount();
+//                if (numModified == 1) {
+//                    Toast.makeText(getApplicationContext(),"Updated",Toast.LENGTH_LONG).show();
+//                    Log.v("Update", "Successfully updated document");
+//                } else {
+//                    Toast.makeText(getApplicationContext(),"Inserted",Toast.LENGTH_LONG).show();
+//                    Log.v("Update", "Inserted new document");
+//                }
+//            } else {
+//                Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+//                Log.v("Update", "Failed to update document: " + result.getError().toString());
+//            }
+//        });
+//
+//
+//        System.out.println("Clicked register");
+//        Log.v("updating", "updating");
+
 
 
         Log.v("updating","updating");
         Document filter = new Document().append("id", ID);
-        Document updatedPatient = new Document().append("medicalRecord.0.dateOut", DateOut)
-                .append("medicalRecord.0.bloodType", BloodType);
+        Document updatedPatient = new Document()
+                .append("medicalRecord.0.dateOut", DateOut)
+                .append("medicalRecord.0.bloodType", BloodType)
+                .append("medicalRecord.0.status", true);
         Document update = new Document().append("$set", updatedPatient);
 
         mongoCollection.updateOne(filter, update).getAsync(result -> {
             if(result.isSuccess()) {
-                Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
-                intent.putExtra("isUpdated", true);
-                startActivity(intent);
+//                Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
+//                startActivity(intent);
 
                 long numModified = result.get().getModifiedCount();
                 if (numModified == 1) {
@@ -158,37 +191,74 @@ public class ExitHospitalActivity extends AppCompatActivity {
         });
 
 
-        System.out.println("Clicked register");
-        Log.v("updating", "updating");
+        User user1 = app.currentUser();
+        MongoClient mongoClient1 = user1.getMongoClient("mongodb-atlas");
+        MongoDatabase mongoDatabase1 = mongoClient1.getDatabase("Hospital");
+        MongoCollection<Document> mongoCollection1 = mongoDatabase1.getCollection("Doctor");
+
+        Document queryFilter = new Document().append("patientList", new Document("$exists", true));
+        String[] idOfPatientObjInDoc = new String[1];
+        String[] patientDocument = {"", ""};
+        StringBuilder[] positionOfPatientStr = new StringBuilder[]{new StringBuilder(), new StringBuilder()};
+
+        mongoCollection1.findOne(queryFilter).getAsync(result -> {
+            if (result.isSuccess()) {
+                Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
+                Document resultData = result.get();
+                Log.v("Data Success", resultData.toString());
+                if (resultData.containsKey("patientList")) {
+                    ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("patientList");
+                    for (Document patient : arrList) {
+                        String patientId = patient.getString("id");
+                        System.out.println(patientId);
+                        if (Objects.equals(patientId, ID)) {
+//                            Compare id of element in document with ID of current selected patient
+                            idOfPatientObjInDoc[0] = String.valueOf(arrList.indexOf(patient));
+                            positionOfPatientStr[0].append("patientList.").append(idOfPatientObjInDoc[0]).append(".status");
+                            positionOfPatientStr[1].append("patientList.").append(idOfPatientObjInDoc[0]).append(".id");
+                            patientDocument[0] += positionOfPatientStr[0].toString();
+                            patientDocument[1] += positionOfPatientStr[1].toString();
 
 
+                            break;
+                        }
+                    }
+                    System.out.println(patientDocument[0]);
+                    System.out.println(patientDocument[1]);
+                    Document filterDoc = new Document().append("id", 1);
+                    Document updateDoc = new Document().append(patientDocument[0], true).append(patientDocument[1], ID);;
+                    Document update1 = new Document().append("$set", updateDoc);
+                    mongoCollection1.updateOne(filterDoc, update1).getAsync(result1 -> {
+                        if (result1.isSuccess()) {
+                            Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
+                            startActivity(intent);
+
+                            long numModified = result1.get().getModifiedCount();
+                            if (numModified == 1) {
+                                Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_LONG).show();
+                                Log.v("Update", "Successfully updated document");
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_LONG).show();
+                                Log.v("Update", "Inserted new document");
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                            Log.v("Update", "Failed to update document: " + result1.getError().toString());
+                        }
+                    });
+                } else {
+                    Log.v("Data Success", "Document does not contain an 'arr' field");
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
+                Log.v("Data Error", result.getError().toString());
+            }
+        });
 
 
-//        mongoCollection.findOne(filter).getAsync(r -> {
-//            if (r.isSuccess()) {
-//                mongoCollection.updateOne(filter, newPatient, new UpdateOptions().upsert(true)).getAsync(r1 -> {
-//                    if (r1.isSuccess()) {
-//                        Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
-//                        startActivity(intent);
-//
-//                        long numModified = r1.get().getModifiedCount();
-//                        if (numModified == 1) {
-//                            Toast.makeText(getApplicationContext(), "Đã gửi thành công", Toast.LENGTH_LONG).show();
-////                    Log.v("Update", "Successfully updated document");
-//                        } else {
-//                            Toast.makeText(getApplicationContext(), "Đã gửi thành công!", Toast.LENGTH_LONG).show();
-////                    Log.v("Update", "Inserted new document");
-//                        }
-//
-//
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-//                        Log.v("Update", "Failed to update document: " + r.getError().toString());
-//                    }
-//                });
-//
-//            }
-//        });
+        System.out.println(patientDocument[0]);
+        System.out.println("positionOfPatientStr.toString()");
+
 
     }
 }

@@ -20,6 +20,8 @@ import com.example.mobile_app.R;
 
 import org.bson.Document;
 
+import java.util.ArrayList;
+
 import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -40,7 +42,7 @@ public class AddUserActivity extends AppCompatActivity {
     MongoClient mongoClient;
     MongoCollection<Document> mongoCollection;
     User user;
-    EditText username,pass,name,birth,specialty,sex,nationality,phone;
+    EditText username,pass,name,birth,specialty,sex,nationality,phone,experience;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class AddUserActivity extends AppCompatActivity {
         sex = findViewById(R.id.add_sex);
         nationality = findViewById(R.id.add_nationality);
         phone = findViewById(R.id.add_phone);
+        experience = findViewById(R.id.experience);
         Realm.init(getApplicationContext());
         App app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
@@ -92,6 +95,16 @@ public class AddUserActivity extends AppCompatActivity {
                                     if(result1.get()==null)
                                         Toast.makeText(getApplicationContext(),"Không có khoa này", Toast.LENGTH_LONG).show();
                                     else {
+                                        Document document = result1.get();
+                                        ArrayList<Document> he = (ArrayList<Document>) document.get("array");
+                                        Document new2 = new Document()
+                                                .append("username", username.getText().toString().trim())
+                                                .append("sex", sex.getText().toString().trim())
+                                                .append("name", name.getText().toString().trim())
+                                                .append("experience",experience.getText().toString().trim());
+                                        he.add(new2);
+                                        Document update = document.append("array", he);
+                                        mongoCollection1.updateOne(filter1, update).getAsync(result2 -> {});
                                         Document newDoctor = new Document()
                                                 .append("username", username.getText().toString().trim())
                                                 .append("password", pass.getText().toString().trim())
@@ -100,7 +113,8 @@ public class AddUserActivity extends AppCompatActivity {
                                                 .append("specialty", specialty.getText().toString().trim())
                                                 .append("sex", sex.getText().toString().trim())
                                                 .append("nationality", nationality.getText().toString().trim())
-                                                .append("numPhone", phone.getText().toString().trim());
+                                                .append("numPhone", phone.getText().toString().trim())
+                                                .append("experience",experience.getText().toString().trim());
                                         // Thêm tài liệu mới vào collection "Doctor"
                                         mongoCollection.updateOne(filter, newDoctor, new UpdateOptions().upsert(true)).getAsync(result3 -> {
                                             if (result3.isSuccess()) {
