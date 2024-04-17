@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mobile_app.LoginActivity;
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
+import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ExitHospitalFormBinding;
@@ -48,6 +49,7 @@ public class ExitHospitalActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private App app;
     patientUser patient;
+    private userInterface userdoctor;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,14 @@ public class ExitHospitalActivity extends AppCompatActivity {
         dateOut = findViewById(R.id.board_dateOut);
         bloodType = findViewById(R.id.board_bloodType);
         btn2 = (Button) findViewById(R.id.board_xacnhan);
+        Intent intent =getIntent();
+        if(intent != null) {
+            userdoctor = (userInterface) intent.getSerializableExtra("userobject");
+            if(userdoctor!=null){
+                Log.v("test",((doctorUser)userdoctor).getName());
+            }
 
+        }
         Realm.init(getApplicationContext());
         app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");

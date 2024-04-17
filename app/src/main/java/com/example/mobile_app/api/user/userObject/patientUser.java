@@ -88,7 +88,12 @@ public class patientUser implements userInterface, Serializable {
         this.status = status;
         this.id = id;
     }
-
+    public  patientUser(String username,String name, String age,boolean status){
+        this.username = username;
+        this.name = name;
+        this.age = age;
+        this.status=status;
+    }
     public String getSymptoms() {
         return symptoms;
     }
