@@ -147,8 +147,9 @@ public class ExitHospitalActivity extends AppCompatActivity {
         MongoDatabase mongoDatabase2 = mongoClient2.getDatabase("Hospital");
         MongoCollection<Document> mongoCollection2 = mongoDatabase2.getCollection("Record");
 
-        MedRecord[] med = new MedRecord[1];
-        med[0] = new MedRecord(patientName, "", "", "", "", "", "", patient.getId());
+//        MedRecord[] med = new MedRecord[1];
+        List<MedRecord> med = new ArrayList<>();
+        med.add(new MedRecord(patientName, "", "", "", "", "", "", patient.getId()));
         Document f = new Document().append("id_patient", "10");
 
         mongoCollection2.findOne(f).getAsync(result -> {
@@ -167,9 +168,10 @@ public class ExitHospitalActivity extends AppCompatActivity {
                         patientInform[2] = document.getString("doctor");
                         patientInform[3] = document.getString("nurse");
                         patientInform[4] = document.getString("Diagnose");
-                        med[0].addRecord(patientInform[2], patientInform[1], patientInform[3]);
-                        System.out.println(med[0].getRecords().get(0).getNurse());
-                        System.out.println(patientInform[0]);
+                        med.get(0).addRecord(patientInform[2], patientInform[1], patientInform[3]);
+                        System.out.println(med.get(0).getRecords().get(0).getNurse());
+                        System.out.println(med.get(0).getRecords().size());
+                        System.out.println("med[0].getRecords().size()");
                     }
 //                            med[0] = new MedRecord(weight, height, doctor, nurse, date, RevisionDate, specialty);
 //                            System.out.println(med[0].toString());
@@ -182,10 +184,13 @@ public class ExitHospitalActivity extends AppCompatActivity {
             }
         });
 
-        med[0].addRecord(doctorName, DateOut, Nurse);
-        System.out.println(med[0].getRecords());
-        System.out.println(med[0].getRecords().size());
-        System.out.println(med[0].getRecords().get(0).getNurse());
+        System.out.print("med[0].getRecords().size(): ");
+        System.out.println(med.get(0).getRecords().size());
+        med.get(0).addRecord(doctorName, DateOut, Nurse);
+
+        System.out.print("med[0].getRecords(): ");
+        System.out.println(med.get(0).getRecords().size());
+        System.out.println(med.get(0).getRecords().get(0).getNurse());
         patient.setStatus(true);
 
         for (patientUser patient : ((doctorUser) userdoctor).getPatientList()) {
@@ -241,7 +246,7 @@ public class ExitHospitalActivity extends AppCompatActivity {
         Log.v("updating", "updating");
         Document filter = new Document().append("id", patient.getId());
         Document updatedPatient = new Document()
-                .append("medicalRecord", med[0].getRecords())
+                .append("medicalRecord", med.get(0).getRecords())
                 .append("status", patient.isStatus());
         Document update = new Document().append("$set", updatedPatient);
 
