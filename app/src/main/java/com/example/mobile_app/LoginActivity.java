@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
 import org.bson.Document;
 
 import com.example.mobile_app.api.MedicalRecord.MedRecord;
@@ -53,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     String true_data;
     String selectedText;
     RadioGroup radioButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,10 +72,10 @@ public class LoginActivity extends AppCompatActivity {
         app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
 
-        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
-            if(it.isSuccess()){
+        app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456", it -> {
+            if (it.isSuccess()) {
                 Log.v("User", "Successfully registered user");
-            }else{
+            } else {
                 Log.v("User", "Failed to register user");
             }
         });
@@ -91,8 +93,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = username.getText().toString().trim();
-                if(name=="") {
-                    Toast.makeText(getApplicationContext(),"Enter the username and password",Toast.LENGTH_LONG).show();
+                if (name == "") {
+                    Toast.makeText(getApplicationContext(), "Enter the username and password", Toast.LENGTH_LONG).show();
                     return;
                 }
                 RadioGroup radioGroup = findViewById(R.id.radiogroup);
@@ -100,23 +102,23 @@ public class LoginActivity extends AppCompatActivity {
                 if (selectedRadioButtonId != -1) {
                     RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
                     selectedText = selectedRadioButton.getText().toString();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"Select role",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Select role", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(selectedText.equals("Admin")){
+                if (selectedText.equals("Admin")) {
                     mongoCollection = mongoDatabase.getCollection(selectedText);
-                    Document document = new Document().append("username",name);
-                    mongoCollection.findOne(document).getAsync( result -> {
-                        if(result.isSuccess()){
-                            Log.v("hee","ok rooif");
-                            if(result.get()!=null){
+                    Document document = new Document().append("username", name);
+                    mongoCollection.findOne(document).getAsync(result -> {
+                        if (result.isSuccess()) {
+                            Log.v("hee", "ok rooif");
+                            if (result.get() != null) {
                                 Document dataa = result.get();
-                                if(dataa.containsKey("password"))true_data=dataa.getString("password");
-                            else return;
+                                if (dataa.containsKey("password"))
+                                    true_data = dataa.getString("password");
+                                else return;
 
-                                if(true_data.equals(password.getText().toString())) {
+                                if (true_data.equals(password.getText().toString())) {
                                     Login login = new Login();
                                     // Thực hiện đăng nhập
                                     userInterface user = login.createUser("Admin", name, true_data);
@@ -124,70 +126,63 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.putExtra("userobject", (adminUser) user);
                                     startActivity(intent);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_LONG).show();
                                 }
-                                else{
-                                    Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
-                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_LONG).show();
                             }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
-                            }
-                        }else {
-                            Toast.makeText(getApplicationContext(),"FAIL",Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "FAIL", Toast.LENGTH_LONG).show();
                         }
                     });
-                }
-                else if(selectedText.equals("Doctor")){
+                } else if (selectedText.equals("Doctor")) {
                     mongoCollection = mongoDatabase.getCollection(selectedText);
-                    Document document = new Document().append("username",name);
-                    mongoCollection.findOne(document).getAsync( result -> {
-                        if(result.isSuccess()){
-                            Log.v("hee","ok rooif");
-                            if(result.get()!=null){
+                    Document document = new Document().append("username", name);
+                    mongoCollection.findOne(document).getAsync(result -> {
+                        if (result.isSuccess()) {
+                            Log.v("hee", "ok rooif");
+                            if (result.get() != null) {
                                 Document dataa = result.get();
-                            true_data = dataa.getString("password");
+                                true_data = dataa.getString("password");
                                 ArrayList<Document> documentArrayList;
                                 ArrayList<patientUser> he = new ArrayList<>();
-                                if(dataa.containsKey("patientList"))
-                                {
+                                if (dataa.containsKey("patientList")) {
                                     documentArrayList = (ArrayList<Document>) dataa.get("patientList");
-                                    for(Document run:documentArrayList){
-                                        patientUser new_patient = new patientUser(run.getString("username"),run.getString("name"),run.getString("age"),run.getBoolean("status"));
+                                    for (Document run : documentArrayList) {
+                                        patientUser new_patient = new patientUser(run.getString("name"), run.getString("age"), run.getString("phoneNumber"), run.getBoolean("status"), run.getString("id"));
                                         he.add(new_patient);
                                     }
                                 }
-                                if(true_data.equals(password.getText().toString())){
+                                if (true_data.equals(password.getText().toString())) {
                                     Login login = new Login();
                                     // Thực hiện đăng nhập
                                     userInterface user = login.createUser("Doctor", name, true_data);
-                                    Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
-                                    setDoctor(user,dataa,he);
+                                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
+                                    setDoctor(user, dataa, he);
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.putExtra("userobject", (doctorUser) user);
                                     startActivity(intent);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_LONG).show();
                                 }
-                                else{
-                                    Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
-                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_LONG).show();
                             }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
-                            }
-                        }else {
-                            Toast.makeText(getApplicationContext(),"FAIL",Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "FAIL", Toast.LENGTH_LONG).show();
                         }
                     });
-                }
-                else{
+                } else {
                     mongoCollection = mongoDatabase.getCollection(selectedText);
-                    Document document = new Document().append("username",name);
-                    mongoCollection.findOne(document).getAsync( result -> {
-                        if(result.isSuccess()){
-                            if(result.get()!=null){
+                    Document document = new Document().append("username", name);
+                    mongoCollection.findOne(document).getAsync(result -> {
+                        if (result.isSuccess()) {
+                            if (result.get() != null) {
                                 Document dataa = result.get();
                                 true_data = dataa.getString("password");
 
-                                if(true_data.equals(password.getText().toString())) {
+                                if (true_data.equals(password.getText().toString())) {
                                     Login login = new Login();
                                     userInterface user = login.createUser("Patient", name, true_data);
                                     setPatient(user, dataa);
@@ -196,12 +191,11 @@ public class LoginActivity extends AppCompatActivity {
                                     intent.putExtra("userobject", (patientUser) user);
                                     startActivity(intent);
                                 }
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_LONG).show();
                             }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
-                            }
-                        }else {
-                            Toast.makeText(getApplicationContext(),"FAIL",Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "FAIL", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -216,39 +210,42 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    public MedRecord getMediarecord(Document data){
-        MedRecord medRecord = new MedRecord(data.getString("name"),"","","","","","","");
-        if(data.containsKey("medicalRecord")){
+
+    public MedRecord getMediarecord(Document data) {
+        MedRecord medRecord = new MedRecord(data.getString("name"), "", "", "", "", "", "", "");
+        if (data.containsKey("medicalRecord")) {
 
             ArrayList<Document> arrList = (ArrayList<Document>) data.get("medicalRecord");
             if (arrList.size() >= 1) {
                 Document secondElement = arrList.get(0);
-                medRecord.addRecord(secondElement.containsKey("weight")?secondElement.getString("weight"):"",secondElement.containsKey("height")?secondElement.getString("height"):"",
-                        secondElement.containsKey("doctor")?secondElement.getString("doctor"):"", secondElement.containsKey("nurse")?secondElement.getString("nurse"):"",secondElement.containsKey("dateIn")?secondElement.getString("dateIn"):"",
-                        secondElement.containsKey("reDate")?secondElement.getString("reDate"):"",secondElement.containsKey("specialty")?secondElement.getString("specialty"):"");
+                medRecord.addRecord(secondElement.containsKey("weight") ? secondElement.getString("weight") : "", secondElement.containsKey("height") ? secondElement.getString("height") : "",
+                        secondElement.containsKey("doctor") ? secondElement.getString("doctor") : "", secondElement.containsKey("nurse") ? secondElement.getString("nurse") : "", secondElement.containsKey("dateIn") ? secondElement.getString("dateIn") : "",
+                        secondElement.containsKey("reDate") ? secondElement.getString("reDate") : "", secondElement.containsKey("specialty") ? secondElement.getString("specialty") : "");
             } else {
-                                Log.v("Data Success", "Array does not contain a second element");
+                Log.v("Data Success", "Array does not contain a second element");
             }
         }
         return medRecord;
     }
-    public void setPatient(userInterface user, Document dataa){
+
+    public void setPatient(userInterface user, Document dataa) {
         ((patientUser) user).setMedicalRecord(getMediarecord(dataa));
         ((patientUser) user).setSex(dataa.getString("sex"));
         ((patientUser) user).setId(dataa.getString("id"));
         ((patientUser) user).setNationality(dataa.getString("nationality"));
         ((patientUser) user).setBirth(dataa.getString("birth"));
     }
-    public void setDoctor(userInterface user,Document dataa,ArrayList<patientUser>he){
-        ((doctorUser) user).setName(dataa.containsKey("name")?dataa.getString("name"):"");
-        ((doctorUser) user).setExperience(dataa.containsKey("experience")?dataa.getString("experience"):"");
-        ((doctorUser) user).setSex(dataa.containsKey("sex")?dataa.getString("sex"):"");
-        ((doctorUser) user).setSex(dataa.containsKey("sex")?dataa.getString("sex"):"");
-        ((doctorUser) user).setSpecialty(dataa.containsKey("specialty")?dataa.getString("specialty"):"");
-        ((doctorUser) user).setBirthday(dataa.containsKey("birthday")?dataa.getString("birthday"):"");
-        ((doctorUser) user).setNationality(dataa.containsKey("nationality")?dataa.getString("nationality"):"");
-        ((doctorUser) user).setPhoneNum(dataa.containsKey("numPhone")?dataa.getString("numPhone"):"");
-        if(he.size()!=0)((doctorUser) user).setPatientList(he);
-        Log.v("oke","Thêm được nha");
+
+    public void setDoctor(userInterface user, Document dataa, ArrayList<patientUser> he) {
+        ((doctorUser) user).setName(dataa.containsKey("name") ? dataa.getString("name") : "");
+        ((doctorUser) user).setExperience(dataa.containsKey("experience") ? dataa.getString("experience") : "");
+        ((doctorUser) user).setSex(dataa.containsKey("sex") ? dataa.getString("sex") : "");
+        ((doctorUser) user).setSex(dataa.containsKey("sex") ? dataa.getString("sex") : "");
+        ((doctorUser) user).setSpecialty(dataa.containsKey("specialty") ? dataa.getString("specialty") : "");
+        ((doctorUser) user).setBirthday(dataa.containsKey("birthday") ? dataa.getString("birthday") : "");
+        ((doctorUser) user).setNationality(dataa.containsKey("nationality") ? dataa.getString("nationality") : "");
+        ((doctorUser) user).setPhoneNum(dataa.containsKey("numPhone") ? dataa.getString("numPhone") : "");
+        if (he.size() != 0) ((doctorUser) user).setPatientList(he);
+        Log.v("oke", "Thêm được nha");
     }
 }

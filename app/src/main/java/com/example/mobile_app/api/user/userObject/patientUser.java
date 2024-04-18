@@ -116,6 +116,7 @@ public class patientUser implements userInterface, Serializable {
         this.medicalRecord = medicalRecord;
     }
     public MedRecord getMedicalRecord() {
+
         return medicalRecord;
     }
     public String getTypeuser(){return typeuser; };
@@ -172,5 +173,30 @@ public class patientUser implements userInterface, Serializable {
     }
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "patientUser{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", typeuser='" + typeuser + '\'' +
+                ", symptoms='" + symptoms + '\'' +
+                ", medicalRecord=" + medicalRecord +
+                ", id='" + id + '\'' +
+                ", age='" + age + '\'' +
+                ", name='" + name + '\'' +
+                ", citizenID='" + citizenID + '\'' +
+                ", religion='" + religion + '\'' +
+                ", sex='" + sex + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", bloodType='" + bloodType + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", healthInsuranceID='" + healthInsuranceID + '\'' +
+                ", occupation='" + occupation + '\'' +
+                ", address='" + address + '\'' +
+                ", birth='" + birth + '\'' +
+                ", status=" + status +
+                '}';
     }
 }
