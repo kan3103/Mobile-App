@@ -51,10 +51,8 @@ public class ExitHospitalActivity extends AppCompatActivity {
     private Button btn2;
     private EditText name, id, dateOut, bloodType;
     private User user;
-    public boolean isUpdated;
     private ProgressBar progressBar;
     private App app;
-    patientUser patient;
     private userInterface userdoctor;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
