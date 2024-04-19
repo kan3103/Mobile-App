@@ -108,7 +108,8 @@ public class ViewPatientsList extends AppCompatActivity {
 //
 //                            System.out.println(patient);
 //                            System.out.println(patient.getBoolean("status"));
-////                                boolean isUpdated = isUpdatedObject != null ? isUpdatedObject : false;//                                Kiem tra field boolean updated trong patient
+////                                boolean isUpdated = isUpdatedObject != null ? isUpdatedObject : false;//
+// Kiem tra field boolean updated trong patient
 //                            if (!isUpdated) {x
 //                                patientList.add(new patientUser(name, age, phoneNumber, false, id));
 //                            }

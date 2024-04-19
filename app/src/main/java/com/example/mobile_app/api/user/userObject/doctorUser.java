@@ -7,7 +7,6 @@ import java.util.Vector;
 public class doctorUser implements userInterface, Serializable {
     private String username;
     private String password;
-    private String typeuser;
     protected String ID;
     protected String Name;
     protected String Specialty;
@@ -50,13 +49,11 @@ public class doctorUser implements userInterface, Serializable {
     public doctorUser(String username, String password) {
         this.username = username;
         this.password = password;
-        this.typeuser = "Doctor";
     }
 
     public doctorUser(String username, String password, String ID, String name, String specialty, String address, String phoneNum, String citizenID, String experience, int patientNum, ArrayList<patientUser> patientList) {
         this.username = username;
         this.password = password;
-        this.typeuser = "Doctor";
         this.ID = ID;
         Name = name;
         Specialty = specialty;
@@ -69,7 +66,6 @@ public class doctorUser implements userInterface, Serializable {
     }
     public  doctorUser(String username,String name,String sex,String experience){
         this.username=username;
-        this.typeuser="Doctor";
         this.Name = name;
         this.Sex = sex;
         this.Experience=experience;
@@ -159,5 +155,5 @@ public class doctorUser implements userInterface, Serializable {
     public String getPassword() {
         return password;
     }
-    public String getTypeuser(){return typeuser; };
+    public String getTypeuser(){return "Doctor"; };
 }

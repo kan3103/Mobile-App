@@ -4,17 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.mobile_app.Data.Doctor;
 import com.example.mobile_app.R;
+import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 
 import org.bson.Document;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -31,9 +34,10 @@ public class ViewDoctorsList extends AppCompatActivity {
     CustomAdapter adapter;
     RecyclerView recyclerView;
     ArrayList<Doctor> doctorList = new ArrayList<>();
-
+    ArrayList<userInterface> patientList1 = new ArrayList<>();
     ArrayList<userInterface> patientList = new ArrayList<>();
-
+    private userInterface userdoctor;
+    boolean isUpdated;
     String Appid = "mobileapp-fyjbw";
     MongoDatabase mongoDatabase;
     MongoClient mongoClient;
@@ -91,7 +95,32 @@ public class ViewDoctorsList extends AppCompatActivity {
                         Log.e("APP", "Failed to find documents with: ", task.getError());
                     }
                 });
+                Intent intent = getIntent();
+                if(intent != null) {
+                    userdoctor = (userInterface) intent.getSerializableExtra("userobject");
+                    if(userdoctor!=null) {
+                        Log.v("test", ((doctorUser) userdoctor).getName());
+                    }
+                    patientList1 = ((doctorUser) userdoctor).getPatientList();
+                }
+                if(patientList!=null) {
+//            System.out.println(patientList.get(0).toString());
+                    adapter = new PatientAdapter(patientList1, ViewDoctorsList.this, new PatientAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(patientUser patient) {
+                            Intent intent = new Intent(ViewDoctorsList.this, ApplyToHospital.class);
+                            intent.putExtra("userobject",(doctorUser) userdoctor);
+                            intent.putExtra("patientInfor", (Serializable) patient);
+                            startActivity(intent);
+                        }
+                    });
+//            adapter = new PatientAdapter(patientList, ViewPatientsList.this, patient -> {
+////                                    System.out.println(patient.getName());
 
+//                startActivity(intent1);
+//            });
+                    recyclerView.setLayoutManager(new LinearLayoutManager(ViewPatientsList.this));
+                    recyclerView.setAdapter(adapter);
 //                Document queryFilter = new Document().append("patientList", new Document("$exists", true));
 //                mongoCollection.find().getAsync(result -> {
 //                    if (result.isSuccess()) {
@@ -168,4 +197,5 @@ public class ViewDoctorsList extends AppCompatActivity {
 
 //        });
     }
+}
 }

@@ -7,7 +7,6 @@ import java.io.Serializable;
 public class patientUser implements userInterface, Serializable {
     private String username;
     private String password;
-    private String typeuser;
     private String symptoms;
     private MedRecord medicalRecord;
     private String id;
@@ -64,7 +63,6 @@ public class patientUser implements userInterface, Serializable {
     public patientUser(String username, String password) {
         this.username = username;
         this.password = password;
-        this.typeuser = "Patient";
     }
     public patientUser(String name, String age, String phoneNumber)
     {
@@ -72,7 +70,6 @@ public class patientUser implements userInterface, Serializable {
         this.age = age;
         this.phoneNumber = phoneNumber;
         symptoms ="";
-        this.typeuser = "Patient";
     }
     public patientUser(String name, String age, String phoneNumber,String symptoms)
     {
@@ -80,7 +77,6 @@ public class patientUser implements userInterface, Serializable {
         this.age = age;
         this.phoneNumber = phoneNumber;
         this.symptoms = symptoms;
-        this.typeuser = "Patient";
     }
     public patientUser(String name, String age, String phoneNumber, boolean status, String id)
     {
@@ -119,7 +115,7 @@ public class patientUser implements userInterface, Serializable {
 
         return medicalRecord;
     }
-    public String getTypeuser(){return typeuser; };
+    public String getTypeuser(){return "Patient"; };
     public String getAge() {
         return age;
     }
@@ -180,7 +176,6 @@ public class patientUser implements userInterface, Serializable {
         return "patientUser{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", typeuser='" + typeuser + '\'' +
                 ", symptoms='" + symptoms + '\'' +
                 ", medicalRecord=" + medicalRecord +
                 ", id='" + id + '\'' +
