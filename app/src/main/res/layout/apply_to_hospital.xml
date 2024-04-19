@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.DashboardFragment">
+    tools:context=".ui.viewpatientlist.ApplyToHospital">
 
-<!--    <TextView-->
-<!--        android:id="@+id/text_dashboard"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textSize="20sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/text_dashboard"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             android:id="@+id/welcome_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome, Patient"
+            android:text="Your patient's information"
             android:textSize="25sp"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
@@ -78,10 +78,10 @@
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
             android:textColor="#CC3399"
-            android:hint="Your name" />
+            android:hint="Patient's Name" />
 
         <EditText
-            android:id="@+id/board_birthday"
+            android:id="@+id/board_dateIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/board_name"
@@ -90,27 +90,37 @@
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
             android:textColor="@color/black"
-            android:hint="Your Phone" />
-
-
+            android:hint="Date in" />
 
         <EditText
-            android:id="@+id/board_symptoms"
+            android:id="@+id/board_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/board_dateIn"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="#CC3399"
+            android:textColor="@color/black"
+            android:hint="ID" />
+
+        <EditText
+            android:id="@+id/board_bloodPressure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
-            android:layout_below="@id/board_birthday"
+            android:layout_below="@id/board_id"
             android:layout_marginTop="16dp"
             android:textColor="@color/black"
-            android:hint="Your Symptoms"/>
+            android:hint="Blood Pressure"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:gravity="center"
-            android:layout_below="@+id/board_symptoms">
+            android:layout_below="@+id/board_bloodPressure">
             <Button
                 android:layout_width="wrap_content"
                 android:text="Xác nhận"
