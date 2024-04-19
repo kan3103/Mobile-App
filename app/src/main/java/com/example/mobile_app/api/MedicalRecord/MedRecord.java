@@ -11,8 +11,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
+import com.example.mobile_app.ui.media_record.Record_Data;
 public class MedRecord implements Serializable {
+    public void addRecord(Record_Data recordData) {
+    }
 
     // inner class - record class
     public class Record implements Serializable {
@@ -37,7 +41,7 @@ public class MedRecord implements Serializable {
         // methods
         // constructor
         public Record(String weight, String height, String doctor,
-                String nurse, String date, String RevisionDate,String specialty) {
+                      String nurse, String date, String RevisionDate,String specialty) {
             this.weight = weight;
             this.height = height;
             this.doctor = doctor;
@@ -50,6 +54,12 @@ public class MedRecord implements Serializable {
             diagnosis = "";
             this.specialty = specialty;
             medicalHistory = new ArrayList<String>();
+        }
+
+        public Record(String doctor, String date, String nurse) {
+            this.doctor = doctor;
+            this.nurse = nurse;
+            this.date = date;
         }
 
         // setters
@@ -172,7 +182,6 @@ public class MedRecord implements Serializable {
         }
 
     }
-
     // attributes
     String name;
     String dob;
@@ -184,6 +193,7 @@ public class MedRecord implements Serializable {
     String citizenId;
     String insuranceId;
     ArrayList<MedRecord.Record> records;
+
 
     // methods
     // constructor
@@ -202,10 +212,9 @@ public class MedRecord implements Serializable {
 
     // setters
     public void addRecord(String weight, String height,
-            String doctor, String nurse, String date, String RevisionDate,String specialty) {
+                          String doctor, String nurse, String date, String RevisionDate,String specialty) {
         records.add(new Record(weight, height, doctor, nurse, date, RevisionDate,specialty));
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -250,4 +259,12 @@ public class MedRecord implements Serializable {
         return records;
     }
 
+    public void addRecord(String doctor, String date_out, String nurse) {
+        Record newRecord = new Record(doctor, date_out, nurse);
+        newRecord.setDoctor(doctor);
+        newRecord.setDate(date_out);
+        newRecord.setNurse(nurse);
+        // set other fields of newRecord based on the fields of record
+        records.add(newRecord);
+    }
 }

@@ -1,3 +1,4 @@
+
 package com.example.mobile_app.ui.media_record;
 
 import com.example.mobile_app.api.user.userObject.userInterface;
@@ -20,13 +21,23 @@ public class Record_Data {
     private String date_in;
     private String date_out;
 
-
+    public Record_Data(String doctor, String nurse, String date_out) {
+        Doctor = doctor;
+        Nurse = nurse;
+        this.date_out = date_out;
+    }
     public String getDate_in() {
         return date_in;
+    }
+    public void setDate_in(String date_in) {
+        this.date_in = date_in;
     }
 
     public String getDate_out() {
         return date_out;
+    }
+    public void setDate_out(String date_out) {
+        this.date_out = date_out;
     }
 
     public void setUser(userInterface user) {

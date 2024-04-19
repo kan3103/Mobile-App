@@ -23,11 +23,12 @@ public class patientUser implements userInterface, Serializable {
     private String occupation;
     private String address;
     private String birth;
-    private boolean getStatus ;
+    private boolean status ;
 
     public boolean isStatus() {
-        return getStatus;
+        return status;
     }
+    public void setStatus(boolean status){this.status = status;}
     public String getBirth() {
         return birth;
     }
@@ -81,14 +82,20 @@ public class patientUser implements userInterface, Serializable {
         this.symptoms = symptoms;
         this.typeuser = "Patient";
     }
-    public patientUser(String name, String age, String phoneNumber, boolean getStatus)
+    public patientUser(String name, String age, String phoneNumber, boolean status, String id)
     {
         this.name = name;
         this.age = age;
         this.phoneNumber = phoneNumber;
-        this.getStatus = getStatus;
+        this.status = status;
+        this.id = id;
     }
-
+    public  patientUser(String username,String name, String age,boolean status){
+        this.username = username;
+        this.name = name;
+        this.age = age;
+        this.status=status;
+    }
     public String getSymptoms() {
         return symptoms;
     }
@@ -109,6 +116,7 @@ public class patientUser implements userInterface, Serializable {
         this.medicalRecord = medicalRecord;
     }
     public MedRecord getMedicalRecord() {
+
         return medicalRecord;
     }
     public String getTypeuser(){return typeuser; };
@@ -165,5 +173,30 @@ public class patientUser implements userInterface, Serializable {
     }
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "patientUser{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", typeuser='" + typeuser + '\'' +
+                ", symptoms='" + symptoms + '\'' +
+                ", medicalRecord=" + medicalRecord +
+                ", id='" + id + '\'' +
+                ", age='" + age + '\'' +
+                ", name='" + name + '\'' +
+                ", citizenID='" + citizenID + '\'' +
+                ", religion='" + religion + '\'' +
+                ", sex='" + sex + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", bloodType='" + bloodType + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", healthInsuranceID='" + healthInsuranceID + '\'' +
+                ", occupation='" + occupation + '\'' +
+                ", address='" + address + '\'' +
+                ", birth='" + birth + '\'' +
+                ", status=" + status +
+                '}';
     }
 }
