@@ -1,3 +1,4 @@
+
 package com.example.mobile_app.ui.viewpatientlist;
 
 import android.content.Intent;
@@ -165,5 +166,5 @@ public class ViewPatientsList extends AppCompatActivity {
 //            }
 //        });
 //    }
-}
+    }
 }

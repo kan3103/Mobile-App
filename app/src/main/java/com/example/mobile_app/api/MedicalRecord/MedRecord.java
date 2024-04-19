@@ -41,7 +41,7 @@ public class MedRecord implements Serializable {
         // methods
         // constructor
         public Record(String weight, String height, String doctor,
-                String nurse, String date, String RevisionDate,String specialty) {
+                      String nurse, String date, String RevisionDate,String specialty) {
             this.weight = weight;
             this.height = height;
             this.doctor = doctor;
@@ -212,7 +212,7 @@ public class MedRecord implements Serializable {
 
     // setters
     public void addRecord(String weight, String height,
-            String doctor, String nurse, String date, String RevisionDate,String specialty) {
+                          String doctor, String nurse, String date, String RevisionDate,String specialty) {
         records.add(new Record(weight, height, doctor, nurse, date, RevisionDate,specialty));
     }
     public void setName(String name) {
@@ -268,4 +268,3 @@ public class MedRecord implements Serializable {
         records.add(newRecord);
     }
 }
-
