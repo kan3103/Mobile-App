@@ -21,28 +21,28 @@
             android:layout_width="match_parent"
             android:overScrollMode="never"
             android:layout_height="wrap_content"/>
-        <LinearLayout
-            android:id="@+id/register_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center">
-            <Button
-                android:layout_marginRight="20dp"
-                android:layout_width="wrap_content"
-                android:backgroundTint="#87CEFA"
-                android:text="Hủy"
-                android:textColor="@color/black"
-                android:layout_height="wrap_content">
-            </Button>
-            <Button
-                android:layout_marginLeft="20dp"
-                android:layout_width="wrap_content"
-                android:backgroundTint="#87CEFA"
-                android:textColor="@color/black"
-                android:text="Xác nhận"
-                android:layout_height="wrap_content"></Button>
-        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:id="@+id/register_list"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:gravity="center">-->
+<!--            <Button-->
+<!--                android:layout_marginRight="20dp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:backgroundTint="#87CEFA"-->
+<!--                android:text="Hủy"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:layout_height="wrap_content">-->
+<!--            </Button>-->
+<!--            <Button-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:backgroundTint="#87CEFA"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:text="Xác nhận"-->
+<!--                android:layout_height="wrap_content"></Button>-->
+<!--        </LinearLayout>-->
 
     </LinearLayout>
 

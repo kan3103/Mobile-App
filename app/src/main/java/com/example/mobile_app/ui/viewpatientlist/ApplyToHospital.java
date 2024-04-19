@@ -75,7 +75,7 @@ public class ApplyToHospital extends AppCompatActivity {
         btn2 = (Button) findViewById(R.id.board_xacnhan);
         Intent intent = getIntent();
         if (intent != null) {
-            userdoctor = (userInterface) intent.getSerializableExtra("userobject");
+            userdoctor = (userInterface) intent.getSerializableExtra("userObj");
             if (userdoctor != null) {
                 Log.v("test", ((doctorUser) userdoctor).getName());
             }
@@ -98,15 +98,11 @@ public class ApplyToHospital extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            patient = (patientUser) extras.getSerializable("patientInfor");
+            patient = (patientUser) extras.getSerializable("patientInformation");
 //            System.out.println(patient.toString());
 //            System.out.println(extras);
         }
 
-        id.setText(patient.getId());
-        id.setFocusable(false);
-        name.setText(patient.getName());
-        name.setFocusable(false);
 
         app.loginAsync(credentials, new App.Callback<User>() {
             @Override
@@ -115,6 +111,22 @@ public class ApplyToHospital extends AppCompatActivity {
                 mongoClient = user.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
                 mongoCollection = mongoDatabase.getCollection("Patient");
+                // find ID of the patient following the name and get ID at local
+                Document queryFilter = new Document().append("name", patient.getName());
+                mongoCollection.findOne(queryFilter).getAsync(task -> {
+                    if (task.isSuccess()) {
+                        Document resultData = task.get();
+                        if (resultData != null) {
+                            patient.setId(resultData.getString("id"));
+                            id.setText(patient.getId());
+                            id.setFocusable(false);
+                            name.setText(patient.getName());
+                            name.setFocusable(false);
+                        }
+                    } else {
+                        Log.e("APP", "Failed to find documents with: ", task.getError());
+                    }
+                });
             }
         });
 
