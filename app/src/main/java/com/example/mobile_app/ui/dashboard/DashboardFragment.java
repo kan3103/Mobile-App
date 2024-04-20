@@ -99,6 +99,7 @@ public class DashboardFragment extends Fragment {
             });
         }
         else{
+            userDoc = mainActivity.getUser();
             view = inflater.inflate(R.layout.activity_view_doctors_list,container,false);
             recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
             MongoCollection mongoCollection = mainActivity.mongoCollection;
@@ -112,7 +113,8 @@ public class DashboardFragment extends Fragment {
                         String name = currentDocument.getString("name");
                         String phoneNum = currentDocument.getString("phoneNumber");
                         String symptoms = currentDocument.getString("symptoms");
-                        patientList.add((patientUser) new patientUser(name, symptoms, phoneNum));
+                        String username = currentDocument.getString("username");
+                        patientList.add((patientUser) new patientUser(username,name, phoneNum,symptoms ));
 
                     }
                     if (patientList != null)
@@ -122,7 +124,8 @@ public class DashboardFragment extends Fragment {
                             public void onItemClick(patientUser patient) {
                                 Intent intent = new Intent(getContext(), ApplyToHospital.class);
                                 intent.putExtra("userObj",(doctorUser) userDoc);
-                                intent.putExtra("patientInformation", (Serializable) patient);
+                                Log.v("tét xíu",userDoc.getUsername());
+                                intent.putExtra("patientInformation", (patientUser) patient);
                                 startActivity(intent);
                             }
                         });

@@ -216,6 +216,10 @@ public class LoginActivity extends AppCompatActivity {
         if (data.containsKey("medicalRecord")) {
 
             ArrayList<Document> arrList = (ArrayList<Document>) data.get("medicalRecord");
+
+            if(arrList==null) {
+                medRecord.setRecords(null);
+                return medRecord;};
             for (int i = 0; i < arrList.size(); ++i) {
                 Document secondElement = arrList.get(i);
                 medRecord.addRecord(secondElement.containsKey("weight") ? secondElement.getString("weight") : "", secondElement.containsKey("height") ? secondElement.getString("height") : "",
@@ -244,6 +248,5 @@ public class LoginActivity extends AppCompatActivity {
         ((doctorUser) user).setNationality(dataa.containsKey("nationality") ? dataa.getString("nationality") : "");
         ((doctorUser) user).setPhoneNum(dataa.containsKey("numPhone") ? dataa.getString("numPhone") : "");
         if (he.size() != 0) ((doctorUser) user).setPatientList(he);
-        Log.v("oke", "Thêm được nha");
     }
 }

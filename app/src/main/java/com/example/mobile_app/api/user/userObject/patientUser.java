@@ -71,10 +71,10 @@ public class patientUser implements userInterface, Serializable {
         this.phoneNumber = phoneNumber;
         symptoms ="";
     }
-    public patientUser(String name, String age, String phoneNumber,String symptoms)
+    public patientUser(String username, String name, String phoneNumber,String symptoms)
     {
         this.name = name;
-        this.age = age;
+        this.username = username;
         this.phoneNumber = phoneNumber;
         this.symptoms = symptoms;
     }

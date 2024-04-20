@@ -96,7 +96,7 @@ public class HomeListActivity extends AppCompatActivity {
                                 save.add(hi);
                             }
                             Log.v("oke","Thanh cong roi");
-                            CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
+                            CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this,null);
                             recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
 
                             recyclerView.setAdapter(adapter);
@@ -130,7 +130,7 @@ public class HomeListActivity extends AppCompatActivity {
                                 save.add(hi);
                             }
                             Log.v("oke","Thanh cong roi");
-                            CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
+                            CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this,null);
                             recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
                             recyclerView.setAdapter(adapter);}
                         }
@@ -162,7 +162,7 @@ public class HomeListActivity extends AppCompatActivity {
                                     save.add(hi);
                                 }
                                 Log.v("oke","Thanh cong roi");
-                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
+                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this,null);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
                                 recyclerView.setAdapter(adapter);}
                         }
@@ -194,7 +194,7 @@ public class HomeListActivity extends AppCompatActivity {
                                     save.add(hi);
                                 }
                                 Log.v("oke","Thanh cong roi");
-                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
+                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this,null);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
                                 recyclerView.setAdapter(adapter);}
                         }
@@ -226,7 +226,7 @@ public class HomeListActivity extends AppCompatActivity {
                                     save.add(hi);
                                 }
                                 Log.v("oke","Thanh cong roi");
-                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
+                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this,null);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
                                 recyclerView.setAdapter(adapter);}
                         }
@@ -258,7 +258,7 @@ public class HomeListActivity extends AppCompatActivity {
                                     save.add(hi);
                                 }
                                 Log.v("oke","Thanh cong roi");
-                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this);
+                                CustomAdapter adapter = new CustomAdapter(save, HomeListActivity.this,null);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(HomeListActivity.this));
                                 recyclerView.setAdapter(adapter);}
                         }

@@ -141,6 +141,3 @@ public class ViewDoctorsList extends AppCompatActivity {
         });
     }
 }
-
-
-
