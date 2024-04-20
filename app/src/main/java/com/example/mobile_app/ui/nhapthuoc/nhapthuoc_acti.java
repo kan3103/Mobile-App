@@ -36,11 +36,12 @@ public class nhapthuoc_acti extends AppCompatActivity {
     MongoClient mongoClient;
     MongoCollection<Document> mongoCollection;
     User user;
-    App app;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.nhapthuoc_layout);
+
+
 
         idthuoc = findViewById(R.id.id_thuoc_nhapthuoc);
         slthuoc = findViewById(R.id.soluong_nhapthuoc) ;
@@ -48,7 +49,7 @@ public class nhapthuoc_acti extends AppCompatActivity {
 
 
         Realm.init(getApplicationContext());
-        app = new App(new AppConfiguration.Builder(Appid).build());
+        App app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
         app.getEmailPassword().registerUserAsync("khanglytronVN@KL.com", "123456",it->{
             if(it.isSuccess()){
