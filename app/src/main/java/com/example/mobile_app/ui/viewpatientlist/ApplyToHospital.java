@@ -23,6 +23,7 @@ import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ApplyToHospitalBinding;
 import com.example.mobile_app.databinding.ExitHospitalFormBinding;
+import com.example.mobile_app.ui.dashboard.DashboardFragment;
 import com.example.mobile_app.ui.media_record.Record_Data;
 import com.example.mobile_app.ui.register.RegisterActivity;
 import com.example.mobile_app.api.MedicalRecord.MedRecord;
@@ -58,13 +59,15 @@ public class ApplyToHospital extends AppCompatActivity {
     private ProgressBar progressBar;
     private App app;
     //    patientUser patient;
-    private userInterface userdoctor;
+    private userInterface userDoc;
     private MedRecord medRecord;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.apply_to_hospital);
+
+        binding = ApplyToHospitalBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         name = findViewById(R.id.board_name);
         id = findViewById(R.id.board_id);
@@ -73,9 +76,9 @@ public class ApplyToHospital extends AppCompatActivity {
         btn2 = (Button) findViewById(R.id.board_xacnhan);
         Intent intent = getIntent();
         if (intent != null) {
-            userdoctor = (userInterface) intent.getSerializableExtra("userobject");
-            if (userdoctor != null) {
-                Log.v("test", ((doctorUser) userdoctor).getName());
+            userDoc = (userInterface) intent.getSerializableExtra("userObj");
+            if (userDoc != null) {
+                Log.v("test", ((doctorUser) userDoc).getName());
             }
 
         }
@@ -96,15 +99,11 @@ public class ApplyToHospital extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            patient = (patientUser) extras.getSerializable("patientInfor");
+            patient = (patientUser) extras.getSerializable("patientInformation");
 //            System.out.println(patient.toString());
 //            System.out.println(extras);
         }
 
-        id.setText(patient.getId());
-        id.setFocusable(false);
-        name.setText(patient.getName());
-        name.setFocusable(false);
 
         app.loginAsync(credentials, new App.Callback<User>() {
             @Override
@@ -113,13 +112,33 @@ public class ApplyToHospital extends AppCompatActivity {
                 mongoClient = user.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
                 mongoCollection = mongoDatabase.getCollection("Patient");
+                // find ID of the patient following the name and get ID at local
+                Document queryFilter = new Document().append("name", patient.getName());
+                mongoCollection.findOne(queryFilter).getAsync(task -> {
+                    if (task.isSuccess()) {
+                        Document resultData = task.get();
+                        if (resultData != null) {
+                            patient.setId(resultData.getString("id"));
+                            id.setText(patient.getId());
+                            id.setFocusable(false);
+                            name.setText(patient.getName());
+                            name.setFocusable(false);
+                        }
+                    } else {
+                        Log.e("APP", "Failed to find documents with: ", task.getError());
+                    }
+                });
             }
         });
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(ApplyToHospital.this, ViewDoctorsList.class);
+                startActivity(intent);
+                System.out.println(((doctorUser) userDoc).getName());
                 fillPatientInform();
+//                finish();
             }
         });
 
@@ -133,7 +152,10 @@ public class ApplyToHospital extends AppCompatActivity {
         String BloodPressure = bloodPressure.getText().toString().trim();
 
 //        progressBar.setVisibility(View.VISIBLE);
-        String doctorName = ((doctorUser) userdoctor).getName();
+        String doctorName = ((doctorUser) userDoc).getName();
+
+
+
 
         if (user!=null) {
             medRecord = patient.getMedicalRecord();
@@ -141,12 +163,12 @@ public class ApplyToHospital extends AppCompatActivity {
         // Check if the MedRecord object is null
         if (medRecord != null) {
             for(int i=0;i<medRecord.getRecords().size();++i) {
-                MedRecord.Record record = medRecord.getRecords().get(i);
+//                MedRecord.Record record = medRecord.getRecords().get(i);
             }
             // add doctorName, DateOut, Nurse to the Record object
 //            medRecord.addRecord(doctorName, dateIn, bloodPressure);
         }
-        System.out.println(medRecord.getRecords().size());
+//        System.out.println(medRecord.getRecords().size());
 // Now you can safely call addRecord
 
         MedRecord medRecord = patient.getMedicalRecord();
@@ -167,7 +189,7 @@ public class ApplyToHospital extends AppCompatActivity {
 
 
 
-        ArrayList<patientUser> patientList = ((doctorUser) userdoctor).getPatientList();
+        ArrayList<patientUser> patientList = ((doctorUser) userDoc).getPatientList();
         for(patientUser patient : patientList)
         {
             if(patient.getId().equals(ID))
@@ -231,7 +253,7 @@ public class ApplyToHospital extends AppCompatActivity {
         System.out.println(med.get(0).getRecords().get(0).getNurse());
         patient.setStatus(true);
 
-        for (patientUser patient : ((doctorUser) userdoctor).getPatientList()) {
+        for (patientUser patient : ((doctorUser) userDoc).getPatientList()) {
             if (patient.getId().equals(ID)) {
                 patient.setStatus(true);
                 break;

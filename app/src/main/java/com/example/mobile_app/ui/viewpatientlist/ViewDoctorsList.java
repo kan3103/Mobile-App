@@ -32,10 +32,10 @@ import io.realm.mongodb.mongo.iterable.MongoCursor;
 
 public class ViewDoctorsList extends AppCompatActivity {
     CustomAdapter adapter;
+    PatientAdapter adapter1;
     RecyclerView recyclerView;
     ArrayList<Doctor> doctorList = new ArrayList<>();
-    ArrayList<userInterface> patientList1 = new ArrayList<>();
-    ArrayList<userInterface> patientList = new ArrayList<>();
+    ArrayList<patientUser> patientList = new ArrayList<>();
     private userInterface userdoctor;
     boolean isUpdated;
     String Appid = "mobileapp-fyjbw";
@@ -51,7 +51,7 @@ public class ViewDoctorsList extends AppCompatActivity {
         setContentView(R.layout.activity_view_doctors_list);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
+        Intent intent = getIntent();
         // Start MongoDB service
         Realm.init(getApplicationContext());
 
@@ -65,139 +65,79 @@ public class ViewDoctorsList extends AppCompatActivity {
                 Log.v("User", "Failed to register user");
             }
         });
+        app.loginAsync(credentials, new App.Callback<User>() {
+            @Override
+            public void onResult(App.Result<User> r) {
+                user = app.currentUser();
+                mongoClient = user.getMongoClient("mongodb-atlas");
+                mongoDatabase = mongoClient.getDatabase("Hospital");
+                mongoCollection = mongoDatabase.getCollection("Register");
+                mongoCollection.find().iterator().getAsync(task -> {
+                    if (task.isSuccess()) {
+                        MongoCursor<Document> results = task.get();
+                        while (results.hasNext()) {
+                            Document currentDocument = results.next();
 
-        app.loginAsync(credentials,
-                new App.Callback<User>() {
-                    @Override
-                    public void onResult(App.Result<User> r) {
-                        user = app.currentUser();
-                        mongoClient = user.getMongoClient("mongodb-atlas");
-                        mongoDatabase = mongoClient.getDatabase("Hospital");
-                        mongoCollection = mongoDatabase.getCollection("Register");
-                        mongoCollection.find().iterator().getAsync(task -> {
-                            if (task.isSuccess()) {
-                                MongoCursor<Document> results = task.get();
-                                while (results.hasNext()) {
-                                    Document currentDocument = results.next();
+                            String username = currentDocument.getString("username");
+                            String symptoms = currentDocument.getString("symptoms");
+                            String name = currentDocument.getString("name");
 
-                                    String username = currentDocument.getString("username");
-                                    String birthday = currentDocument.getString("birthday");
-                                    String name = currentDocument.getString("name");
-                                    patientList.add(new patientUser(username, birthday, name));
+
+                            // Create a new patientUser object and add it to the patientList
+                            patientList.add((patientUser) new patientUser(username, symptoms, name));
+                            System.out.println(patientList.get(0).toString());
+                        }
+
+                        // Set up the RecyclerView with the patientList
+                        if (patientList != null)
+                        {
+                            adapter1 = new PatientAdapter(patientList, ViewDoctorsList.this, new PatientAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(patientUser patient) {
+                                    Intent intent = new Intent(ViewDoctorsList.this, ApplyToHospital.class);
+                                    intent.putExtra("userObj",(doctorUser) userdoctor);
+                                    intent.putExtra("patientInformation", (Serializable) patient);
+                                    startActivity(intent);
                                 }
-                                System.out.println(patientList);
-                                adapter = new CustomAdapter(patientList, ViewDoctorsList.this,null);
-//                            System.out.println(adapter);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(ViewDoctorsList.this));
-                                recyclerView.setAdapter(adapter);
-                                System.out.println(recyclerView);
-//                    textView.setText(arrList.toString());
-                            } else {
-                                Log.e("APP", "Failed to find documents with: ", task.getError());
-                            }
-                        });
-//                Intent intent = getIntent();
-//                if(intent != null) {
-//                    userdoctor = (userInterface) intent.getSerializableExtra("userobject");
-//                    if(userdoctor!=null) {
-//                        Log.v("test", ((doctorUser) userdoctor).getName());
-//                    }
-//                    patientList1 = ((doctorUser) userdoctor).getPatientList();
+                            });
+                        }
+                        recyclerView.setLayoutManager(new LinearLayoutManager(ViewDoctorsList.this));
+                        recyclerView.setAdapter(adapter1);
+                    } else {
+                        Log.e("APP", "Failed to find documents with: ", task.getError());
+                    }
+                });
+            }
+
+
+
+//            Intent intent = getIntent();
+//            if (intent != null) {
+//                userdoctor = (userInterface) intent.getSerializableExtra("userobject");
+//                if (userdoctor != null) {
+//                    Log.v("test", ((doctorUser) userdoctor).getName());
 //                }
-//                if(patientList!=null) {
+//                patientList = ((doctorUser) userdoctor).getPatientList();
+//            }
+//            if (patientList != null) {
 ////            System.out.println(patientList.get(0).toString());
-//                    adapter = new PatientAdapter(patientList1, ViewDoctorsList.this, new PatientAdapter.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(patientUser patient) {
-//                            Intent intent = new Intent(ViewDoctorsList.this, ApplyToHospital.class);
-//                            intent.putExtra("userobject",(doctorUser) userdoctor);
-//                            intent.putExtra("patientInfor", (Serializable) patient);
-//                            startActivity(intent);
-//                        }
-//                    });
+//                adapter = new PatientAdapter(patientList, ViewDoctorsList.this, new PatientAdapter.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(patientUser patient) {
+//                        Intent intent = new Intent(ViewDoctorsList.this, ApplyToHospital.class);
+//                        intent.putExtra("userobject", (doctorUser) userdoctor);
+//                        intent.putExtra("patientInfor", (Serializable) patient);
+//                        startActivity(intent);
+//                    }
+//                });
 ////            adapter = new PatientAdapter(patientList, ViewPatientsList.this, patient -> {
 //////                                    System.out.println(patient.getName());
 //
 ////                startActivity(intent1);
 ////            });
-//                    recyclerView.setLayoutManager(new LinearLayoutManager(ViewPatientsList.this));
-//                    recyclerView.setAdapter(adapter);
-////                Document queryFilter = new Document().append("patientList", new Document("$exists", true));
-////                mongoCollection.find().getAsync(result -> {
-////                    if (result.isSuccess()) {
-////                        Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
-////                        Document resultData = result.get();
-////                        Log.v("Data Success", resultData.toString());
-////                        if (resultData.containsKey("patientList")) {
-////                            ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("patientList");
-////                            for (Document patient : arrList) {
-//////                                System.out.println(patient);
-////
-////                                String patientDoc = patient.toJson();
-//////                                System.out.println(patientDoc);
-////
-////                                String name = patient.getString("name");
-////                                String age = patient.getString("age");
-////                                String phoneNumber = patient.getString("phoneNumber");
-////                                patientList.add(new patientUser(name,age,phoneNumber));
-////
-////                            }
-////                            System.out.println(patientList);
-////                            adapter = new CustomAdapter(patientList, ViewDoctorsList.this);
-//////                            System.out.println(adapter);
-////                            recyclerView.setLayoutManager(new LinearLayoutManager(ViewDoctorsList.this));
-////                            recyclerView.setAdapter(adapter);
-////                            System.out.println(recyclerView);
-//////                    textView.setText(arrList.toString());
-////                        } else {
-////                            Log.v("Data Success", "Document does not contain an 'arr' field");
-////                        }
-////                    } else {
-////                        Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
-////                        Log.v("Data Error", result.getError().toString());
-////                    }
-////                });
-//
-////                System.out.println(patientList);
-//
+//                recyclerView.setLayoutManager(new LinearLayoutManager(ViewDoctorsList.this));
+//                recyclerView.setAdapter(adapter);
 //            }
-//
-//        });
-//
-//        // Find an element in array
-//        System.out.println("Load list of patients");
-//
-//    }
-                    }
-
-                    //        Getting data:
-                    private void getPatientFromDB() {
-                        // Find all data in array
-
-                        Document queryFilter = new Document().append("arr", new Document("$exists", true));
-                        mongoCollection.findOne(queryFilter).getAsync(result -> {
-                            if (result.isSuccess()) {
-                                Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
-                                Document resultData = result.get();
-                                Log.v("Data Success", resultData.toString());
-                                if (resultData.containsKey("arr")) {
-                                    ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("arr");
-                                    for (Document patient : arrList) {
-                                        System.out.println(patient);
-                                    }
-//                    textView.setText(arrList.toString());
-                                } else {
-                                    Log.v("Data Success", "Document does not contain an 'arr' field");
-                                }
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
-                                Log.v("Data Error", result.getError().toString());
-                            }
-                        });
-
-
-//        });
-                    }
-                });
+        });
     }
 }
