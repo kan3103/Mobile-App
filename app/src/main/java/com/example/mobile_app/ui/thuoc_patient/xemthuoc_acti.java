@@ -78,14 +78,15 @@ public class xemthuoc_acti extends AppCompatActivity {
                                     name = ( med.containsKey("name") ? med.get("name").toString() : "" ) ;
                                     quantity = ( med.containsKey("quantity") ? med.get("quantity").toString() : "" ) ;
                                     prescritionDate = ( med.containsKey("prescritionDate") ? med.get("prescritionDate").toString() : "" ) ;
-                                    if ( name!="" && quantity !="" && prescritionDate!="" )  items.add(new in4medicine(name, quantity , prescritionDate )) ;
+                                    if ( !name.equals("") && !quantity.equals("") && !prescritionDate.equals("") )  items.add(new in4medicine(name, quantity , prescritionDate )) ;
                                 }
 
 
-                                if(items.get(0).getName().toString() !="" ){
+                                if(!(items.get(0).getName().toString().equals("") )){
                                     xemthuoc_adap adapter = new xemthuoc_adap( items ,getApplicationContext());
                                     listView.setAdapter(adapter);
                                 }
+
                                 else {
                                     TextView textView = findViewById(R.id.thong_bao_nothing_xemthuoc) ;
                                     textView.setText("Nothing Here!");
@@ -102,14 +103,8 @@ public class xemthuoc_acti extends AppCompatActivity {
 
 
                 });
-
-
             }
-
-
         });
-
-
     }
     public void khoitao(){
         Realm.init(getApplicationContext());

@@ -115,7 +115,6 @@ public class capthuoc_acti extends AppCompatActivity {
             Log.d("DAngtest", "Text: " + i);
             Log.d("Stringtext", "Text: " + soluong);
             // Xử lý giá trị text tại đây
-
             if(!soluong.equals("0")){
                 //find_thuoc(name2, soluong);
                 temp = 0;
@@ -140,21 +139,16 @@ public class capthuoc_acti extends AppCompatActivity {
                         mongoCollection1.findOne(queryFilter).getAsync(result1 -> {
                             if (result1.isSuccess()) {
                                 Document foundDocument = result1.get();
-                                Log.v("found", "found " + result1.get());
                                 if (foundDocument != null) {
                                     ArrayList<Document> prescriptionArray = foundDocument.get("prescription", ArrayList.class);
-
                                     int sl = Integer.parseInt(soluong);
-                                    Log.v("SL", "SL " + sl);
                                     if (prescriptionArray != null && !prescriptionArray.isEmpty()) {
                                         int i = 0 ;
                                         while ( i < prescriptionArray.size() && sl > 0  ) {
                                             Document firstPrescription = prescriptionArray.get(i);
                                             String currentQuantity = firstPrescription.getString("quantity");
                                             int quantity = Integer.parseInt(currentQuantity);
-
                                             int updatedQuantity = quantity - sl;
-
                                             if (updatedQuantity <= 0) {
                                                 temp += quantity;
                                                 sl = sl - quantity;
@@ -165,10 +159,8 @@ public class capthuoc_acti extends AppCompatActivity {
                                                 mongoCollection1.updateOne(queryFilter, update).getAsync(deleteResult -> {
                                                     if (deleteResult.isSuccess()) {
                                                         Toast.makeText(getApplicationContext(), "Document updated", Toast.LENGTH_LONG).show();
-                                                        Log.v("Update", "Successfully updated document");
                                                     } else {
                                                         Toast.makeText(getApplicationContext(), "Failed to update document", Toast.LENGTH_LONG).show();
-                                                        Log.v("Update", "Failed to update document: " + deleteResult.getError().toString());
                                                     }
                                                 });
                                             } else {
@@ -179,10 +171,8 @@ public class capthuoc_acti extends AppCompatActivity {
                                                 mongoCollection1.updateOne(queryFilter, update).getAsync(updateResult -> {
                                                     if (updateResult.isSuccess()) {
                                                         Toast.makeText(getApplicationContext(), "Document updated", Toast.LENGTH_LONG).show();
-                                                        Log.v("Update", "Successfully updated document");
                                                     } else {
                                                         Toast.makeText(getApplicationContext(), "Failed to update document", Toast.LENGTH_LONG).show();
-                                                        Log.v("Update", "Failed to update document: " + updateResult.getError().toString());
                                                     }
                                                 });
                                             }
@@ -190,17 +180,15 @@ public class capthuoc_acti extends AppCompatActivity {
                                         }
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Prescription array is empty", Toast.LENGTH_LONG).show();
-                                        Log.v("Prescription", "Prescription array is empty");
+                                    }
+                                    if( sl!=0 ){
+                                        Toast.makeText(getApplicationContext(), "Prescription don't have enough", Toast.LENGTH_LONG).show();
                                     }
                                     numthuoc = String.valueOf(temp);
-                                    Log.v("END_TASK", "TEMP1 " + numthuoc);
-
-                                    Log.v("updating", "updating");
                                     Document filter = new Document().append("id", id);
                                     Document drugListObject = new Document(); // Tạo một đối tượng Document cho đơn thuốc
 
                                     drugListObject.put("name", name2);
-                                    Log.v("NUMBERDRUG", "NumberDrug: " + numthuoc);
                                     drugListObject.put("quantity", numthuoc);
                                     drugListObject.put("prescritionDate", prescriptionDate);
                                     Document update = new Document().append("$push", new Document().append("drugList", drugListObject));
@@ -234,31 +222,14 @@ public class capthuoc_acti extends AppCompatActivity {
                         });
                     }
                 });
-
-
-                Log.v("ENDLUONNE", "TEMP1 " + numthuoc);
-
-
-
             }
-
         }
-
     }
-
-//    public void add_thuoc( String id,String name, String sl, String prescriptionDate  ){
-//
-//    }
-
     public static String formatDate(int year, int month, int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month - 1, day); // month là 0-based, nên trừ đi 1
         Date date = calendar.getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return dateFormat.format(date);
-    }
-
-    public void find_thuoc(String name2, String soluong) {
-
     }
 }
