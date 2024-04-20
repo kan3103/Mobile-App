@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
+import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.FragmentDashboardBinding;
@@ -54,6 +55,7 @@ public class DashboardFragment extends Fragment {
     RegisterAdapter adapter1;
     RecyclerView recyclerView;
     ArrayList<patientUser> patientList = new ArrayList<>();
+    private userInterface userDoc;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -101,6 +103,7 @@ public class DashboardFragment extends Fragment {
             recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
             MongoCollection mongoCollection = mainActivity.mongoCollection;
             mongoCollection = mainActivity.mongoDatabase.getCollection("Register");
+            System.out.println(mongoCollection);
             mongoCollection.find().iterator().getAsync(task -> {
                 if (task.isSuccess()) {
                     MongoCursor<Document> results = (MongoCursor<Document>) task.get();
@@ -118,6 +121,7 @@ public class DashboardFragment extends Fragment {
                             @Override
                             public void onItemClick(patientUser patient) {
                                 Intent intent = new Intent(getContext(), ApplyToHospital.class);
+                                intent.putExtra("userObj",(doctorUser) userDoc);
                                 intent.putExtra("patientInformation", (Serializable) patient);
                                 startActivity(intent);
                             }

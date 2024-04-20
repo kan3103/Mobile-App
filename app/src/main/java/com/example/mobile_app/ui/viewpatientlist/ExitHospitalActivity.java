@@ -121,6 +121,8 @@ public class ExitHospitalActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
+                startActivity(intent);
                 fillPatientInform();
             }
         });
@@ -143,12 +145,12 @@ public class ExitHospitalActivity extends AppCompatActivity {
         // Check if the MedRecord object is null
         if (medRecord != null) {
             for(int i=0;i<medRecord.getRecords().size();++i) {
-                MedRecord.Record record = medRecord.getRecords().get(i);
+//                MedRecord.Record record = medRecord.getRecords().get(i);
             }
             // add doctorName, DateOut, Nurse to the Record object
             medRecord.addRecord(doctorName, DateOut, Nurse);
         }
-        System.out.println(medRecord.getRecords().size());
+//        System.out.println(medRecord.getRecords().size());
 // Now you can safely call addRecord
 
         MedRecord medRecord = patient.getMedicalRecord();
@@ -292,8 +294,6 @@ public class ExitHospitalActivity extends AppCompatActivity {
 
         mongoCollection.updateOne(filter, update).getAsync(result -> {
             if (result.isSuccess()) {
-                Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
-                startActivity(intent);
 
                 long numModified = result.get().getModifiedCount();
                 if (numModified == 1) {

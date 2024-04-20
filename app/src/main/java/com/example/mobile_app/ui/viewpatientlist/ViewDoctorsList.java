@@ -95,7 +95,8 @@ public class ViewDoctorsList extends AppCompatActivity {
                                 @Override
                                 public void onItemClick(patientUser patient) {
                                     Intent intent = new Intent(ViewDoctorsList.this, ApplyToHospital.class);
-                                    intent.putExtra("patientInfor", (Serializable) patient);
+                                    intent.putExtra("userObj",(doctorUser) userdoctor);
+                                    intent.putExtra("patientInformation", (Serializable) patient);
                                     startActivity(intent);
                                 }
                             });
