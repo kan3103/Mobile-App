@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mobile_app.R;
 import com.example.mobile_app.databinding.FragmentHomeBinding;
+import com.example.mobile_app.ui.viewpatientlist.ViewAdminList;
+
 public class HomeFragment extends Fragment {
 
     private View view;
@@ -28,6 +30,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), HomeListActivity.class));
+            }
+        });
+        overview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ViewAdminList.class));
             }
         });
         return view;
