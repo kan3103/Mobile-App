@@ -68,7 +68,7 @@ public class RegisterAdapter extends RecyclerView.Adapter<RegisterAdapter.ViewHo
 
         String name = patientList.get(position).getName();
         String phoneNumber = patientList.get(position).getPhoneNumber();
-        String symptoms = patientList.get(position).getAge();
+        String symptoms = patientList.get(position).getSymptoms();
 
 //        viewHolder.selectedPatient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
 //            @Override

@@ -219,6 +219,10 @@ public class MedRecord implements Serializable {
         this.name = name;
     }
 
+    public void setRecords(ArrayList<Record> records) {
+        this.records = records;
+    }
+
     public void setDob(String dob) {
         this.dob = dob;
     }
