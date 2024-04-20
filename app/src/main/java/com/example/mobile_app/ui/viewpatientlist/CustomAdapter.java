@@ -19,9 +19,11 @@ import java.util.ArrayList;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
     private ArrayList<userInterface> list;
-
+    private final OnItemClickListener listener;
     Context context;
-
+    public interface OnItemClickListener {
+        void onItemClick(userInterface item);
+    }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView patientName;
         TextView patientPhoneNumber;
@@ -36,11 +38,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
     }
 
-    public CustomAdapter(ArrayList<userInterface> list, Context context) {
+    public CustomAdapter(ArrayList<userInterface> list, Context context, OnItemClickListener listener) {
         this.list= list;
-        Log.v("oke",list.get(0).getTypeuser());
+        this.listener = listener;
         this.context=context;
     }
+//    public CustomAdapter(ArrayList<userInterface> list, Context context) {
+//        this.list= list;
+//        this.context=context;
+//        listener=null;
+//    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -94,6 +101,30 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             viewHolder.patientName.setText(name);
             viewHolder.patientPhoneNumber.setText(sex);
             viewHolder.patientAge.setText(age);
+            viewHolder.patientAge.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(list.get(position));
+
+//                System.out.println(patientList.get(position));
+                }
+            });
+            viewHolder.patientName.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(list.get(position));
+
+//                System.out.println(patientList.get(position));
+                }
+            });
+            viewHolder.patientPhoneNumber.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(list.get(position));
+
+//                System.out.println(patientList.get(position));
+                }
+            });
         }
     }
 

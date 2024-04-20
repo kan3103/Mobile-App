@@ -1,5 +1,6 @@
 package com.example.mobile_app.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mobile_app.MainActivity;
 import com.example.mobile_app.R;
+import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.FragmentDashboardBinding;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +31,11 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mobile_app.ui.viewpatientlist.ApplyToHospital;
 import com.example.mobile_app.ui.viewpatientlist.CustomAdapter;
+import com.example.mobile_app.ui.viewpatientlist.ExitHospitalActivity;
+import com.example.mobile_app.ui.viewpatientlist.PatientAdapter;
+import com.example.mobile_app.ui.viewpatientlist.ViewPatientsList;
 
 
 import org.bson.Document;
@@ -105,7 +112,15 @@ public class DashboardFragment extends Fragment {
                         userInterface hi = new patientUser(name,"",phoneNum,symtomps);
                         patientList.add(hi);
                     }
-                    adapter = new CustomAdapter(patientList, getContext());
+                    adapter = new CustomAdapter(patientList, getContext(), new CustomAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(userInterface item) {
+                            Intent intent = new Intent(getActivity(), ApplyToHospital.class);
+                            intent.putExtra("userobject", (doctorUser) user);
+                            startActivity(intent);
+                        }
+                    });
+
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     recyclerView.setAdapter(adapter);

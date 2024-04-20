@@ -86,7 +86,7 @@ public class ViewDoctorsList extends AppCompatActivity {
                                     patientList.add(new patientUser(username, birthday, name));
                                 }
                                 System.out.println(patientList);
-                                adapter = new CustomAdapter(patientList, ViewDoctorsList.this);
+                                adapter = new CustomAdapter(patientList, ViewDoctorsList.this,null);
 //                            System.out.println(adapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(ViewDoctorsList.this));
                                 recyclerView.setAdapter(adapter);

@@ -216,6 +216,7 @@ public class LoginActivity extends AppCompatActivity {
         if (data.containsKey("medicalRecord")) {
 
             ArrayList<Document> arrList = (ArrayList<Document>) data.get("medicalRecord");
+            if(arrList==null) return null;
             for (int i = 0; i < arrList.size(); ++i) {
                 Document secondElement = arrList.get(i);
                 medRecord.addRecord(secondElement.containsKey("weight") ? secondElement.getString("weight") : "", secondElement.containsKey("height") ? secondElement.getString("height") : "",

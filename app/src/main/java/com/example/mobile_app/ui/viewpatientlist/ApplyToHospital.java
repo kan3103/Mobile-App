@@ -64,9 +64,7 @@ public class ApplyToHospital extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        binding = ApplyToHospitalBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.apply_to_hospital);
 
         name = findViewById(R.id.board_name);
         id = findViewById(R.id.board_id);
