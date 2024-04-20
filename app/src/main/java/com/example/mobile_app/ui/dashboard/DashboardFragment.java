@@ -1,5 +1,6 @@
 package com.example.mobile_app.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.FragmentDashboardBinding;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +30,11 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mobile_app.ui.viewpatientlist.ApplyToHospital;
 import com.example.mobile_app.ui.viewpatientlist.CustomAdapter;
+import com.example.mobile_app.ui.viewpatientlist.PatientAdapter;
+import com.example.mobile_app.ui.viewpatientlist.RegisterAdapter;
+import com.example.mobile_app.ui.viewpatientlist.ViewDoctorsList;
 
 
 import org.bson.Document;
@@ -45,8 +51,9 @@ public class DashboardFragment extends Fragment {
     userInterface user;
     private View view;
     CustomAdapter adapter;
+    RegisterAdapter adapter1;
     RecyclerView recyclerView;
-    ArrayList<userInterface> patientList = new ArrayList<>();
+    ArrayList<patientUser> patientList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -99,16 +106,25 @@ public class DashboardFragment extends Fragment {
                     MongoCursor<Document> results = (MongoCursor<Document>) task.get();
                     while (results.hasNext()) {
                         Document currentDocument = results.next();
-                        String symtomps = currentDocument.getString("symptoms");
-                        String phoneNum = currentDocument.getString("phoneNumber");
                         String name = currentDocument.getString("name");
-                        userInterface hi = new patientUser(name,"",phoneNum,symtomps);
-                        patientList.add(hi);
-                    }
-                    adapter = new CustomAdapter(patientList, getContext());
+                        String phoneNum = currentDocument.getString("phoneNumber");
+                        String symptoms = currentDocument.getString("symptoms");
+                        patientList.add((patientUser) new patientUser(name, symptoms, phoneNum));
 
+                    }
+                    if (patientList != null)
+                    {
+                        adapter1 = new RegisterAdapter(patientList, getContext(), new RegisterAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(patientUser patient) {
+                                Intent intent = new Intent(getContext(), ApplyToHospital.class);
+                                intent.putExtra("patientInformation", (Serializable) patient);
+                                startActivity(intent);
+                            }
+                        });
+                    }
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    recyclerView.setAdapter(adapter);
+                    recyclerView.setAdapter(adapter1);
                     System.out.println(recyclerView);
 
                 } else {
