@@ -12,7 +12,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
-import android.widget.ViewSwitcher;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;

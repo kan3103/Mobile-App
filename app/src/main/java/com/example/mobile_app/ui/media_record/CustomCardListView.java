@@ -158,7 +158,7 @@ public class CustomCardListView extends CardView {
         };
         dateInTextView.setText("Date in: "+mDataList.getDate());
         doctorTextView.setText("Doctor: "+mDataList.getDoctor());
-
+        dateOutTextView.setText("Date out: "+mDataList.getRevisionDate());
         nurseTextView.setText("Nurse: " + mDataList.getNurse());
 //        diaTextView.setText(mDataList.getDiagnosis());
         bloodTextView.setText("BloodPressure: " + mDataList.getBloodPressure());
