@@ -52,7 +52,7 @@ public class ExitHospitalActivity extends AppCompatActivity {
     ArrayList<patientUser> patientList = new ArrayList<>();
     private ExitHospitalFormBinding binding;
     private Button btn2;
-    private EditText name, id, dateOut, nurse;
+    private EditText name, testResult, dateOut, nurse;
     private User user;
     //    public boolean isUpdated;
     private ProgressBar progressBar;
@@ -69,16 +69,18 @@ public class ExitHospitalActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         name = findViewById(R.id.board_name);
-        id = findViewById(R.id.board_id);
+        testResult = findViewById(R.id.board_id);
         dateOut = findViewById(R.id.board_dateOut);
         nurse = findViewById(R.id.board_nurse);
         btn2 = (Button) findViewById(R.id.board_xacnhan);
+
         Intent intent = getIntent();
         if (intent != null) {
             userdoctor = (userInterface) intent.getSerializableExtra("userobject");
             if (userdoctor != null) {
                 Log.v("test", ((doctorUser) userdoctor).getName());
             }
+            patient = (patientUser) intent.getSerializableExtra("patientInfor");
 
         }
         Realm.init(getApplicationContext());
@@ -93,21 +95,6 @@ public class ExitHospitalActivity extends AppCompatActivity {
             }
         });
 
-
-        System.out.println("Register");
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            patient = (patientUser) extras.getSerializable("patientInfor");
-//            System.out.println(patient.toString());
-//            System.out.println(extras);
-        }
-
-        id.setText(patient.getId());
-        id.setFocusable(false);
-        name.setText(patient.getName());
-        name.setFocusable(false);
-
         app.loginAsync(credentials, new App.Callback<User>() {
             @Override
             public void onResult(App.Result<User> result) {
@@ -115,6 +102,21 @@ public class ExitHospitalActivity extends AppCompatActivity {
                 mongoClient = user.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
                 mongoCollection = mongoDatabase.getCollection("Patient");
+                // find ID of the patient following the name and get ID at local
+                Document queryFilter = new Document().append("username", patient.getUsername());
+                mongoCollection.findOne(queryFilter).getAsync(task -> {
+                    if (task.isSuccess()) {
+                        Document resultData = task.get();
+                        if (resultData != null) {
+                            patient.setMedicalRecord(getMediarecord(resultData));
+                            patient.setId(resultData.getString("id"));
+                            name.setText(patient.getName());
+                            name.setFocusable(false);
+                        }
+                    } else {
+                        Log.e("APP", "Failed to find documents with: ", task.getError());
+                    }
+                });
             }
         });
 
@@ -128,256 +130,94 @@ public class ExitHospitalActivity extends AppCompatActivity {
         });
 
     }
+    public MedRecord getMediarecord(Document data) {
+        MedRecord medRecord = new MedRecord(data.getString("name"), "", "", "", "", "", "","");
+        if (data.containsKey("medicalRecord")) {
+            ArrayList<Document> arrList = (ArrayList<Document>) data.get("medicalRecord");
 
+            if(arrList==null) {
+                medRecord.setRecords(null);
+                return medRecord;};
+            for (int i = 0; i < arrList.size(); ++i) {
+                Document secondElement = arrList.get(i);
+                medRecord.addRecord(secondElement.containsKey("weight") ? secondElement.getString("weight") : "", secondElement.containsKey("height") ? secondElement.getString("height") : "",
+                        secondElement.containsKey("doctor") ? secondElement.getString("doctor") : "", secondElement.containsKey("nurse") ? secondElement.getString("nurse") : "", secondElement.containsKey("dateIn") ? secondElement.getString("dateIn") : "",
+                        secondElement.containsKey("reDate") ? secondElement.getString("reDate") : "", secondElement.containsKey("specialty") ? secondElement.getString("specialty") : "", secondElement.containsKey("bloodPressure") ? secondElement.getString("bloodPressure") : "");
+            }
+        }
+        return medRecord;
+    }
     private void fillPatientInform() {
         //Inputs
         String patientName = name.getText().toString().trim();
-        String ID = id.getText().toString().trim();
+        String TestResult = testResult.getText().toString().trim();
         String DateOut = dateOut.getText().toString().trim();
         String Nurse = nurse.getText().toString().trim();
 
 //        progressBar.setVisibility(View.VISIBLE);
         String doctorName = ((doctorUser) userdoctor).getName();
 
-        if (user!=null) {
+        if (patient!=null) {
             medRecord = patient.getMedicalRecord();
         }
-        // Check if the MedRecord object is null
-        if (medRecord != null) {
-            for(int i=0;i<medRecord.getRecords().size();++i) {
-//                MedRecord.Record record = medRecord.getRecords().get(i);
-            }
-            // add doctorName, DateOut, Nurse to the Record object
-            medRecord.addRecord(doctorName, DateOut, Nurse);
-        }
-//        System.out.println(medRecord.getRecords().size());
-// Now you can safely call addRecord
 
-        MedRecord medRecord = patient.getMedicalRecord();
-        patient.setStatus(true);
-
-        System.out.println(patient.isStatus());
-
-//        MedRecord.getRecords().add(new MedRecord.Record(doctorName, DateOut, Nurse));
-
-
-//        ArrayList<Document> patientInformation = new ArrayList<>();
-        // create a new record in the medicalRecord of this Patient
-
-//        MedRecord.getRecords().add(new MedRecord.Record(doctorName, DateOut, Nurse));
-
-//        medRecord.addRecord(doctorName,DateOut,Nurse);
+//        for (Record record : medRecord.getRecords()) {
+//            if (record.getDoctor().equals(doctorName)) {
+//                record.setDateOut(DateOut);
+//                record.setNurse(Nurse);
+//                record.setTestResult(TestResult);
+//            }
+//        }
+////        medRecord.addRecord(Weight,Height,((doctorUser) userDoc).getName(),"",DateIn,"","",BloodPressure);
+////        Log.v("oke",((doctorUser) userDoc).getName());
+//// Now you can safely call addRecord
+//
+//        patient.setStatus(false);
 //        patient.setMedicalRecord(medRecord);
-
-
-
-        ArrayList<patientUser> patientList = ((doctorUser) userdoctor).getPatientList();
-        for(patientUser patient : patientList)
-        {
-            if(patient.getId().equals(ID))
-            {
-                patient.setStatus(patient.isStatus());
-                patient.setMedicalRecord(medRecord);
-                break;
-            }
-        }
-
-
-//        MedRecord newMedRecord = new MedRecord(patientName, "", "", "", "", "", "", patient.getId());
-        User user2 = app.currentUser();
-        MongoClient mongoClient2 = user2.getMongoClient("mongodb-atlas");
-        MongoDatabase mongoDatabase2 = mongoClient2.getDatabase("Hospital");
-        MongoCollection<Document> mongoCollection2 = mongoDatabase2.getCollection("Record");
-
-//        MedRecord[] med = new MedRecord[1];
-        List<MedRecord> med = new ArrayList<>();
-        med.add(new MedRecord(patientName, "", "", "", "", "", "", patient.getId()));
-        Document f = new Document().append("id_patient", "10");
-
-        mongoCollection2.findOne(f).getAsync(result -> {
-            if (result.isSuccess()) {
-                Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
-                Document resultData = result.get();
-                Log.v("Data Success", resultData.toString());
-
-                if (resultData.containsKey("record")) {
-                    ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("record");
-                    String[] patientInform = new String[5];
-                    assert arrList != null;
-                    for (Document document : arrList) {
-                        patientInform[0] = document.getString("date_in");
-                        patientInform[1] = document.getString("date_out");
-                        patientInform[2] = document.getString("doctor");
-                        patientInform[3] = document.getString("nurse");
-                        patientInform[4] = document.getString("Diagnose");
-                        med.get(0).addRecord(patientInform[2], patientInform[1], patientInform[3]);
-                        System.out.println(med.get(0).getRecords().get(0).getNurse());
-                        System.out.println(med.get(0).getRecords().size());
-                        System.out.println("med[0].getRecords().size()");
-                    }
-//                            med[0] = new MedRecord(weight, height, doctor, nurse, date, RevisionDate, specialty);
-//                            System.out.println(med[0].toString());
-                } else {
-                    Log.v("Data Success", "Document does not contain an 'arr' field");
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
-                Log.v("Data Error", result.getError().toString());
-            }
-        });
-
-        System.out.print("med[0].getRecords().size(): ");
-        System.out.println(med.get(0).getRecords().size());
-        med.get(0).addRecord(doctorName, DateOut, Nurse);
-
-        System.out.print("med[0].getRecords(): ");
-        System.out.println(med.get(0).getRecords().size());
-        System.out.println(med.get(0).getRecords().get(0).getNurse());
-        patient.setStatus(true);
-
-        for (patientUser patient : ((doctorUser) userdoctor).getPatientList()) {
-            if (patient.getId().equals(ID)) {
-                patient.setStatus(true);
-                break;
-            }
-        }
-
-        Log.v("updating", "updating");
-// Get the current user and the MongoDB client
-        User user1 = app.currentUser();
-        MongoClient mongoClient1 = user1.getMongoClient("mongodb-atlas");
-
-// Get the "Hospital" database and the "Doctor" collection
-        MongoDatabase mongoDatabase1 = mongoClient1.getDatabase("Hospital");
-        MongoCollection<Document> mongoCollection1 = mongoDatabase1.getCollection("Doctor");
-
-// Create a filter to find the doctor with the specific patient in their patientList
-        Document filterDoc = new Document("id", ((doctorUser) userdoctor).getID());
-
-// Create the updated patient information
-        Document updatedPatient1 = new Document().append("$set", new Document()
-                .append("patientList", ((doctorUser) userdoctor).getPatientList()));
-        for (patientUser patient : ((doctorUser) userdoctor).getPatientList()) {
-            System.out.println(patient.toString());
-
-        }
-// Create the update operation
-//        Document updateDoc = new Document("$set", updatedPatient1);
-
-// Perform the update operation
-        mongoCollection1.updateOne(filterDoc, updatedPatient1).getAsync(result1 -> {
-            if (result1.isSuccess()) {
-//                Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
-//                startActivity(intent);
-
-                long numModified = result1.get().getModifiedCount();
-                if (numModified == 1) {
-                    Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_LONG).show();
-                    Log.v("Update", "Successfully updated document");
-                } else {
-                    Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_LONG).show();
-                    Log.v("Update", "Inserted new document");
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                Log.v("Update", "Failed to update document: " + result1.getError().toString());
-            }
-        });
-
-
-        Log.v("updating", "updating");
-        Document filter = new Document().append("id", patient.getId());
-        Document updatedPatient = new Document()
-                .append("medicalRecord", med.get(0).getRecords())
-                .append("status", patient.isStatus());
-        Document update = new Document().append("$set", updatedPatient);
-
-        mongoCollection.updateOne(filter, update).getAsync(result -> {
-            if (result.isSuccess()) {
-
-                long numModified = result.get().getModifiedCount();
-                if (numModified == 1) {
-                    Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_LONG).show();
-                    Log.v("Update", "Successfully updated document");
-                } else {
-                    Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_LONG).show();
-                    Log.v("Update", "Inserted new document");
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                Log.v("Update", "Failed to update document: " + result.getError().toString());
-            }
-        });
-
-
-//        User user1 = app.currentUser();
-//        MongoClient mongoClient1 = user1.getMongoClient("mongodb-atlas");
-//        MongoDatabase mongoDatabase1 = mongoClient1.getDatabase("Hospital");
-//        MongoCollection<Document> mongoCollection1 = mongoDatabase1.getCollection("Doctor");
-
-//        Document queryFilter = new Document().append("patientList", new Document("$exists", true));
-//        String[] idOfPatientObjInDoc = new String[1];
-//        String[] patientDocument = {"", ""};
-//        StringBuilder[] positionOfPatientStr = new StringBuilder[]{new StringBuilder(), new StringBuilder()};
 //
-//        mongoCollection1.findOne(queryFilter).getAsync(result -> {
-//            if (result.isSuccess()) {
-//                Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
-//                Document resultData = result.get();
-//                Log.v("Data Success", resultData.toString());
-//                if (resultData.containsKey("patientList")) {
-//                    ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("patientList");
-//                    for (Document patient : arrList) {
-//                        String patientId = patient.getString("id");
-//                        System.out.println(patientId);
-//                        if (Objects.equals(patientId, ID)) {
-////                            Compare id of element in document with ID of current selected patient
-//                            idOfPatientObjInDoc[0] = String.valueOf(arrList.indexOf(patient));
-//                            positionOfPatientStr[0].append("patientList.").append(idOfPatientObjInDoc[0]).append(".status");
-//                            positionOfPatientStr[1].append("patientList.").append(idOfPatientObjInDoc[0]).append(".id");
-//                            patientDocument[0] += positionOfPatientStr[0].toString();
-//                            patientDocument[1] += positionOfPatientStr[1].toString();
-//
-//
-//                            break;
-//                        }
+//        ArrayList<Document> medical = new ArrayList<>();
+//        for(int i=0;i<patient.getMedicalRecord().getRecords().size();++i){
+//            Document add = new Document()
+////                    .append("dateIn",patient.getMedicalRecord().getRecords().get(i).getDate())
+//                    .append("nurse",Nurse)
+//                    .append("testResult",TestResult)
+//                    .append("bloodType",patient.getBloodType())
+//                    .append("doctor",((doctorUser) userdoctor).getName())
+//                    .append("dateOut",DateOut);
+//            Log.v("tes", String.valueOf(add));
+//            medical.add(add);
+//        }
+//        User user2 = app.currentUser();
+//        MongoClient mongoClient2 = user2.getMongoClient("mongodb-atlas");
+//        MongoDatabase mongoDatabase2 = mongoClient2.getDatabase("Hospital");
+//        MongoCollection<Document> mongoCollection2 = mongoDatabase2.getCollection("Patient");
+//        Document filter= new Document().append("username",patient.getUsername());
+//        mongoCollection2.findOne(filter).getAsync(result -> {
+//            if(result.isSuccess()){
+//                Document data = result.get();
+//                data.append("medicalRecord", medical); // Append medical records to the existing document
+//                // Update the document in the collection
+//                mongoCollection2.updateOne(filter, data).getAsync(result1 -> {
+//                    if (result1.isSuccess()) {
+//                        // Document updated successfully
+//                        Log.v("Update", "Medical records updated successfully.");
+//                        mongoCollection = mongoDatabase.getCollection("Register");
+//                        // find ID of the patient following the name and get ID at local
+//                        Document queryFilter = new Document().append("username", patient.getUsername());
+//                        mongoCollection.deleteOne(queryFilter).getAsync(result2 -> {
+//                            if(result2.isSuccess())
+//                                finish();
+//                        });
+//                    } else {
+//                        // Error occurred while updating
+//                        Log.e("Update", "Failed to update medical records.", result1.getError());
 //                    }
-//                    System.out.println(patientDocument[0]);
-//                    System.out.println(patientDocument[1]);
-//                    Document filterDoc = new Document().append("id", 1);
-//                    Document updateDoc = new Document().append(patientDocument[0], true).append(patientDocument[1], ID);;
-//                    Document update1 = new Document().append("$set", updateDoc);
-//                    mongoCollection1.updateOne(filterDoc, update1).getAsync(result1 -> {
-//                        if (result1.isSuccess()) {
-//                            Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
-//                            startActivity(intent);
-//
-//                            long numModified = result1.get().getModifiedCount();
-//                            if (numModified == 1) {
-//                                Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_LONG).show();
-//                                Log.v("Update", "Successfully updated document");
-//                            } else {
-//                                Toast.makeText(getApplicationContext(), "Inserted", Toast.LENGTH_LONG).show();
-//                                Log.v("Update", "Inserted new document");
-//                            }
-//                        } else {
-//                            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-//                            Log.v("Update", "Failed to update document: " + result1.getError().toString());
-//                        }
-//                    });
-//                } else {
-//                    Log.v("Data Success", "Document does not contain an 'arr' field");
-//                }
+//                });
 //            } else {
-//                Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
-//                Log.v("Data Error", result.getError().toString());
+//                // Error occurred while fetching the document
+//                Log.e("Fetch", "Failed to fetch patient document.", result.getError());
 //            }
 //        });
-
-
-//        System.out.println(patientDocument[0]);
-//        System.out.println("positionOfPatientStr.toString()");
-
 
     }
 }

@@ -212,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public MedRecord getMediarecord(Document data) {
-        MedRecord medRecord = new MedRecord(data.getString("name"), "", "", "", "", "", "", "");
+        MedRecord medRecord = new MedRecord(data.getString("name"), "", "", "", "", "", "","");
         if (data.containsKey("medicalRecord")) {
 
             ArrayList<Document> arrList = (ArrayList<Document>) data.get("medicalRecord");
@@ -224,7 +224,7 @@ public class LoginActivity extends AppCompatActivity {
                 Document secondElement = arrList.get(i);
                 medRecord.addRecord(secondElement.containsKey("weight") ? secondElement.getString("weight") : "", secondElement.containsKey("height") ? secondElement.getString("height") : "",
                         secondElement.containsKey("doctor") ? secondElement.getString("doctor") : "", secondElement.containsKey("nurse") ? secondElement.getString("nurse") : "", secondElement.containsKey("dateIn") ? secondElement.getString("dateIn") : "",
-                        secondElement.containsKey("reDate") ? secondElement.getString("reDate") : "", secondElement.containsKey("specialty") ? secondElement.getString("specialty") : "");
+                        secondElement.containsKey("reDate") ? secondElement.getString("reDate") : "", secondElement.containsKey("specialty") ? secondElement.getString("specialty") : "",secondElement.containsKey("bloodPressure") ? secondElement.getString("bloodPressure") : "");
             }
         }
         return medRecord;
