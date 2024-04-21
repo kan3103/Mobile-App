@@ -6,6 +6,7 @@ import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private MongoClient mongoClient;
     public MongoDatabase mongoDatabase;
     public   MongoCollection mongoCollection;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Success");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        progressBar = (ProgressBar) findViewById(R.id.wait);
+
+        progressBar.setVisibility(View.VISIBLE);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -93,9 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 mongoClient = user1.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
                 mongoCollection = mongoDatabase.getCollection("Doctor");
-                if(mongoCollection!=null){
-                    Log.v("oke","ko null");
-                }
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
         Intent intent = getIntent();

@@ -122,9 +122,9 @@ public class DashboardFragment extends Fragment {
                         adapter1 = new RegisterAdapter(patientList, getContext(), new RegisterAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(patientUser patient) {
+                                if(user.getTypeuser().equals("Admin")) return;
                                 Intent intent = new Intent(getContext(), ApplyToHospital.class);
                                 intent.putExtra("userObj",(doctorUser) userDoc);
-                                Log.v("tét xíu",userDoc.getUsername());
                                 intent.putExtra("patientInformation", (patientUser) patient);
                                 startActivity(intent);
                             }
