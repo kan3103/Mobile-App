@@ -3,6 +3,7 @@ package com.example.mobile_app.ui.home;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,8 +36,11 @@ import io.realm.mongodb.mongo.MongoDatabase;
 import io.realm.mongodb.mongo.iterable.MongoCursor;
 
 public class HomeListActivity extends AppCompatActivity {
+
     private CardView Cardiology, Endocrinology,ENT, Neurology, Pediatrics, Obstetrics;
     private App app;
+    private ProgressBar progressBar;
+    private View overlay;
     String Appid = "mobileapp-fyjbw";
     MongoDatabase mongoDatabase;
     MongoClient mongoClient;
@@ -48,6 +52,9 @@ public class HomeListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_list);
         Realm.init(getApplicationContext());
+        progressBar = (ProgressBar) findViewById(R.id.wait);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         app = new App(new AppConfiguration.Builder(Appid).build());
         Credentials credentials = Credentials.emailPassword("khanglytronVN@KL.com", "123456");
@@ -67,7 +74,7 @@ public class HomeListActivity extends AppCompatActivity {
                         mongoClient = user.getMongoClient("mongodb-atlas");
                         mongoDatabase = mongoClient.getDatabase("Hospital");
                         mongoCollection = mongoDatabase.getCollection("Specialty");
-
+                        progressBar.setVisibility(View.INVISIBLE);
                     };
         });
         Cardiology = findViewById(R.id.cardio);
