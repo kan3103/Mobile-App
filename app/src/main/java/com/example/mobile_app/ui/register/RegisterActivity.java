@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         editTextMobile = (EditText) findViewById(R.id.patient_phone);
         editTextBirthday = (EditText) findViewById(R.id.patient_birthday);
         editTextJob = (EditText) findViewById(R.id.patient_job);
-        citizenid = (EditText) findViewById(R.id.register_nationality_field);
+        citizenid = (EditText) findViewById(R.id.patient_nationality);
         gender = (RadioButton) findViewById(R.id.radioPatient);
 
         progressBar = (ProgressBar) findViewById(R.id.registerPatientIndeterminateProgressbar);
