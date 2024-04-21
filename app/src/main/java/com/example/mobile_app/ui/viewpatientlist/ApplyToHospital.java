@@ -121,6 +121,10 @@ public class ApplyToHospital extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 fillPatientInform();
+                updatePatientlist();
+                Intent intent = new Intent(ApplyToHospital.this, MainActivity.class);
+                intent.putExtra("userobject", (doctorUser) userDoc);
+                startActivity(intent);
             }
         });
 
@@ -144,6 +148,40 @@ public class ApplyToHospital extends AppCompatActivity {
         return medRecord;
     }
 
+    private void updatePatientlist() {
+        ((doctorUser) userDoc).getPatientList().add(patient);
+        mongoCollection = mongoDatabase.getCollection("Doctor");
+        Document filter = new Document().append("username",userDoc.getUsername());
+        mongoCollection.findOne(filter).getAsync(result -> {
+            if(result.isSuccess()){
+                Document data = result.get();
+                if(data.containsKey("patientList")){
+                    ArrayList<Document> newdoc = (ArrayList<Document>) data.get("patientList");
+                    Document document = new Document()
+                            .append("username",patient.getUsername())
+                            .append("dateIn",patient.getMedicalRecord().getRecords().get(patient.getMedicalRecord().getRecords().size()-1).getDate())
+                            .append("name",patient.getName())
+                            .append("symptoms",patient.getSymptoms())
+                            .append("phoneNumber",patient.getPhoneNumber());
+                    newdoc.add(document);
+                    MongoCollection<Document> mongoCollection1 = mongoDatabase.getCollection("Doctor");
+                    data.append("patientList",newdoc);
+                    // Update the document in the collection
+                    mongoCollection.updateOne(filter, data).getAsync(result1 -> {
+                        if (result1.isSuccess()) {
+                            // Document updated successfully
+                            Log.v("Update", "Medical records updated successfully.");
+//                        ((doctorUser) userDoc).getPatientList().add(patient);
+                            finish();
+                        } else {
+                            // Error occurred while updating
+                            Log.e("Update", "Failed to update medical records.", result1.getError());
+                        }
+                    });
+                }
+            }
+        });
+    }
     private void fillPatientInform() {
         //Inputs
         String patientName = name.getText().toString().trim();
@@ -198,8 +236,7 @@ public class ApplyToHospital extends AppCompatActivity {
                         // find ID of the patient following the name and get ID at local
                         Document queryFilter = new Document().append("username", patient.getUsername());
                         mongoCollection.deleteOne(queryFilter).getAsync(result2 -> {
-                            if(result2.isSuccess())
-                                finish();
+                            if(result2.isSuccess()){}
                         });
                     } else {
                         // Error occurred while updating

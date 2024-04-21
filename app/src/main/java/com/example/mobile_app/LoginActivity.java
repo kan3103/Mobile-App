@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.realm.Realm;
 import io.realm.mongodb.App;
@@ -142,30 +143,52 @@ public class LoginActivity extends AppCompatActivity {
                     mongoCollection.findOne(document).getAsync(result -> {
                         if (result.isSuccess()) {
                             Log.v("hee", "ok rooif");
+                            ArrayList<Document> documentArrayList;
                             if (result.get() != null) {
                                 Document dataa = result.get();
                                 true_data = dataa.getString("password");
-                                ArrayList<Document> documentArrayList;
                                 ArrayList<patientUser> he = new ArrayList<>();
                                 if (dataa.containsKey("patientList")) {
                                     documentArrayList = (ArrayList<Document>) dataa.get("patientList");
+                                    int totalCount = documentArrayList.size(); // Số lượng callback cần đợi
+                                    AtomicInteger callbackCount = new AtomicInteger(0); // Biến đếm để theo dõi số lượng callback đã hoàn thành
                                     for (Document run : documentArrayList) {
-                                        patientUser new_patient = new patientUser(run.getString("name"), run.getString("age"), run.getString("phoneNumber"), run.getBoolean("status"), run.getString("id"));
-                                        he.add(new_patient);
-                                    }
+                                        patientUser new_patient = new patientUser(run.containsKey("username")?run.getString("username"):"",run.containsKey("name")?run.getString("name"):"",run.containsKey("phoneNumber")?run.getString("phoneNumber"):"",run.containsKey("symptoms")?run.getString("symptoms"):"");
+                                        MongoCollection<Document> mongoCollection1 = mongoDatabase.getCollection("Patient");
+                                        Document filter = new Document().append("username",run.getString("username"));
+                                        mongoCollection1.findOne(filter).getAsync(result1 -> {
+                                            if(result1.isSuccess()){
+                                                Document data= result1.get();
+                                                new_patient.setMedicalRecord(getMediarecord(data));
+                                                Log.v("ko duowc", String.valueOf(new_patient.getMedicalRecord().getRecords().size()));
+                                                he.add(new_patient);
+                                                callbackCount.incrementAndGet();
+                                                if (callbackCount.get() == totalCount){
+                                                    if (true_data.equals(password.getText().toString())) {
+                                                        Log.v("okee","hichic");
+                                                        Login login = new Login();
+                                                        // Thực hiện đăng nhập
+                                                        userInterface user = login.createUser("Doctor", name, true_data);
+                                                        Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
+                                                        setDoctor(user, dataa, he);
+                                                        Log.v("oke", String.valueOf(he.get(2).getMedicalRecord()));
+                                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                        intent.putExtra("userobject", (doctorUser) user);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                            }
+                                            else{
+                                                Log.v("okee","hichickodccc");
+                                            }
+                                        });
+
+                                    };
                                 }
-                                if (true_data.equals(password.getText().toString())) {
-                                    Login login = new Login();
-                                    // Thực hiện đăng nhập
-                                    userInterface user = login.createUser("Doctor", name, true_data);
-                                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
-                                    setDoctor(user, dataa, he);
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.putExtra("userobject", (doctorUser) user);
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_LONG).show();
-                                }
+
+
                             } else {
                                 Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_LONG).show();
                             }

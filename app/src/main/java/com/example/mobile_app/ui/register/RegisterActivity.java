@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     MongoCollection<Document> mongoCollection;
     private RegisterViewBinding binding;
     private Button completeRegister;
-    private EditText editTextFullName, editTextUsername, editTextPassword, editTextMobile, editTextAddress, editTextBirthday, editTextNationality, editTextJob;
+    private EditText editTextFullName,citizenid, editTextUsername, editTextPassword, editTextMobile, editTextAddress, editTextBirthday, editTextNationality, editTextJob;
     private RadioButton gender;
     private ProgressBar progressBar;
     private User user;
@@ -61,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         editTextMobile = (EditText) findViewById(R.id.patient_phone);
         editTextBirthday = (EditText) findViewById(R.id.patient_birthday);
         editTextJob = (EditText) findViewById(R.id.patient_job);
+        citizenid = (EditText) findViewById(R.id.register_nationality_field);
         gender = (RadioButton) findViewById(R.id.radioPatient);
 
         progressBar = (ProgressBar) findViewById(R.id.registerPatientIndeterminateProgressbar);
@@ -114,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
         String password = editTextPassword.getText().toString().trim();
         String mobile = editTextMobile.getText().toString().trim();
         String birthday = editTextBirthday.getText().toString().trim();
-        String citizenID = editTextBirthday.getText().toString().trim();
+        String citizenID = citizenid.getText().toString().trim();
         String address = editTextAddress.getText().toString().trim();
         String job = editTextJob.getText().toString().trim();
 

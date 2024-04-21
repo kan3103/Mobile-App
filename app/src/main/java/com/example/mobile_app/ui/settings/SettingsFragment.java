@@ -100,6 +100,7 @@ public class SettingsFragment extends Fragment {
                 else if(position == 1 && user.getTypeuser().equals("Doctor")){
                     Intent intent = new Intent(view.getContext(), ViewPatientsList.class);
                     intent.putExtra("userobject", (doctorUser) user);
+                    Log.v("oke", String.valueOf(((doctorUser) user).getPatientList().get(2).getMedicalRecord()));
                     startActivity(intent);
                 }
                 else if (position == 1 && user.getTypeuser().equals("Admin")) {

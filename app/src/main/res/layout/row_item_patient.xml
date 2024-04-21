@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
-                android:text="Age:"
+                android:text="Symptoms:"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
