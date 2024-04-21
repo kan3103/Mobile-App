@@ -41,7 +41,7 @@ public class RecordActivity extends AppCompatActivity {
         ID = findViewById(R.id.recordId);
         Birth = findViewById(R.id.recordBirth);
         sex = findViewById(R.id.recordSex);
-        nationality = findViewById(R.id.recordNationality);
+        nationality = findViewById(R.id.recordcitizenid);
         btn_prev = findViewById(R.id.button_prev);
         btn_next = findViewById(R.id.button_next);
         Intent intent = getIntent();
@@ -49,11 +49,11 @@ public class RecordActivity extends AppCompatActivity {
             user = (patientUser) intent.getSerializableExtra("userobject");
         }
         if (user!=null) {
-            name.setText("Name: "+user.getUsername());
-            ID.setText("ID: "+((patientUser)user).getId());
+            name.setText("Name: "+user.getName());
+            ID.setText("Username: "+((patientUser)user).getId());
             Birth.setText("Birthday: "+((patientUser)user).getBirth());
             sex.setText("Sex: "+((patientUser)user).getSex());
-            nationality.setText("Nationality: "+((patientUser)user).getNationality());
+            nationality.setText("Citizend ID: "+((patientUser)user).getCitizenID());
             medRecord = ((patientUser) user).getMedicalRecord();
         }
         if(medRecord!=null){

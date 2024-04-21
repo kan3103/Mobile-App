@@ -6,4 +6,5 @@ public interface userInterface {
     void setUserPassword(String password);
     String getPassword();
     String getTypeuser();
+    String getName();
 }

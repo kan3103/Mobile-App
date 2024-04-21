@@ -274,6 +274,7 @@ public class LoginActivity extends AppCompatActivity {
         ((patientUser) user).setId(dataa.getString("id"));
         ((patientUser) user).setNationality(dataa.getString("nationality"));
         ((patientUser) user).setBirth(dataa.getString("birth"));
+        ((patientUser) user).setName(dataa.getString("name"));
     }
 
     public void setDoctor(userInterface user, Document dataa, ArrayList<patientUser> he) {

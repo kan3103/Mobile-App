@@ -78,7 +78,7 @@ public class SettingsFragment extends Fragment {
             gridView.setAdapter(adapter);
         }
         hello = mview.findViewById(R.id.textView);
-        String hi = "Chào mừng, " + user.getUsername() + "!";
+        String hi = "Chào mừng, " + user.getName() + "!";
         hello.setText(hi);
         btnSend = mview.findViewById(R.id.button_logout);
 
