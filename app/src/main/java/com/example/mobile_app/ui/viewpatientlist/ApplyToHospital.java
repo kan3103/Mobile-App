@@ -22,17 +22,13 @@ import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
 import com.example.mobile_app.databinding.ApplyToHospitalBinding;
-import com.example.mobile_app.databinding.ExitHospitalFormBinding;
-import com.example.mobile_app.ui.dashboard.DashboardFragment;
-import com.example.mobile_app.ui.media_record.Record_Data;
-import com.example.mobile_app.ui.register.RegisterActivity;
+
 import com.example.mobile_app.api.MedicalRecord.MedRecord;
 
 import org.bson.Document;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+
 
 import io.realm.Realm;
 import io.realm.mongodb.App;
@@ -53,7 +49,7 @@ public class ApplyToHospital extends AppCompatActivity {
     ArrayList<patientUser> patientList = new ArrayList<>();
     private ApplyToHospitalBinding binding;
     private Button btn2;
-    private EditText name, id, dateIn, bloodPressure;
+    private EditText name, weight, height,dateIn, bloodPressure;
     private User user;
     //    public boolean isUpdated;
     private ProgressBar progressBar;
@@ -71,7 +67,8 @@ public class ApplyToHospital extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         name = findViewById(R.id.board_name);
-        id = findViewById(R.id.board_id);
+        weight = findViewById(R.id.board_weight);
+        height = findViewById(R.id.board_height);
         dateIn = findViewById(R.id.board_dateIn);
         bloodPressure = findViewById(R.id.board_bloodPressure);
         btn2 = (Button) findViewById(R.id.board_xacnhan);
@@ -95,11 +92,6 @@ public class ApplyToHospital extends AppCompatActivity {
             }
         });
 
-
-        System.out.println("Register");
-
-
-
         app.loginAsync(credentials, new App.Callback<User>() {
             @Override
             public void onResult(App.Result<User> result) {
@@ -115,8 +107,6 @@ public class ApplyToHospital extends AppCompatActivity {
                         if (resultData != null) {
                             patient.setMedicalRecord(getMediarecord(resultData));
                             patient.setId(resultData.getString("id"));
-                            id.setText(patient.getId());
-                            id.setFocusable(false);
                             name.setText(patient.getName());
                             name.setFocusable(false);
                         }
@@ -130,16 +120,13 @@ public class ApplyToHospital extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(ApplyToHospital.this, ViewPatientsList.class);
-//                startActivity(intent);
-//                System.out.println(((doctorUser) userDoc).getName());
                 fillPatientInform();
             }
         });
 
     }
     public MedRecord getMediarecord(Document data) {
-        MedRecord medRecord = new MedRecord(data.getString("name"), "", "", "", "", "", "", "");
+        MedRecord medRecord = new MedRecord(data.getString("name"), "", "", "", "", "", "","");
         if (data.containsKey("medicalRecord")) {
             ArrayList<Document> arrList = (ArrayList<Document>) data.get("medicalRecord");
 
@@ -150,7 +137,7 @@ public class ApplyToHospital extends AppCompatActivity {
                 Document secondElement = arrList.get(i);
                 medRecord.addRecord(secondElement.containsKey("weight") ? secondElement.getString("weight") : "", secondElement.containsKey("height") ? secondElement.getString("height") : "",
                         secondElement.containsKey("doctor") ? secondElement.getString("doctor") : "", secondElement.containsKey("nurse") ? secondElement.getString("nurse") : "", secondElement.containsKey("dateIn") ? secondElement.getString("dateIn") : "",
-                        secondElement.containsKey("reDate") ? secondElement.getString("reDate") : "", secondElement.containsKey("specialty") ? secondElement.getString("specialty") : "");
+                        secondElement.containsKey("reDate") ? secondElement.getString("reDate") : "", secondElement.containsKey("specialty") ? secondElement.getString("specialty") : "", secondElement.containsKey("bloodPressure") ? secondElement.getString("bloodPressure") : "");
             }
         }
         return medRecord;
@@ -159,7 +146,8 @@ public class ApplyToHospital extends AppCompatActivity {
     private void fillPatientInform() {
         //Inputs
         String patientName = name.getText().toString().trim();
-        String ID = id.getText().toString().trim();
+        String Weight = weight.getText().toString().trim();
+        String Height = height.getText().toString().trim();
         String DateIn = dateIn.getText().toString().trim();
         String BloodPressure = bloodPressure.getText().toString().trim();
 
@@ -168,23 +156,28 @@ public class ApplyToHospital extends AppCompatActivity {
             medRecord = patient.getMedicalRecord();
         }
 
-        medRecord.addRecord("","",((doctorUser) userDoc).getName(),"",DateIn,"","");
+        medRecord.addRecord(Weight,Height,((doctorUser) userDoc).getName(),"",DateIn,"","",BloodPressure);
         Log.v("oke",((doctorUser) userDoc).getName());
 // Now you can safely call addRecord
 
-        patient.setStatus(true);
+        patient.setStatus(false);
         patient.setMedicalRecord(medRecord);
 
         ArrayList<Document> medical = new ArrayList<>();
         for(int i=0;i<patient.getMedicalRecord().getRecords().size();++i){
             Document add = new Document().append("dateIn",patient.getMedicalRecord().getRecords().get(i).getDate())
-                    .append("weight","")
+                    .append("height",Height)
+                    .append("weight",Weight)
+                    .append("bloodPressure",BloodPressure)
                     .append("bloodType",patient.getBloodType())
                     .append("doctor",((doctorUser) userDoc).getName())
                     .append("dateOut","");
             Log.v("tes", String.valueOf(add));
             medical.add(add);
         }
+
+
+
         User user2 = app.currentUser();
         MongoClient mongoClient2 = user2.getMongoClient("mongodb-atlas");
         MongoDatabase mongoDatabase2 = mongoClient2.getDatabase("Hospital");
@@ -199,6 +192,7 @@ public class ApplyToHospital extends AppCompatActivity {
                     if (result1.isSuccess()) {
                         // Document updated successfully
                         Log.v("Update", "Medical records updated successfully.");
+//                        ((doctorUser) userDoc).getPatientList().add(patient);
                         mongoCollection = mongoDatabase.getCollection("Register");
                         // find ID of the patient following the name and get ID at local
                         Document queryFilter = new Document().append("username", patient.getUsername());
@@ -217,59 +211,6 @@ public class ApplyToHospital extends AppCompatActivity {
             }
         });
 
-//        MedRecord[] med = new MedRecord[1];
-//        List<MedRecord> med = new ArrayList<>();
-//        med.add(new MedRecord(patientName, "", "", "", "", "", "", patient.getId()));
-//        Document f = new Document().append("id_patient", "10");
-//
-//        mongoCollection2.findOne(f).getAsync(result -> {
-//            if (result.isSuccess()) {
-//                Toast.makeText(getApplicationContext(), "Found", Toast.LENGTH_LONG).show();
-//                Document resultData = result.get();
-//                Log.v("Data Success", resultData.toString());
-//
-//                if (resultData.containsKey("record")) {
-//                    ArrayList<Document> arrList = (ArrayList<Document>) resultData.get("record");
-//                    String[] patientInform = new String[5];
-//                    assert arrList != null;
-//                    for (Document document : arrList) {
-//                        patientInform[0] = document.getString("date_in");
-//                        patientInform[1] = document.getString("date_out");
-//                        patientInform[2] = document.getString("doctor");
-//                        patientInform[3] = document.getString("nurse");
-//                        patientInform[4] = document.getString("Diagnose");
-//                        med.get(0).addRecord(patientInform[2], patientInform[1], patientInform[3]);
-//                        System.out.println(med.get(0).getRecords().get(0).getNurse());
-//                        System.out.println(med.get(0).getRecords().size());
-//                        System.out.println("med[0].getRecords().size()");
-//                    }
-////                            med[0] = new MedRecord(weight, height, doctor, nurse, date, RevisionDate, specialty);
-////                            System.out.println(med[0].toString());
-//                } else {
-//                    Log.v("Data Success", "Document does not contain an 'arr' field");
-//                }
-//            } else {
-//                Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
-//                Log.v("Data Error", result.getError().toString());
-//            }
-//        });
-//
-//        System.out.print("med[0].getRecords().size(): ");
-//        System.out.println(med.get(0).getRecords().size());
-//        med.get(0).addRecord(doctorName, DateIn, BloodPressure);
-//
-//        System.out.print("med[0].getRecords(): ");
-//        System.out.println(med.get(0).getRecords().size());
-//        System.out.println(med.get(0).getRecords().get(0).getNurse());
-//        patient.setStatus(true);
-//
-//        for (patientUser patient : ((doctorUser) userDoc).getPatientList()) {
-//            if (patient.getId().equals(ID)) {
-//                patient.setStatus(true);
-//                break;
-//            }
-//        }
-
-}
+    }
 
 }
