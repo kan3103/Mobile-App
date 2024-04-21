@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobile_app.R;
-import com.example.mobile_app.api.Specialty.SpecialtyObject.ENT;
-import com.example.mobile_app.api.Specialty.SpecialtyObject.Neurology;
-import com.example.mobile_app.api.Specialty.SpecialtyObject.Pediatrics;
+
 import com.example.mobile_app.api.user.userObject.doctorUser;
 import com.example.mobile_app.api.user.userObject.patientUser;
 import com.example.mobile_app.api.user.userObject.userInterface;
