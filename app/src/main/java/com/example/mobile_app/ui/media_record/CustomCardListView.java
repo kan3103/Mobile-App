@@ -159,13 +159,13 @@ public class CustomCardListView extends CardView {
         dateInTextView.setText("Date in: "+mDataList.getDate());
         doctorTextView.setText("Doctor: "+mDataList.getDoctor());
 
-//        nurseTextView.setText(mDataList.getNurse());
+        nurseTextView.setText("Nurse: " + mDataList.getNurse());
 //        diaTextView.setText(mDataList.getDiagnosis());
-//        bloodTextView.setText(mDataList.getBloodPressure());
+        bloodTextView.setText("BloodPressure: " + mDataList.getBloodPressure());
         heightTextView.setText("Height: "+ mDataList.getHeight());
         weightTextView.setText("Weight: "+ mDataList.getWeight());
 //        reExTextView.setText(mDataList.getRevisionDate());
-//        testResultTextView.setText(mDataList.getTestResults());
+        testResultTextView.setText("Test Results: "+ mDataList.getTestResults());
 //        noteTextView.setText(mDataList.getNotes());
 //        specialtyTextView.setText(mDataList.getSpecialty());
         // Update the UI here, e.g., call a method to refresh the list

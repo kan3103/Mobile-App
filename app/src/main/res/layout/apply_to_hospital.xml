@@ -93,7 +93,7 @@
             android:hint="Date in" />
 
         <EditText
-            android:id="@+id/board_id"
+            android:id="@+id/board_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/board_dateIn"
@@ -102,7 +102,20 @@
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
             android:textColor="@color/black"
-            android:hint="ID" />
+            android:hint="Weight" />
+
+        <!-- New EditText for board_height -->
+        <EditText
+            android:id="@+id/board_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/board_weight"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="#CC3399"
+            android:textColor="@color/black"
+            android:hint="Height" />
 
         <EditText
             android:id="@+id/board_bloodPressure"
@@ -111,7 +124,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="#CC3399"
-            android:layout_below="@id/board_id"
+            android:layout_below="@id/board_height"
             android:layout_marginTop="16dp"
             android:textColor="@color/black"
             android:hint="Blood Pressure"/>

@@ -2,16 +2,9 @@
 package com.example.mobile_app.api.MedicalRecord;
 
 //import com.example.mobile_app.api.Doctor.DoctorObject.DoctorInter;
-import com.example.mobile_app.api.user.userObject.doctorUser;
 
-import android.util.Pair;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.example.mobile_app.ui.media_record.Record_Data;
 public class MedRecord implements Serializable {
@@ -27,7 +20,7 @@ public class MedRecord implements Serializable {
         String diagnosis;
         String specialty;
         ArrayList<String> medicalHistory;
-        int bloodPressure;
+        String bloodPressure;
         int heartRate;
         int temperature;
         String weight;
@@ -41,7 +34,7 @@ public class MedRecord implements Serializable {
         // methods
         // constructor
         public Record(String weight, String height, String doctor,
-                      String nurse, String date, String RevisionDate,String specialty) {
+                      String nurse, String date, String RevisionDate, String specialty, String bloodPressure) {
             this.weight = weight;
             this.height = height;
             this.doctor = doctor;
@@ -54,6 +47,7 @@ public class MedRecord implements Serializable {
             diagnosis = "";
             this.specialty = specialty;
             medicalHistory = new ArrayList<String>();
+            this.bloodPressure = bloodPressure;
         }
 
         public Record(String doctor, String date, String nurse) {
@@ -85,7 +79,7 @@ public class MedRecord implements Serializable {
             this.medicalHistory.add(medicalHistory);
         }
 
-        public void setBloodPressure(int bloodPressure) {
+        public void setBloodPressure(String bloodPressure) {
             this.bloodPressure = bloodPressure;
         }
 
@@ -146,7 +140,7 @@ public class MedRecord implements Serializable {
             return medicalHistory;
         }
 
-        public int getBloodPressure() {
+        public String getBloodPressure() {
             return bloodPressure;
         }
 
@@ -212,8 +206,8 @@ public class MedRecord implements Serializable {
 
     // setters
     public void addRecord(String weight, String height,
-                          String doctor, String nurse, String date, String RevisionDate,String specialty) {
-        records.add(new Record(weight, height, doctor, nurse, date, RevisionDate,specialty));
+                          String doctor, String nurse, String date, String RevisionDate,String specialty,String bloodPressure) {
+        records.add(new Record(weight, height, doctor, nurse, date, RevisionDate,specialty,bloodPressure));
     }
     public void setName(String name) {
         this.name = name;
