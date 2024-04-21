@@ -75,9 +75,6 @@ public class ApplyToHospital extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             userDoc = (userInterface) intent.getSerializableExtra("userObj");
-            if (userDoc != null) {
-                Log.v("test", ((doctorUser) userDoc).getName());
-            }
             patient = (patientUser) intent.getSerializableExtra("patientInformation");
         }
         Realm.init(getApplicationContext());
@@ -120,7 +117,7 @@ public class ApplyToHospital extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fillPatientInform();
+                if(fillPatientInform())
                 updatePatientlist();
                 Intent intent = new Intent(ApplyToHospital.this, MainActivity.class);
                 intent.putExtra("userobject", (doctorUser) userDoc);
@@ -149,6 +146,9 @@ public class ApplyToHospital extends AppCompatActivity {
     }
 
     private void updatePatientlist() {
+        if(((doctorUser) userDoc).getPatientList()==null){
+            ((doctorUser) userDoc).setPatientList(new ArrayList<>());
+        }
         ((doctorUser) userDoc).getPatientList().add(patient);
         mongoCollection = mongoDatabase.getCollection("Doctor");
         Document filter = new Document().append("username",userDoc.getUsername());
@@ -182,7 +182,7 @@ public class ApplyToHospital extends AppCompatActivity {
             }
         });
     }
-    private void fillPatientInform() {
+    private boolean fillPatientInform() {
         //Inputs
         String patientName = name.getText().toString().trim();
         String Weight = weight.getText().toString().trim();
@@ -205,9 +205,9 @@ public class ApplyToHospital extends AppCompatActivity {
         ArrayList<Document> medical = new ArrayList<>();
         for(int i=0;i<patient.getMedicalRecord().getRecords().size();++i){
             Document add = new Document().append("dateIn",patient.getMedicalRecord().getRecords().get(i).getDate())
-                    .append("height",Height)
-                    .append("weight",Weight)
-                    .append("bloodPressure",BloodPressure)
+                    .append("height",patient.getMedicalRecord().getRecords().get(i).getHeight())
+                    .append("weight",patient.getMedicalRecord().getRecords().get(i).getHeight())
+                    .append("bloodPressure",patient.getMedicalRecord().getRecords().get(i).getBloodPressure())
                     .append("bloodType",patient.getBloodType())
                     .append("doctor",((doctorUser) userDoc).getName())
                     .append("dateOut","");
@@ -215,22 +215,22 @@ public class ApplyToHospital extends AppCompatActivity {
             medical.add(add);
         }
 
-
-
         User user2 = app.currentUser();
         MongoClient mongoClient2 = user2.getMongoClient("mongodb-atlas");
         MongoDatabase mongoDatabase2 = mongoClient2.getDatabase("Hospital");
         MongoCollection<Document> mongoCollection2 = mongoDatabase2.getCollection("Patient");
         Document filter= new Document().append("username",patient.getUsername());
+        Log.v("Update", patient.getUsername());
         mongoCollection2.findOne(filter).getAsync(result -> {
             if(result.isSuccess()){
+
                 Document data = result.get();
-                data.append("medicalRecord", medical); // Append medical records to the existing document
+                Log.v("Update", "Medical records updated successfully.");// Append medical records to the existing document
+                data.append("medicalRecord", medical);
                 // Update the document in the collection
                 mongoCollection2.updateOne(filter, data).getAsync(result1 -> {
                     if (result1.isSuccess()) {
                         // Document updated successfully
-                        Log.v("Update", "Medical records updated successfully.");
 //                        ((doctorUser) userDoc).getPatientList().add(patient);
                         mongoCollection = mongoDatabase.getCollection("Register");
                         // find ID of the patient following the name and get ID at local
@@ -248,7 +248,7 @@ public class ApplyToHospital extends AppCompatActivity {
                 Log.e("Fetch", "Failed to fetch patient document.", result.getError());
             }
         });
-
+        return true;
     }
 
 }
