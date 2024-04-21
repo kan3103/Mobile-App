@@ -29,8 +29,7 @@ import com.example.mobile_app.api.MedicalRecord.MedRecord;
 import org.bson.Document;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+
 
 import io.realm.Realm;
 import io.realm.mongodb.App;
@@ -101,7 +100,7 @@ public class ExitHospitalActivity extends AppCompatActivity {
                 user = app.currentUser();
                 mongoClient = user.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
-                mongoCollection = mongoDatabase.getCollection("Patient");
+                mongoCollection = mongoDatabase.getCollection("Doctor");
                 // find ID of the patient following the name and get ID at local
                 Document queryFilter = new Document().append("username", patient.getUsername());
                 mongoCollection.findOne(queryFilter).getAsync(task -> {
@@ -123,8 +122,6 @@ public class ExitHospitalActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
-                startActivity(intent);
                 fillPatientInform();
             }
         });
@@ -142,7 +139,8 @@ public class ExitHospitalActivity extends AppCompatActivity {
                 Document secondElement = arrList.get(i);
                 medRecord.addRecord(secondElement.containsKey("weight") ? secondElement.getString("weight") : "", secondElement.containsKey("height") ? secondElement.getString("height") : "",
                         secondElement.containsKey("doctor") ? secondElement.getString("doctor") : "", secondElement.containsKey("nurse") ? secondElement.getString("nurse") : "", secondElement.containsKey("dateIn") ? secondElement.getString("dateIn") : "",
-                        secondElement.containsKey("reDate") ? secondElement.getString("reDate") : "", secondElement.containsKey("specialty") ? secondElement.getString("specialty") : "", secondElement.containsKey("bloodPressure") ? secondElement.getString("bloodPressure") : "");
+                        secondElement.containsKey("reDate") ? secondElement.getString("reDate") : "", secondElement.containsKey("specialty") ? secondElement.getString("specialty") : "", secondElement.containsKey("bloodPressure") ? secondElement.getString("bloodPressure") : ""
+                , secondElement.containsKey("testResults") ? secondElement.getString("testResults") : "");
             }
         }
         return medRecord;
@@ -161,63 +159,92 @@ public class ExitHospitalActivity extends AppCompatActivity {
             medRecord = patient.getMedicalRecord();
         }
 
-//        for (Record record : medRecord.getRecords()) {
-//            if (record.getDoctor().equals(doctorName)) {
-//                record.setDateOut(DateOut);
-//                record.setNurse(Nurse);
-//                record.setTestResult(TestResult);
-//            }
-//        }
-////        medRecord.addRecord(Weight,Height,((doctorUser) userDoc).getName(),"",DateIn,"","",BloodPressure);
-////        Log.v("oke",((doctorUser) userDoc).getName());
-//// Now you can safely call addRecord
-//
-//        patient.setStatus(false);
-//        patient.setMedicalRecord(medRecord);
-//
-//        ArrayList<Document> medical = new ArrayList<>();
-//        for(int i=0;i<patient.getMedicalRecord().getRecords().size();++i){
-//            Document add = new Document()
-////                    .append("dateIn",patient.getMedicalRecord().getRecords().get(i).getDate())
-//                    .append("nurse",Nurse)
-//                    .append("testResult",TestResult)
-//                    .append("bloodType",patient.getBloodType())
-//                    .append("doctor",((doctorUser) userdoctor).getName())
-//                    .append("dateOut",DateOut);
-//            Log.v("tes", String.valueOf(add));
-//            medical.add(add);
-//        }
-//        User user2 = app.currentUser();
-//        MongoClient mongoClient2 = user2.getMongoClient("mongodb-atlas");
-//        MongoDatabase mongoDatabase2 = mongoClient2.getDatabase("Hospital");
-//        MongoCollection<Document> mongoCollection2 = mongoDatabase2.getCollection("Patient");
-//        Document filter= new Document().append("username",patient.getUsername());
-//        mongoCollection2.findOne(filter).getAsync(result -> {
-//            if(result.isSuccess()){
-//                Document data = result.get();
-//                data.append("medicalRecord", medical); // Append medical records to the existing document
-//                // Update the document in the collection
-//                mongoCollection2.updateOne(filter, data).getAsync(result1 -> {
-//                    if (result1.isSuccess()) {
-//                        // Document updated successfully
-//                        Log.v("Update", "Medical records updated successfully.");
-//                        mongoCollection = mongoDatabase.getCollection("Register");
+        // Get Record at size() - 1
+        MedRecord.Record record = medRecord.getRecords().get(medRecord.getRecords().size() - 1);
+
+        System.out.println(record.getWeight());
+
+        String Weight = record.getWeight();
+        String Height = record.getHeight();
+        String DateIn = record.getDate();
+        String BloodPressure = record.getBloodPressure();
+
+        // Delete this Record
+        medRecord.getRecords().remove(medRecord.getRecords().size() - 1);
+
+        // Add new Record
+        medRecord.addRecord(Weight, Height, doctorName, Nurse, DateIn, DateOut, ((doctorUser)userdoctor).getSpecialty(),BloodPressure,TestResult);
+
+        patient.setStatus(true);
+        patient.setMedicalRecord(medRecord);
+
+
+        ArrayList<Document> medical = new ArrayList<>();
+        for(int i=0;i<patient.getMedicalRecord().getRecords().size();++i){
+            Document add = new Document()
+                    .append("weight", Weight)
+                    .append("height", Height)
+                    .append("bloodPressure", BloodPressure)
+                    .append("specialty", ((doctorUser) userdoctor).getSpecialty())
+                    .append("dateIn",DateIn)
+                    .append("nurse",Nurse)
+                    .append("testResult",TestResult)
+                    .append("bloodType",patient.getBloodType())
+                    .append("doctor",((doctorUser) userdoctor).getName())
+                    .append("dateOut",DateOut);
+            Log.v("tes", String.valueOf(add));
+            medical.add(add);
+        }
+
+        // Delete this patient from patientList of Doctor
+        // Get the patientList of the doctor
+         patientList = ((doctorUser) userdoctor).getPatientList();
+
+        // Find the index of the patient in the patientList
+        int patientIndex = patientList.indexOf(patient);
+
+        // If the patient is in the patientList, remove it
+        if (patientIndex != -1) {
+            patientList.remove(patientIndex);
+        }
+        System.out.println(patientList.size());
+
+        // Update the patientList of the doctor
+        ((doctorUser) userdoctor).setPatientList(patientList);
+
+        User user2 = app.currentUser();
+        MongoClient mongoClient2 = user2.getMongoClient("mongodb-atlas");
+        MongoDatabase mongoDatabase2 = mongoClient2.getDatabase("Hospital");
+        MongoCollection<Document> mongoCollection2 = mongoDatabase2.getCollection("Patient");
+        Document filter= new Document().append("username",patient.getUsername());
+        mongoCollection2.findOne(filter).getAsync(result -> {
+            if(result.isSuccess()){
+                Document data = result.get();
+                data.append("medicalRecord", medical); // Append medical records to the existing document
+                // Update the document in the collection
+                mongoCollection2.updateOne(filter, data).getAsync(result1 -> {
+                    if (result1.isSuccess()) {
+                        Intent intent1 = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
+                        startActivity(intent1);
+                        // Document updated successfully
+                        Log.v("Update", "Medical records updated successfully.");
+//                        mongoCollection = mongoDatabase.getCollection("Doctor");
 //                        // find ID of the patient following the name and get ID at local
 //                        Document queryFilter = new Document().append("username", patient.getUsername());
 //                        mongoCollection.deleteOne(queryFilter).getAsync(result2 -> {
 //                            if(result2.isSuccess())
 //                                finish();
 //                        });
-//                    } else {
-//                        // Error occurred while updating
-//                        Log.e("Update", "Failed to update medical records.", result1.getError());
-//                    }
-//                });
-//            } else {
-//                // Error occurred while fetching the document
-//                Log.e("Fetch", "Failed to fetch patient document.", result.getError());
-//            }
-//        });
+                    } else {
+                        // Error occurred while updating
+                        Log.e("Update", "Failed to update medical records.", result1.getError());
+                    }
+                });
+            } else {
+                // Error occurred while fetching the document
+                Log.e("Fetch", "Failed to fetch patient document.", result.getError());
+            }
+        });
 
     }
 }
