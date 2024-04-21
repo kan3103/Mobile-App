@@ -100,7 +100,7 @@ public class ExitHospitalActivity extends AppCompatActivity {
                 user = app.currentUser();
                 mongoClient = user.getMongoClient("mongodb-atlas");
                 mongoDatabase = mongoClient.getDatabase("Hospital");
-                mongoCollection = mongoDatabase.getCollection("Doctor");
+                mongoCollection = mongoDatabase.getCollection("Patient");
                 // find ID of the patient following the name and get ID at local
                 Document queryFilter = new Document().append("username", patient.getUsername());
                 mongoCollection.findOne(queryFilter).getAsync(task -> {
@@ -113,7 +113,7 @@ public class ExitHospitalActivity extends AppCompatActivity {
                             name.setFocusable(false);
                         }
                     } else {
-                        Log.e("APP", "Failed to find documents with: ", task.getError());
+                        Log.v("APP", "Failed to find documents with: ", task.getError());
                     }
                 });
             }
@@ -154,26 +154,26 @@ public class ExitHospitalActivity extends AppCompatActivity {
 
 //        progressBar.setVisibility(View.VISIBLE);
         String doctorName = ((doctorUser) userdoctor).getName();
-
         if (patient!=null) {
             medRecord = patient.getMedicalRecord();
         }
 
         // Get Record at size() - 1
+        Log.v("oke", String.valueOf(medRecord.getRecords().size()));
         MedRecord.Record record = medRecord.getRecords().get(medRecord.getRecords().size() - 1);
 
-        System.out.println(record.getWeight());
+
 
         String Weight = record.getWeight();
         String Height = record.getHeight();
         String DateIn = record.getDate();
-        String BloodPressure = record.getBloodPressure();
+//        String BloodPressure = record.getBloodPressure();
 
         // Delete this Record
         medRecord.getRecords().remove(medRecord.getRecords().size() - 1);
 
         // Add new Record
-        medRecord.addRecord(Weight, Height, doctorName, Nurse, DateIn, DateOut, ((doctorUser)userdoctor).getSpecialty(),BloodPressure,TestResult);
+        medRecord.addRecord(Weight, Height, doctorName, Nurse, DateIn, DateOut, ((doctorUser)userdoctor).getSpecialty(),"BloodPressure",TestResult);
 
         patient.setStatus(true);
         patient.setMedicalRecord(medRecord);
@@ -184,7 +184,7 @@ public class ExitHospitalActivity extends AppCompatActivity {
             Document add = new Document()
                     .append("weight", Weight)
                     .append("height", Height)
-                    .append("bloodPressure", BloodPressure)
+                    .append("bloodPressure", "")
                     .append("specialty", ((doctorUser) userdoctor).getSpecialty())
                     .append("dateIn",DateIn)
                     .append("nurse",Nurse)
@@ -224,17 +224,9 @@ public class ExitHospitalActivity extends AppCompatActivity {
                 // Update the document in the collection
                 mongoCollection2.updateOne(filter, data).getAsync(result1 -> {
                     if (result1.isSuccess()) {
-                        Intent intent1 = new Intent(ExitHospitalActivity.this, ViewPatientsList.class);
-                        startActivity(intent1);
                         // Document updated successfully
                         Log.v("Update", "Medical records updated successfully.");
-//                        mongoCollection = mongoDatabase.getCollection("Doctor");
-//                        // find ID of the patient following the name and get ID at local
-//                        Document queryFilter = new Document().append("username", patient.getUsername());
-//                        mongoCollection.deleteOne(queryFilter).getAsync(result2 -> {
-//                            if(result2.isSuccess())
-//                                finish();
-//                        });
+//
                     } else {
                         // Error occurred while updating
                         Log.e("Update", "Failed to update medical records.", result1.getError());

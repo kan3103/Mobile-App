@@ -72,7 +72,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
 
         String name = patientList.get(position).getName();
         String phoneNumber = patientList.get(position).getPhoneNumber();
-        String age = patientList.get(position).getAge();
+        String age = patientList.get(position).getSymptoms();
 
 //        viewHolder.selectedPatient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
 //            @Override

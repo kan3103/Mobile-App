@@ -64,12 +64,13 @@ public class RecordActivity extends AppCompatActivity {
                 adapter.setBackgroundColor(Color.parseColor("#87CEFA"));
                 vs1.addView(adapter);
 
-//            Log.v("oke","okeeee");
+            Log.v("oke","okeeee");
             }}
 
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(vs1.getDisplayedChild()==vs1.getChildCount()-1) return;
                 @SuppressLint("ResourceType") Animation animation = AnimationUtils.loadAnimation(RecordActivity.this, R.xml.slide_in_right);
                 @SuppressLint("ResourceType") Animation animation1 = AnimationUtils.loadAnimation(RecordActivity.this, R.xml.slide_out_left);
                 vs1.setInAnimation(animation);
@@ -80,6 +81,7 @@ public class RecordActivity extends AppCompatActivity {
         btn_prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(vs1.getDisplayedChild()==0) return;
                 Animation inAnimation = AnimationUtils.loadAnimation(RecordActivity.this, android.R.anim.slide_in_left);
                 Animation outAnimation = AnimationUtils.loadAnimation(RecordActivity.this, android.R.anim.slide_out_right);
                 vs1.setInAnimation(inAnimation);
