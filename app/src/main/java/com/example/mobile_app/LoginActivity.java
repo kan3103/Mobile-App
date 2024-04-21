@@ -152,6 +152,21 @@ public class LoginActivity extends AppCompatActivity {
                                     documentArrayList = (ArrayList<Document>) dataa.get("patientList");
                                     int totalCount = documentArrayList.size(); // Số lượng callback cần đợi
                                     AtomicInteger callbackCount = new AtomicInteger(0); // Biến đếm để theo dõi số lượng callback đã hoàn thành
+                                    if(totalCount==0){
+                                        if (true_data.equals(password.getText().toString())) {
+                                            Log.v("okee","hichic");
+                                            Login login = new Login();
+                                            // Thực hiện đăng nhập
+                                            userInterface user = login.createUser("Doctor", name, true_data);
+                                            Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
+                                            setDoctor(user, dataa, he);
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            intent.putExtra("userobject", (doctorUser) user);
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
                                     for (Document run : documentArrayList) {
                                         patientUser new_patient = new patientUser(run.containsKey("username")?run.getString("username"):"",run.containsKey("name")?run.getString("name"):"",run.containsKey("phoneNumber")?run.getString("phoneNumber"):"",run.containsKey("symptoms")?run.getString("symptoms"):"");
                                         MongoCollection<Document> mongoCollection1 = mongoDatabase.getCollection("Patient");
@@ -171,7 +186,6 @@ public class LoginActivity extends AppCompatActivity {
                                                         userInterface user = login.createUser("Doctor", name, true_data);
                                                         Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
                                                         setDoctor(user, dataa, he);
-                                                        Log.v("oke", String.valueOf(he.get(2).getMedicalRecord()));
                                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                         intent.putExtra("userobject", (doctorUser) user);
                                                         startActivity(intent);

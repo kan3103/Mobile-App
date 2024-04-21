@@ -29,18 +29,26 @@ public class MedRecord implements Serializable {
         String nurse;
         String date;
         String RevisionDate;
+        String dateout;
 
+        public String getDateout() {
+            return dateout;
+        }
+
+        public void setDateout(String dateout) {
+            this.dateout = dateout;
+        }
 
         // methods
         // constructor
         public Record(String weight, String height, String doctor,
-                      String nurse, String date, String RevisionDate, String specialty, String bloodPressure, String testResults) {
+                      String nurse, String date, String dateout, String specialty, String bloodPressure, String testResults) {
             this.weight = weight;
             this.height = height;
             this.doctor = doctor;
             this.nurse = nurse;
             this.date = date;
-            this.RevisionDate = RevisionDate;
+            this.dateout = dateout;
             this.testResults = testResults;
             prescriptions = new ArrayList<String>();
             notes = "";
@@ -206,8 +214,8 @@ public class MedRecord implements Serializable {
 
     // setters
     public void addRecord(String weight, String height, String doctor, String nurse,
-                          String date, String RevisionDate,String specialty,String bloodPressure, String testResults) {
-        records.add(new Record(weight, height, doctor, nurse, date, RevisionDate,specialty,bloodPressure,testResults));
+                          String date, String dateout,String specialty,String bloodPressure, String testResults) {
+        records.add(new Record(weight, height, doctor, nurse, date, dateout,specialty,bloodPressure,testResults));
     }
     public void setName(String name) {
         this.name = name;

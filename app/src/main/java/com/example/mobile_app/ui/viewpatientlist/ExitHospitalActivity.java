@@ -123,6 +123,9 @@ public class ExitHospitalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 fillPatientInform();
+                updateList(patient.getUsername());
+                Intent intent1 =new Intent(ExitHospitalActivity.this,MainActivity.class);
+
             }
         });
 
@@ -144,6 +147,40 @@ public class ExitHospitalActivity extends AppCompatActivity {
             }
         }
         return medRecord;
+    }
+    private void updateList(String username){
+        for(int i=0;i<((doctorUser) userdoctor).getPatientList().size();++i){
+            if(((doctorUser) userdoctor).getPatientList().get(i).getUsername().equals(username)){
+                ((doctorUser) userdoctor).getPatientList().remove(i);
+            };
+            MongoCollection<Document> mongoCollection1= mongoDatabase.getCollection("Doctor");
+            Document filter = new Document().append("username",userdoctor.getUsername());
+            mongoCollection1.findOne(filter).getAsync(result -> {
+                if(result.isSuccess()){
+                    Document data= result.get();
+                    if(data.containsKey("patientList")){
+                        ArrayList<Document> listpatient =(ArrayList<Document>) data.get("patientList");
+                        for(Document run : listpatient){
+                            String name=run.getString("username");
+                            Log.v("tét",username);
+                            if(username.equals(name)){
+                                listpatient.remove(run);
+                                data.append("patientList",listpatient);
+                                MongoCollection<Document> mongoCollection2 = mongoDatabase.getCollection("Doctor");
+                                mongoCollection2.updateOne(filter,data).getAsync(result1 -> {
+                                    if(result1.isSuccess()){
+                                        Log.v("hoàn thành","okeeee");
+                                    }
+
+                                });
+
+                            }
+                        };
+
+                    }
+                }
+            });
+        }
     }
     private void fillPatientInform() {
         //Inputs
@@ -182,16 +219,16 @@ public class ExitHospitalActivity extends AppCompatActivity {
         ArrayList<Document> medical = new ArrayList<>();
         for(int i=0;i<patient.getMedicalRecord().getRecords().size();++i){
             Document add = new Document()
-                    .append("weight", Weight)
-                    .append("height", Height)
+                    .append("weight", patient.getMedicalRecord().getRecords().get(i).getWeight())
+                    .append("height",  patient.getMedicalRecord().getRecords().get(i).getHeight())
                     .append("bloodPressure", "")
-                    .append("specialty", ((doctorUser) userdoctor).getSpecialty())
-                    .append("dateIn",DateIn)
-                    .append("nurse",Nurse)
-                    .append("testResult",TestResult)
+                    .append("specialty",  patient.getMedicalRecord().getRecords().get(i).getSpecialty())
+                    .append("dateIn", patient.getMedicalRecord().getRecords().get(i).getDate())
+                    .append("nurse", patient.getMedicalRecord().getRecords().get(i).getNurse())
+                    .append("testResult", patient.getMedicalRecord().getRecords().get(i).getTestResults())
                     .append("bloodType",patient.getBloodType())
                     .append("doctor",((doctorUser) userdoctor).getName())
-                    .append("dateOut",DateOut);
+                    .append("dateOut", patient.getMedicalRecord().getRecords().get(i).getDateout());
             Log.v("tes", String.valueOf(add));
             medical.add(add);
         }
