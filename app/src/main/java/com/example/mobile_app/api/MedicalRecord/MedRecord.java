@@ -34,14 +34,14 @@ public class MedRecord implements Serializable {
         // methods
         // constructor
         public Record(String weight, String height, String doctor,
-                      String nurse, String date, String RevisionDate, String specialty, String bloodPressure) {
+                      String nurse, String date, String RevisionDate, String specialty, String bloodPressure, String testResults) {
             this.weight = weight;
             this.height = height;
             this.doctor = doctor;
             this.nurse = nurse;
             this.date = date;
             this.RevisionDate = RevisionDate;
-            testResults = "";
+            this.testResults = testResults;
             prescriptions = new ArrayList<String>();
             notes = "";
             diagnosis = "";
@@ -205,9 +205,9 @@ public class MedRecord implements Serializable {
     }
 
     // setters
-    public void addRecord(String weight, String height,
-                          String doctor, String nurse, String date, String RevisionDate,String specialty,String bloodPressure) {
-        records.add(new Record(weight, height, doctor, nurse, date, RevisionDate,specialty,bloodPressure));
+    public void addRecord(String weight, String height, String doctor, String nurse,
+                          String date, String RevisionDate,String specialty,String bloodPressure, String testResults) {
+        records.add(new Record(weight, height, doctor, nurse, date, RevisionDate,specialty,bloodPressure,testResults));
     }
     public void setName(String name) {
         this.name = name;

@@ -137,7 +137,8 @@ public class ApplyToHospital extends AppCompatActivity {
                 Document secondElement = arrList.get(i);
                 medRecord.addRecord(secondElement.containsKey("weight") ? secondElement.getString("weight") : "", secondElement.containsKey("height") ? secondElement.getString("height") : "",
                         secondElement.containsKey("doctor") ? secondElement.getString("doctor") : "", secondElement.containsKey("nurse") ? secondElement.getString("nurse") : "", secondElement.containsKey("dateIn") ? secondElement.getString("dateIn") : "",
-                        secondElement.containsKey("reDate") ? secondElement.getString("reDate") : "", secondElement.containsKey("specialty") ? secondElement.getString("specialty") : "", secondElement.containsKey("bloodPressure") ? secondElement.getString("bloodPressure") : "");
+                        secondElement.containsKey("reDate") ? secondElement.getString("reDate") : "", secondElement.containsKey("specialty") ? secondElement.getString("specialty") : "", secondElement.containsKey("bloodPressure") ? secondElement.getString("bloodPressure") : ""
+                , secondElement.containsKey("testResults") ? secondElement.getString("testResults") : "");
             }
         }
         return medRecord;
@@ -156,7 +157,7 @@ public class ApplyToHospital extends AppCompatActivity {
             medRecord = patient.getMedicalRecord();
         }
 
-        medRecord.addRecord(Weight,Height,((doctorUser) userDoc).getName(),"",DateIn,"","",BloodPressure);
+        medRecord.addRecord(Weight,Height,((doctorUser) userDoc).getName(),"",DateIn,"","",BloodPressure,"");
         Log.v("oke",((doctorUser) userDoc).getName());
 // Now you can safely call addRecord
 

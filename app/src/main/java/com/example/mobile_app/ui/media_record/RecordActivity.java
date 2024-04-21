@@ -11,7 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
+import android.widget.ViewFlipper;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
@@ -28,7 +28,7 @@ public class RecordActivity extends AppCompatActivity {
     private Button btn_next;
     private Button btn_prev;
     private TextView name,ID,Birth,sex,nationality;
-    private ViewSwitcher vs1;
+    private ViewFlipper vs1;
     private userInterface user;
     private MedRecord medRecord;
     @Override
