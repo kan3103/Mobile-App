@@ -201,6 +201,21 @@ public class LoginActivity extends AppCompatActivity {
 
                                     };
                                 }
+                                else {
+                                    if (true_data.equals(password.getText().toString())) {
+                                        Log.v("okee","hichic");
+                                        Login login = new Login();
+                                        // Thực hiện đăng nhập
+                                        userInterface user = login.createUser("Doctor", name, true_data);
+                                        Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
+                                        setDoctor(user, dataa, he);
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        intent.putExtra("userobject", (doctorUser) user);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_LONG).show();
+                                    }
+                                }
 
 
                             } else {

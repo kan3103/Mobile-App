@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     MongoCollection<Document> mongoCollection;
     private RegisterViewBinding binding;
     private Button completeRegister;
-    private EditText editTextFullName,citizenid, editTextUsername, editTextPassword, editTextMobile, editTextAddress, editTextBirthday, editTextNationality, editTextJob;
+    private EditText editTextFullName,citizenid,national, editTextUsername, editTextPassword, editTextMobile, editTextAddress, editTextBirthday, editTextNationality, editTextJob;
     private RadioButton gender;
     private ProgressBar progressBar;
     private User user;
@@ -62,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
         editTextBirthday = (EditText) findViewById(R.id.patient_birthday);
         editTextJob = (EditText) findViewById(R.id.patient_job);
         citizenid = (EditText) findViewById(R.id.patient_nationality);
+        editTextNationality = (EditText) findViewById(R.id.patient_nationalityy);
         gender = (RadioButton) findViewById(R.id.radioPatient);
 
         progressBar = (ProgressBar) findViewById(R.id.registerPatientIndeterminateProgressbar);
@@ -118,7 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
         String citizenID = citizenid.getText().toString().trim();
         String address = editTextAddress.getText().toString().trim();
         String job = editTextJob.getText().toString().trim();
-
+        String national = editTextNationality.getText().toString().trim();
         //Validations
         if (fullName.isEmpty()) {
             editTextFullName.setError("Full Name is required");
@@ -202,7 +203,7 @@ public class RegisterActivity extends AppCompatActivity {
         System.out.println("Clicked register");
         Log.v("updating", "updating");
         Document newPatient = new Document().append("name", fullName).append("username", userName).append("password", password)
-                .append("phoneNum", mobile).append("birthday", birthday).append("citizenID", citizenID)
+                .append("phoneNum", mobile).append("birthday", birthday).append("citizenID", citizenID).append("nationality",national)
                 .append("address", address).append("occupation", job).append("sex", gender);
 
         Document filter = new Document().append("username", userName);
