@@ -273,14 +273,15 @@ public class LoginActivity extends AppCompatActivity {
         ((patientUser) user).setSex(dataa.getString("sex"));
         ((patientUser) user).setId(dataa.getString("id"));
         ((patientUser) user).setNationality(dataa.getString("nationality"));
-        ((patientUser) user).setBirth(dataa.getString("birth"));
+        ((patientUser) user).setBirth(dataa.getString("birthday"));
         ((patientUser) user).setName(dataa.getString("name"));
+        ((patientUser) user).setCitizenID(dataa.getString("citizenID"));
+        ((patientUser) user).setPhoneNumber(dataa.getString("phoneNum"));
     }
 
     public void setDoctor(userInterface user, Document dataa, ArrayList<patientUser> he) {
         ((doctorUser) user).setName(dataa.containsKey("name") ? dataa.getString("name") : "");
         ((doctorUser) user).setExperience(dataa.containsKey("experience") ? dataa.getString("experience") : "");
-        ((doctorUser) user).setSex(dataa.containsKey("sex") ? dataa.getString("sex") : "");
         ((doctorUser) user).setSex(dataa.containsKey("sex") ? dataa.getString("sex") : "");
         ((doctorUser) user).setSpecialty(dataa.containsKey("specialty") ? dataa.getString("specialty") : "");
         ((doctorUser) user).setBirthday(dataa.containsKey("birthday") ? dataa.getString("birthday") : "");

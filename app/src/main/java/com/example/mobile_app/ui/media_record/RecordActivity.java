@@ -50,7 +50,7 @@ public class RecordActivity extends AppCompatActivity {
         }
         if (user!=null) {
             name.setText("Name: "+user.getName());
-            ID.setText("Username: "+((patientUser)user).getId());
+            ID.setText("Username: "+((patientUser)user).getUsername());
             Birth.setText("Birthday: "+((patientUser)user).getBirth());
             sex.setText("Sex: "+((patientUser)user).getSex());
             nationality.setText("Citizend ID: "+((patientUser)user).getCitizenID());
