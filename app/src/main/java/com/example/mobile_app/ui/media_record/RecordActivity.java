@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 import android.widget.ViewSwitcher;
 
 import androidx.activity.EdgeToEdge;
@@ -28,7 +29,7 @@ public class RecordActivity extends AppCompatActivity {
     private Button btn_next;
     private Button btn_prev;
     private TextView name,ID,Birth,sex,nationality;
-    private ViewSwitcher vs1;
+    private ViewFlipper vs1;
     private userInterface user;
     private MedRecord medRecord;
     @Override
@@ -64,7 +65,7 @@ public class RecordActivity extends AppCompatActivity {
                 adapter.setBackgroundColor(Color.parseColor("#87CEFA"));
                 vs1.addView(adapter);
 
-//            Log.v("oke","okeeee");
+            Log.v("oke","okeeee");
             }}
 
         btn_next.setOnClickListener(new View.OnClickListener() {
